@@ -6,16 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Warrenli&#39;s blog</title>
+  <title>Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="签名过程JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：  分离解构：JWT的Header和Payload是通过句点(.)分隔的，因此需要将JWT按照句点分隔符进行分离 验证签名：通过使用指定算法对Header和Payload进行签名生成签名结果，然后将签名结果与JWT中的签名部分进行比较，如果两者相同则说明JWT的签名是有效的，否则说明JWT的签名是无效的 验证信息：如">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Warrenli&#39;s blog">
-<meta property="og:url" content="http://example.com/archives/index.html">
+<meta property="og:url" content="http://example.com/2025/03/26/JWT/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
+<meta property="og:description" content="签名过程JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：  分离解构：JWT的Header和Payload是通过句点(.)分隔的，因此需要将JWT按照句点分隔符进行分离 验证签名：通过使用指定算法对Header和Payload进行签名生成签名结果，然后将签名结果与JWT中的签名部分进行比较，如果两者相同则说明JWT的签名是有效的，否则说明JWT的签名是无效的 验证信息：如">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png">
+<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737008917081-a47c6954-ecfc-42a9-8f3c-26fe70e143bc.png">
+<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737008952868-bee44dad-0254-41bc-96c6-3f44c2c3acd8.png">
+<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737009011426-f953bbb3-9fc9-469f-b620-97d3a5705a69.png">
+<meta property="og:image" content="http://example.com/2025/03/26/JWT/1737010541090-5d7330c2-9cc8-4a85-95d2-a8af23b1a5da.png">
+<meta property="article:published_time" content="2025-03-26T06:49:53.893Z">
+<meta property="article:modified_time" content="2025-03-26T06:50:08.811Z">
 <meta property="article:author" content="Warrenli">
 <meta property="article:tag" content="网安，web">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/03/26/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png">
   
     <link rel="alternative" href="/atom.xml" title="Warrenli&#39;s blog" type="application/atom+xml">
   
@@ -139,244 +149,192 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-JWT" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="签名过程"><a href="#签名过程" class="headerlink" title="签名过程"></a>签名过程</h2><p><font style="color:rgb(51, 51, 51);">JWT(JSON Web Token)的签名验证过程主要包括以下几个步骤：</font></p>
+<ul>
+<li><font style="color:rgb(51, 51, 51);">分离解构：JWT的Header和Payload是通过句点(.)分隔的，因此需要将JWT按照句点分隔符进行分离</font></li>
+<li><font style="color:rgb(51, 51, 51);">验证签名：通过使用指定算法对Header和Payload进行签名生成签名结果，然后将签名结果与JWT中的签名部分进行比较，如果两者相同则说明JWT的签名是有效的，否则说明JWT的签名是无效的</font></li>
+<li><font style="color:rgb(51, 51, 51);">验证信息：如果JWT的签名是有效的则需要对Payload中的信息进行验证，例如:可以验证JWT中的过期时间、发行者等信息是否正确，如果验证失败则说明JWT是无效的</font></li>
+</ul>
+<h2 id="签名用None"><a href="#签名用None" class="headerlink" title="签名用None"></a><font style="color:rgb(51, 51, 51);">签名用None</font></h2><p><font style="color:rgb(51, 51, 51);">场景介绍：</font></p>
+<ol>
+<li><font style="color:rgb(51, 51, 51);">在JWT的Header中alg的值用于告诉服务器使用哪种算法对令牌进行签名，从而告诉服务器在验证签名时需要使用哪种算法。</font></li>
+<li><font style="color:rgb(51, 51, 51);">目前可以选择HS256，即HMAC和SHA256，JWT同时也支持将算法设定为”None”，如果”alg”字段设为”None”，则标识不签名，这样一来任何token都是有效的。</font></li>
+<li><font style="color:rgb(51, 51, 51);">设定该功能的最初目的是为了方便调试，但是若不在生产环境中关闭该功能，攻击者可以通过将alg字段设置为”None”来伪造他们想要的任何token，接着便可以使用伪造的token冒充任意用户登陆网站</font></li>
+</ol>
+<h2 id="密钥暴力猜解"><a href="#密钥暴力猜解" class="headerlink" title="密钥暴力猜解"></a><font style="color:rgb(51, 51, 51);">密钥暴力猜解</font></h2><p><font style="color:rgb(51, 51, 51);">密钥介绍</font></p>
+<p><font style="color:rgb(51, 51, 51);">在JT中密钥用于生成和验证签名，因此密钥的安全性对JWT的安全性至关重要，一般来说JWT有以下两种类型的密钥：</font></p>
+<ul>
+<li><font style="color:rgb(51, 51, 51);">对称密钥：对称密钥是一种使用相同的密钥进行加密和解密的加密算法，在JWT中使用对称密钥来生成和验证签名，因此密钥必须保密，只有发送方和接收方知道，由于对称密钥的安全性取决于密钥的保密性，因此需要采取一些措施来保护它</font></li>
+<li><font style="color:rgb(51, 51, 51);">非对称密钥：非对称密钥使用公钥和私钥来加密和解密数据，在JWT中使用私钥生成签名，而使用公钥验证签名，由于公钥可以公开，因此非对称密钥通常用于验证方的身份</font></li>
+</ul>
+<p><font style="color:rgb(51, 51, 51);"></font></p>
+<p><font style="color:rgb(51, 51, 51);">在实现JWT应用程序时，开发人员有时会犯一些错误，比如：忘记更改默认密码或占位符密码，他们甚至可能复制并粘贴他们在网上找到的代码片段然后忘记更改作为示例提供的硬编码秘密，在这种情况下攻击者使用众所周知的秘密的单词列表来暴力破解服务器的秘密是很容易的，下面是一个公开已知密钥列表：</font></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list">https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list</a></p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h3 id="签名未校验"><a href="#签名未校验" class="headerlink" title="签名未校验"></a>签名未校验</h3><p><img src="/2025/03/26/JWT/1737008907369-b373555e-f498-4b18-845f-913b875ef085.png"></p>
+<p><img src="/2025/03/26/JWT/1737008917081-a47c6954-ecfc-42a9-8f3c-26fe70e143bc.png"></p>
+<p>这边的算法显示为None，导致下面校验不成功。</p>
+<p><img src="/2025/03/26/JWT/1737008952868-bee44dad-0254-41bc-96c6-3f44c2c3acd8.png"></p>
+<p>我们随便改一个，发现不需要密钥就能校验成功。</p>
+<p><img src="/2025/03/26/JWT/1737009011426-f953bbb3-9fc9-469f-b620-97d3a5705a69.png"></p>
+<p>将校验成功的拿去用就好了。</p>
+<h3 id="暴力破解密钥"><a href="#暴力破解密钥" class="headerlink" title="暴力破解密钥"></a>暴力破解密钥</h3><p><img src="/2025/03/26/JWT/1737010541090-5d7330c2-9cc8-4a85-95d2-a8af23b1a5da.png"></p>
+<p>成功爆破出密钥了。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2025" class="archive-year">2025</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/php%20session%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:55:52.301Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2025/03/26/JWT/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/pearcmd.php%E7%9A%84%E5%A6%99%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:54:53.437Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/phpfilter%E6%AD%BB%E4%BA%A1%E7%BB%95%E8%BF%87---base64%E8%BF%87%E6%BB%A4%E5%AD%97%E7%AC%A6/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:54:18.138Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+    <a href="/2025/03/26/PHP%E7%89%B9%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">领航杯</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/%5BCTF%5Dproc%E7%9B%AE%E5%BD%95%E7%9A%84%E5%BA%94%E7%94%A8/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:53:10.508Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/JWT%E6%94%BB%E5%87%BB/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:52:26.122Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E8%BF%87%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">签名过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E7%94%A8None"><span class="toc-number">2.</span> <span class="toc-text">签名用None</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%86%E9%92%A5%E6%9A%B4%E5%8A%9B%E7%8C%9C%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">密钥暴力猜解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%BE%E5%90%8D%E6%9C%AA%E6%A0%A1%E9%AA%8C"><span class="toc-number">4.1.</span> <span class="toc-text">签名未校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E5%AF%86%E9%92%A5"><span class="toc-number">4.2.</span> <span class="toc-text">暴力破解密钥</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/%E5%B8%B8%E7%94%A8%E5%A7%BF%E5%8A%BF/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:51:12.714Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/PHP%E7%89%B9%E6%80%A7/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:50:25.427Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/26/JWT/" class="archive-article-date">
-  	<time datetime="2025-03-26T06:49:53.893Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-26</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/" class="archive-article-date">
-  	<time datetime="2025-03-25T07:43:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/">领航杯</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2025/03/25/%E5%88%9D%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2025-03-25T07:20:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2025/03/25/%E5%88%9D%E8%AE%B0/">初记</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -399,8 +357,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
