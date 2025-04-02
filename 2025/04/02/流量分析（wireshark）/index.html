@@ -6,35 +6,43 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://blog.warrenli.fun">
-  <title>Warrenli&#39;s blog</title>
+  <title>流量分析(wireshark) | Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="三剑客特点及应用场景 grep—擅长筛选不匹配 -v显示行号 -n忽略大小写 -i在文件中找关键词 -r &lt;font style&#x3D;&quot;color:rgb(44, 44, 54);&quot;&gt;-r&lt;&#x2F;font&gt; 让 &lt;font style&#x3D;&quot;color:rgb(44, 44, 54);&quot;&gt;grep&lt;&#x2F;font&gt; 在每个指定">
+  <meta name="description" content="Wireshark网络分析就这么简单.pdf 流程导入文件和初步分析使用 Wireshark 打开 pcap 文件，进行初步的流量分析。 查看捕获的流量统计信息：可以通过 Statistics &gt; Protocol Hierarchy 或者 Statistics &gt; Conversations 来查看不同协议的使用情况和通信双方的情况。（俗称“协议分级”） 观察流量的时间轴：从时间轴">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Warrenli&#39;s blog">
-<meta property="og:url" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/index.html">
+<meta property="og:title" content="流量分析(wireshark)">
+<meta property="og:url" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
-<meta property="og:description" content="三剑客特点及应用场景 grep—擅长筛选不匹配 -v显示行号 -n忽略大小写 -i在文件中找关键词 -r &lt;font style&#x3D;&quot;color:rgb(44, 44, 54);&quot;&gt;-r&lt;&#x2F;font&gt; 让 &lt;font style&#x3D;&quot;color:rgb(44, 44, 54);&quot;&gt;grep&lt;&#x2F;font&gt; 在每个指定">
+<meta property="og:description" content="Wireshark网络分析就这么简单.pdf 流程导入文件和初步分析使用 Wireshark 打开 pcap 文件，进行初步的流量分析。 查看捕获的流量统计信息：可以通过 Statistics &gt; Protocol Hierarchy 或者 Statistics &gt; Conversations 来查看不同协议的使用情况和通信双方的情况。（俗称“协议分级”） 观察流量的时间轴：从时间轴">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734924408507-3e6b0196-2a8b-4951-b9f8-97297d55a14b.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1739504304533-3a2378ea-c7b1-4ba5-aa30-222218f3072e.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1740812047442-01ee4780-1c4d-4eed-b659-0b73e357f388.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1741936309606-b94020d0-b021-46d1-bce0-7b5986683ebc.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1741937224177-42397d7c-c610-4974-a4e7-8cc322da3fa4.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1741937280348-cbb5b078-bff4-4da2-88f6-990e7351a715.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734926901947-46f0b12e-4dda-499e-ba4a-49deb8b09130.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927231559-def7ca3a-7f5f-44af-870f-7aca2ad6266a.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927240219-eb968c8a-b1f2-4ea2-a4bb-e6450b30161a.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927545315-cec13a80-0441-4d65-b171-48c4642b0c96.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927614326-83e3cfea-3202-48d6-aa71-d9e12b1711f6.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927722328-2f4a373c-2b11-4216-8968-ea4d2e348fe1.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927744841-c8f9fd0f-7e5e-4007-a48f-9ecafbfc1ce2.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734933102340-7d3e9289-8db9-4fb1-8aff-4177783f5f70.png">
-<meta property="article:published_time" content="2025-04-01T12:22:34.553Z">
-<meta property="article:modified_time" content="2025-04-01T12:22:54.535Z">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413678700-60771f6a-6060-4235-8e34-a678da2b89c8.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413762131-9003d9e0-2c71-47b2-8ef2-efcbf4d8595e.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413855355-2df06161-f417-465a-a3f3-4f82e85ecc5f.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414016870-ef65c231-272c-4b13-8a3c-148b2daaf099.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892196314-02c7d194-a87b-43d4-839e-1d66c1287151.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892209852-2cd53ab1-5c19-40ca-9c27-5fd189ddb634.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892222361-44ac185e-db36-43a9-b447-aa42e001b04a.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892231112-f89832c3-a04e-4ab7-ac2c-1b66e5558997.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892239975-da6eec0e-a1f2-4432-9ab4-339b8eac5992.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892249942-fd8bab74-449f-43f1-aab3-55e8921973a9.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892261385-cde6537c-ae03-4989-8a66-01864e3fd284.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722421877464-8303c4ad-2645-44c8-95dd-9d16c6119962.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722421977604-d92c9df8-7f78-4f82-9775-f09315f92f33.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414315061-e68bd427-8156-440c-9e7e-ab45cca5e31e.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414400497-16734c52-c21b-47b0-b5c4-c2402d4df928.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414431129-2a38cd5a-9520-45b6-9557-e9f0729f7f78.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414496744-cd9f6040-3b00-424d-a0ef-aed7c8b58c1e.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414524486-598be44a-5c17-4150-b5ce-96f3dc8c786f.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414667423-86992fe6-ff0c-4288-b6a3-0491c673d88b.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414701496-8d9bbb5a-2103-4623-ab52-bd7ceb402c17.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414727179-58778434-a73f-401e-b5fe-e78f6573ab9e.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730891560402-142b6ab0-e068-41c7-944b-2a59d826d182.png">
+<meta property="article:published_time" content="2025-04-02T06:49:00.000Z">
+<meta property="article:modified_time" content="2025-04-02T06:49:02.431Z">
 <meta property="article:author" content="Warrenli">
 <meta property="article:tag" content="网安，web">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734924408507-3e6b0196-2a8b-4951-b9f8-97297d55a14b.png">
+<meta name="twitter:image" content="https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413678700-60771f6a-6060-4235-8e34-a678da2b89c8.png">
   
     <link rel="alternative" href="/atom.xml" title="Warrenli&#39;s blog" type="application/atom+xml">
   
@@ -158,71 +166,166 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-linux三剑客" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-流量分析（wireshark）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      流量分析(wireshark)
+    </h1>
+  
+
+        
+        <a href="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2025-04-02T06:49:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="三剑客特点及应用场景"><a href="#三剑客特点及应用场景" class="headerlink" title="三剑客特点及应用场景"></a>三剑客特点及应用场景</h2><p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734924408507-3e6b0196-2a8b-4951-b9f8-97297d55a14b.png"></p>
-<h2 id="grep—擅长筛选"><a href="#grep—擅长筛选" class="headerlink" title="grep—擅长筛选"></a>grep—擅长筛选</h2><h3 id="不匹配-v"><a href="#不匹配-v" class="headerlink" title="不匹配 -v"></a>不匹配 -v</h3><h3 id="显示行号-n"><a href="#显示行号-n" class="headerlink" title="显示行号 -n"></a>显示行号 -n</h3><h3 id="忽略大小写-i"><a href="#忽略大小写-i" class="headerlink" title="忽略大小写 -i"></a>忽略大小写 -i</h3><h3 id="在文件中找关键词-r"><a href="#在文件中找关键词-r" class="headerlink" title="在文件中找关键词 -r"></a>在文件中找关键词 -r</h3><p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1739504304533-3a2378ea-c7b1-4ba5-aa30-222218f3072e.png"></p>
-<p><code>&lt;font style=&quot;color:rgb(44, 44, 54);&quot;&gt;-r&lt;/font&gt;</code><font style="color:rgb(44, 44, 54);"> 让 </font><code>&lt;font style=&quot;color:rgb(44, 44, 54);&quot;&gt;grep&lt;/font&gt;</code><font style="color:rgb(44, 44, 54);"> 在每个指定的文件内递归地搜索子目录中的文件</font></p>
-<p><font style="color:rgb(44, 44, 54);"></font></p>
-<h3 id="使用正则-E-e"><a href="#使用正则-E-e" class="headerlink" title="使用正则-E -e"></a>使用正则-E -e</h3><p>直接用：</p>
-<p>注意 | 前面要加 \ 否则失败。</p>
-<p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1740812047442-01ee4780-1c4d-4eed-b659-0b73e357f388.png"></p>
-<p>参数：</p>
-<p><code>&lt;font style=&quot;color:rgb(44, 44, 54);&quot;&gt;-E&lt;/font&gt;</code><font style="color:rgb(44, 44, 54);"> 参数来启用扩展正则表达式支持，使得我们可以直接使用 </font><code>&lt;font style=&quot;color:rgb(44, 44, 54);&quot;&gt;|&lt;/font&gt;</code><font style="color:rgb(44, 44, 54);"> 表示逻辑“或”操作。</font></p>
-<p><font style="color:rgb(44, 44, 54);"> </font><code>&lt;font style=&quot;color:rgb(44, 44, 54);&quot;&gt;-e&lt;/font&gt;</code><font style="color:rgb(44, 44, 54);"> 参数与正则表达式的结合，用户可以定义非常具体的搜索条件，快速定位所需的文本信息。</font></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -E -e &quot;abc|xyz&quot; data.txt</span><br></pre></td></tr></table></figure>
+        <hr>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2024/pdf/42899545/1722343584017-aae6d05b-cb9a-45aa-af9a-be554713e0f6.pdf">Wireshark网络分析就这么简单.pdf</a></p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="导入文件和初步分析"><a href="#导入文件和初步分析" class="headerlink" title="导入文件和初步分析"></a>导入文件和初步分析</h3><p>使用 Wireshark 打开 pcap 文件，进行初步的流量分析。</p>
+<p>查看捕获的流量统计信息：可以通过 Statistics &gt; Protocol Hierarchy 或者 Statistics &gt; Conversations 来查看不同协议的使用情况和通信双方的情况。（俗称“协议分级”）</p>
+<p>观察流量的时间轴：从时间轴可以看到流量的发送顺序，找到通信的关键时间点。</p>
+<h3 id="分析通信协议"><a href="#分析通信协议" class="headerlink" title="分析通信协议"></a>分析通信协议</h3><p>过滤协议：根据题目线索，使用 Wireshark 的过滤功能对流量进行筛选。</p>
+<p>例如，如果题目提到的是 HTTP 协议，可以通过 http 过滤器查看 HTTP 流量。</p>
+<p>如果是加密流量（如 HTTPS、TLS），则需要关注加密的上下文或尝试抓取未加密数据。</p>
+<p>Follow Stream：在 Wireshark 中，如果发现某个通信流有趣，可以右键选择 Follow &gt; TCP&#x2F;UDP&#x2F;HTTP Stream 来查看该流的完整通信内容。（这就是我们常说的右键”http”流追踪）</p>
+<h3 id="提取和分析数据"><a href="#提取和分析数据" class="headerlink" title="提取和分析数据"></a>提取和分析数据</h3><p>根据流量类型进行相应的数据提取：</p>
+<p>文件传输：如果流量中涉及文件传输协议（如 FTP、TFTP、HTTP 等），可以提取文件内容。</p>
+<p>图像或文本数据：有时流量中会隐含图像或文本，通过数据包可以直接导出。</p>
+<p>解密流量：如果存在加密流量（如 SSL&#x2F;TLS），可以通过一些解密工具或者提前共享的密钥来解密。</p>
+<p>重组流量：部分流量需要重组（如多个分片或乱序包），可以在 Wireshark 中使用相关功能。</p>
+<h3 id="检查异常行为"><a href="#检查异常行为" class="headerlink" title="检查异常行为"></a>检查异常行为</h3><p>找异常的通信：看是否有异常端口、IP 或协议流量出现，通常可以从陌生的协议或端口下手。</p>
+<p>敏感信息泄露：如果流量包含登录信息，查看是否有明文传输的用户名、密码等。</p>
+<h3 id="寻找-Flag"><a href="#寻找-Flag" class="headerlink" title="寻找 Flag"></a>寻找 Flag</h3><p>在流量分析过程中，特别留意文本信息、响应中的数据包或文件中可能包含的 flag，通常以 flag{} 或类似格式呈现。（里面还非常喜欢藏压缩包，注意分辨即可）</p>
+<p>还可以搜索“常见的 CTF flag 格式”（例如 flag{）来缩小寻找范围。</p>
+<h3 id="提取文件或隐藏信息"><a href="#提取文件或隐藏信息" class="headerlink" title="提取文件或隐藏信息"></a>提取文件或隐藏信息</h3><p>提取文件：有时候流量题可能包含文件传输协议，可以通过 File &gt; Export Objects &gt; HTTP 等功能提取文件。（这就是“导出对象”）</p>
+<p>隐写或编码信息：flag 有时候会被隐藏在传输的数据或图像中，可能需要进一步的隐写分析或编码解密。</p>
+<h2 id="常见流量分析题型"><a href="#常见流量分析题型" class="headerlink" title="常见流量分析题型"></a>常见流量分析题型</h2><ol>
+<li>HTTP 流量分析：从 HTTP 请求&#x2F;响应中提取数据、文件或登录凭据。</li>
+<li>DNS 隧道分析：检查 DNS 请求中是否有隐藏的信息或通信。</li>
+<li>文件传输流量：提取通过 FTP、TFTP 或其他协议传输的文件。</li>
+<li>加密流量分析：解密加密流量，通常需要用到 SSL&#x2F;TLS 解密技巧。</li>
+<li>异常流量检测：识别流量中的恶意通信或数据包。</li>
+</ol>
+<h2 id="常见协议"><a href="#常见协议" class="headerlink" title="常见协议"></a>常见协议</h2><h3 id="SSDP协议"><a href="#SSDP协议" class="headerlink" title="SSDP协议"></a><font style="color:rgb(79, 79, 79);">SSDP协议</font></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SSDP（Simple Service Discovery Protocol）</span><br><span class="line">简单服务发现协议，用于发现局域网里面的设备和服务。</span><br><span class="line">SSDP消息分为设备查询消息、设备通知消息两种，通常情况下，使用更多地是设备查询消息。</span><br></pre></td></tr></table></figure>
 
-<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><h3 id="执行流程和命令格式"><a href="#执行流程和命令格式" class="headerlink" title="执行流程和命令格式"></a>执行流程和命令格式</h3><p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1741936309606-b94020d0-b021-46d1-bce0-7b5986683ebc.png"></p>
-<blockquote>
-<p>sed 从输入流 （文件、管道、标准输入流）中读取 一行 并存储在名叫 pattern buffer 的内部缓冲区中。</p>
-<p>sed 还在内存上开辟了另一个私有的缓冲区 hold buffer 用于保存处理后的数据以供以后检索。</p>
-<p>每一个周期执行结束，sed 会清空 pattern buffer 缓冲区的内容，但 hold buffer 缓冲区的内容并不会清空。</p>
-<p>hold buffer 缓冲区用于存储处理后数据，sed 命令并不会对这里的数据处理。</p>
-</blockquote>
-<h3 id="动作说明"><a href="#动作说明" class="headerlink" title="动作说明"></a>动作说明</h3><ul>
-<li>a ：新增， a 的后面可以接字串，而这些字串会在新的一行出现(目前的下一行)～</li>
-<li>c ：取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行！</li>
-<li>d ：删除，因为是删除啊，所以 d 后面通常不接任何东东；</li>
-<li>i ：插入， i 的后面可以接字串，而这些字串会在新的一行出现(目前的上一行)；</li>
-<li>p ：打印，亦即将某个选择的数据印出。通常 p 会与参数 sed -n 一起运行～</li>
-<li>s ：取代，可以直接进行取代的工作</li>
+<p><font style="color:rgb(77, 77, 77);">一般格式如下</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">M-SEARCH * HTTP/1.1</span><br><span class="line">HOST: 239.255.255.250:1900</span><br><span class="line">MAN: &quot;ssdp:discover&quot;</span><br><span class="line">MX: 5</span><br><span class="line">ST: ssdp:all</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>第一行 消息头，固定；</li>
+<li>第二行 HOST对应的是广播地址和端口，239.255.255.250是默认SSDP广播ip地址，1900是默认的SSDP端口；</li>
+<li>第三行 MAN后面的ssdp:discover为固定</li>
+<li>第四行 MX为最长等待时间，</li>
+<li>第五行 ST：查询目标，它的值可以是：</li>
+</ol>
+<ul>
+<li>upnp:rootdevice 仅搜索网络中的根设备</li>
+<li>uuid:device-UUID 查询UUID标识的设备</li>
+<li>urn:schemas-upnp-org:device:device-Type:version 查询device-Type字段指定的设备类型，设备类型和版本由UPNP组织定义。</li>
+<li>其中，第三种一般可以用来自定义设备，如：ST: urn:schemas-upnp-org:device:Server:1</li>
 </ul>
-<h3 id="数据替换"><a href="#数据替换" class="headerlink" title="数据替换"></a>数据替换</h3><p>sed -i ‘s&#x2F;oo&#x2F;kk&#x2F;g’ testfile</p>
-<p>其中：-i表示这个操作会修改文件，g表示文件中所有的都替换。</p>
-<h3 id="以行为单位的删除"><a href="#以行为单位的删除" class="headerlink" title="以行为单位的删除"></a>以行为单位的删除</h3><p>将第 2~5 行删除</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ nl testfile | sed <span class="string">&#x27;2,5d&#x27;</span></span><br><span class="line">     <span class="number">1</span>  HELLO LINUX!  </span><br><span class="line">     <span class="number">6</span>  Taobao</span><br><span class="line">     <span class="number">7</span>  Runoob</span><br><span class="line">     <span class="number">8</span>  Tesetfile</span><br><span class="line">     <span class="number">9</span>  Wiki</span><br></pre></td></tr></table></figure>
+<p>在设备接收到查询请求并且查询类型（ST字段值）与此设备匹配时，设备必须向多播地址239.255.255.250:1900回应响应消息。一般形如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">CACHE-CONTROL: max-age = seconds until advertisement expires</span><br><span class="line">DATE: when reponse was generated</span><br><span class="line">EXT:</span><br><span class="line">LOCATION: URL for UPnP description for root device</span><br><span class="line">SERVER: OS/Version UPNP/1.0 product/version</span><br><span class="line">ST: search target</span><br><span class="line">USN: advertisement UUID</span><br></pre></td></tr></table></figure>
 
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413678700-60771f6a-6060-4235-8e34-a678da2b89c8.png"></p>
+<p><font style="color:rgb(77, 77, 77);">在这里，ST的目标为 InternatGatewayDevice:1</font></p>
+<p><font style="color:rgb(77, 77, 77);">出现在这里的原因，是因为这台主机在内网中，需要upnp端口映射才能连上公网，这是用于监听网关的流量进入内网的侦测包。（upnp端口映射技术正会用到这个协议，后面还会看见的）</font></p>
+<p><font style="color:rgb(77, 77, 77);"></font></p>
+<p><font style="color:rgb(77, 77, 77);"></font></p>
+<h3 id="NBNS"><a href="#NBNS" class="headerlink" title="NBNS"></a><font style="color:rgb(79, 79, 79);">NBNS</font></h3><p><font style="color:rgb(77, 77, 77);">NBNS是NetBIOS的一种，全名为NetBIOS Name service。简单来说就是将NetBIOS名称映射到IP地址上，需要一个查询和应答。也是一般在内网工作</font></p>
+<p><font style="color:rgb(77, 77, 77);">这里不做详细展开，并不是这节的重点。</font></p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413762131-9003d9e0-2c71-47b2-8ef2-efcbf4d8595e.png"></p>
+<h3 id="IGMPv2"><a href="#IGMPv2" class="headerlink" title="IGMPv2"></a><font style="color:rgb(79, 79, 79);">IGMPv2</font></h3><p><font style="color:rgb(77, 77, 77);">IGMP是大名鼎鼎的Internet组管理协议，总共有v1、v2、v3三个版本。v2报文格式如下：</font></p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413855355-2df06161-f417-465a-a3f3-4f82e85ecc5f.png"></p>
+<p><font style="color:rgb(77, 77, 77);">分为以下四种报文类型：</font></p>
+<p><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;1.成员关系查询（membership query）&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);"><br></font><font style="color:rgb(77, 77, 77);">IGMPv2定义了两种成员关系查询报文的子类型：常规查询(General Query)报文及特定组查询(Group-Specific Query)报文。</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">常规查询：IGMP查询器使用该报文向直连网段进行查询，以确认该网段中是否存在组播组成员。由于该报文查询的是所有组播组，因此也被称为普遍组查询报文。常规查询报文的目的IP地址为224.0.0.1（标识所有组播节点）。</span><br><span class="line"></span><br><span class="line">特定组查询：运行IGMPv2的主机在离开其所加入的组播组时，会主动发送一个IGMPv2离组报文，用于宣告自己离开组播组，当网络中的查询器收到这个离组报文后，需要确认该组播组中是否存在其他成员，此时该查询器便会发送特定组查询报文，该报文只针对特定的组播组进行查询，报文的目的IP地址为其所查询的组播组地址，而且报文载荷中的“组地址”字段也记录了这个组播组地址。</span><br></pre></td></tr></table></figure>
 
+<p><font style="color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);">2.成员关系报告（membership report）</font></p>
+<p><font style="color:#000000;">当主机加入组播组时，或者当其收到查询器发送的常规查询报文时，主机将发送成员关系报告报文，该报文的目的IP地址是主机所加入的组播组地址，而且报文载荷中的“组地址”字段也记录了该组播组地址。</font></p>
+<p><font style="color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);">3.离组报文（leave group）</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IGMPv2在IGMPv1的基础上增加了离组报文，当主机离开其所加入的组播组时，便会主动发送离组报文。离组报文的目的IP地址为224.0.0.2（标识所有组播路由器），报文载荷中的“组地址”字段记录了主机所要离开的组播组地址。</span><br></pre></td></tr></table></figure>
 
-<h3 id="多模式操作"><a href="#多模式操作" class="headerlink" title="多模式操作"></a>多模式操作</h3><p>下面是演示的文件内容：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$cmd</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line"><span class="variable">$param</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;param&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$cmd</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$param</span>))&#123;</span><br><span class="line">    <span class="variable">$cmd</span>=<span class="title function_ invoke__">escapeshellcmd</span>(<span class="title function_ invoke__">substr</span>(<span class="variable">$cmd</span>,<span class="number">0</span>,<span class="number">3</span>)).<span class="string">&quot; &quot;</span>.<span class="title function_ invoke__">escapeshellarg</span>(<span class="variable">$param</span>).<span class="string">&quot; &quot;</span>.<span class="keyword">__FILE__</span>;</span><br><span class="line">    <span class="title function_ invoke__">shell_exec</span>(<span class="variable">$cmd</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;4.版本1成员关系报告（version1 membership report）&lt;/font&gt;</code><br><font style="color:rgb(77, 77, 77);">该报文用于兼容IGMPv1，报文中的类型字段值是0x12。</font></p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414016870-ef65c231-272c-4b13-8a3c-148b2daaf099.png"></p>
+<h3 id="SMB2"><a href="#SMB2" class="headerlink" title="SMB2"></a>SMB2</h3><p><font style="color:#000000;">服务器信息块（SMB）协议是一个应用层协议主要用于在计算机间共享文件、打印机、串口等。</font></p>
+<p><font style="color:#000000;">SMB 一种客户机&#x2F;服务器、请求&#x2F;响应协议。通过 SMB 协议，客户端应用程序可以在各种网络环境下读、写服务器上的文件，以及对服务器程序提出服务请求。此外通过 SMB 协议，应用程序可以访问远程服务器端的文件、以及打印机、邮件槽（mailslot）、命名管道（named pipe）等资源。</font></p>
+<p><font style="color:#000000;"></font></p>
+<p><font style="color:#000000;"></font></p>
+<h3 id="USB协议"><a href="#USB协议" class="headerlink" title="USB协议"></a><font style="color:#000000;">USB协议</font></h3><p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892196314-02c7d194-a87b-43d4-839e-1d66c1287151.png"></p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892209852-2cd53ab1-5c19-40ca-9c27-5fd189ddb634.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892222361-44ac185e-db36-43a9-b447-aa42e001b04a.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892231112-f89832c3-a04e-4ab7-ac2c-1b66e5558997.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892239975-da6eec0e-a1f2-4432-9ab4-339b8eac5992.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892249942-fd8bab74-449f-43f1-aab3-55e8921973a9.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892261385-cde6537c-ae03-4989-8a66-01864e3fd284.png"></p>
+<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a><font style="color:#000000;">过滤</font></h2><p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722421877464-8303c4ad-2645-44c8-95dd-9d16c6119962.png"></p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722421977604-d92c9df8-7f78-4f82-9775-f09315f92f33.png"></p>
+<h3 id="根据协议过滤"><a href="#根据协议过滤" class="headerlink" title="根据协议过滤"></a>根据协议过滤</h3><p>如果别的包也包含arp那么也会被过滤</p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414315061-e68bd427-8156-440c-9e7e-ab45cca5e31e.png"></p>
+<p>如：</p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414400497-16734c52-c21b-47b0-b5c4-c2402d4df928.png"></p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414431129-2a38cd5a-9520-45b6-9557-e9f0729f7f78.png"></p>
+<h3 id="IP加端口过滤"><a href="#IP加端口过滤" class="headerlink" title="IP加端口过滤"></a>IP加端口过滤</h3><p>法一：</p>
+<p>IP 地址加 port 号是最常用的过滤方式。除了手工输入 ip.addreq&lt;IP 地址&gt;</p>
+<p>&amp;&amp;tcp.porteq&lt;端口号&gt;之类的过滤表达式，Wireshark 还提供了更快捷的方式：右键单击</p>
+<p>感兴趣的包，选择 Follow TCP&#x2F;UDP Stream（选择 TCP 还是 UDP 要视传输层协议而定）</p>
+<p>就可以自动过滤（见图 10）。而且该 Stream 的对话内容会在新弹出的窗口中显示出来。</p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414496744-cd9f6040-3b00-424d-a0ef-aed7c8b58c1e.png"></p>
+<p>经常有人在论坛上问，Wireshark 是按照什么过滤出一个 TCP&#x2F;UDP Stream的？答案就是：两端的 IP 加 port。单击 Wireshark 的 Statistics–&gt;Conversations，再单击 TCP 或者 UDP 标签就可以看到所有的 Stream</p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414524486-598be44a-5c17-4150-b5ce-96f3dc8c786f.png"></p>
+<p>法二：</p>
+<p>用鼠标帮助过滤。我们有时因为 Wireshark 而苦恼，并不是因为它功能不够，</p>
+<p>而是强大到难以驾驭。比如在过滤时，有成千上万的条件可供选择，但怎么写才是</p>
+<p>合乎语法的？虽然 <a target="_blank" rel="noopener" href="http://www.wireshark.org/docs/dfref/">http://www.wireshark.org/docs/dfref/</a> 提供了参考，但经常查找毕竟</p>
+<p>太费时费力了。</p>
+<p>Wireshark 考虑到了这个需求，右键单击 Wireshark 上感兴趣的内容，</p>
+<p>然后选择 Prepare a Filter–&gt;Selected，就会在 Filter 框中自动生成过滤表达式。在有复</p>
+<p>杂需求的时候，还可以选择 And、Or 等选项来生成一个组合的过滤表达式。</p>
+<p>假如右键单击之后选择的不是 Prepare a Filter，而是 Apply as Filter–&gt;Selected，则</p>
+<p>该过滤表达式生成之后还会自动执行。图 12 显示了在一个 SMB 包的 SMB Command: </p>
+<p>Read AndX 上右键单击，并选择 Selected 之后，所有的 Read 包都会被过滤出来。</p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414667423-86992fe6-ff0c-4288-b6a3-0491c673d88b.png"></p>
+<p>我们可以把过滤后得到的网络包存在一个新的文件里，因为小文件更方便操作。单击 Wireshark 的 File–&gt;Save As，选中 Displayed 单选按钮再保存，得到的</p>
+<p>新文件就是过滤后的部分。</p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414701496-8d9bbb5a-2103-4623-ab52-bd7ceb402c17.png"></p>
+<p>有时候你会发现，保存后的文件再打开时会显示很多错误。这是因为过滤后</p>
+<p>得到的不再是一个完整的 TCP Stream，就像抓包时漏抓了很多一样。所以选择</p>
+<p>Displayed 选项时要慎重考虑。</p>
+<p>注意：有些 Wireshark 版本把这个功能移到了菜单 File–&gt;Export Specified </p>
+<p>Packets…选项中</p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414727179-58778434-a73f-401e-b5fe-e78f6573ab9e.png"></p>
+<h3 id="根据http请求方式过滤"><a href="#根据http请求方式过滤" class="headerlink" title="根据http请求方式过滤"></a>根据http请求方式过滤</h3><p><font style="color:rgb(48, 49, 51);">http.request.method &#x3D;&#x3D; “POST”</font></p>
+<h3 id="根据内容过滤"><a href="#根据内容过滤" class="headerlink" title="根据内容过滤"></a>根据内容过滤</h3><p>http contains “whoami”</p>
+<h3 id="混杂模式"><a href="#混杂模式" class="headerlink" title="混杂模式"></a>混杂模式</h3><p>开启后什么包都接收，关闭后属于自己的接受，不属于自己的不接收。</p>
+<p>属于自己：</p>
+<ul>
+<li>单播，明确目的是自己的</li>
+<li>广播</li>
+</ul>
+<h3 id="追踪流"><a href="#追踪流" class="headerlink" title="追踪流"></a>追踪流</h3><p>以telnet的一个包为例：</p>
+<p>关键信息：</p>
+<pre><code>- 源IP、目标IP
+- 源端口、目标端口
+- 源MAC、目标MAC
+</code></pre>
+<p>当我们追踪流追踪这个包，wireshark就分析这个包，生成了规则：</p>
+<pre><code>- 192.128.1.1：1234---&gt;192.168.1.3：23
+- 192.168.1.3：23---&gt;192.128.1.1：1234
+</code></pre>
+<p>也就是说，wireshark会将这两者之间的数据包抓下来显示。</p>
+<p>注意：该方法对于有些协议并不适用：</p>
+<pre><code>- NFS：依赖
+- FTP：双通道
+- 加密https、ssh：密文
+</code></pre>
+<h2 id="导出某一列的内容"><a href="#导出某一列的内容" class="headerlink" title="导出某一列的内容"></a>导出某一列的内容</h2><p>这里就要用到tshark了</p>
+<p>比如我这里要导出所有的hid data，那么命令就是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r keyboard.pcapng -T fields -e usbhid.data &gt; usbdata.txt</span><br></pre></td></tr></table></figure>
 
-<p>我们要将第九行删除，同时shell_exec替换为system，然后将新的文本写到1.php</p>
-<p>sed  ‘&#x2F;esca&#x2F;d;s&#x2F;shell_exec&#x2F;system&#x2F;g;w 1.php’  index.php</p>
-<blockquote>
-<p>sed支持正则匹配 &#x2F;esca&#x2F;匹配到 escape行 d 将其删除</p>
-<p>sed语句用；间隔开</p>
-<p>s字符串替换 shell_exec -&gt; system</p>
-<p>g为全局替换标志</p>
-<p><font style="color:rgb(77, 77, 77);">w 写入 –&gt;可以看作cp的功能版</font></p>
-<p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1741937224177-42397d7c-c610-4974-a4e7-8cc322da3fa4.png"></p>
-</blockquote>
-<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><h3 id="命令执行流程"><a href="#命令执行流程" class="headerlink" title="命令执行流程"></a>命令执行流程</h3><p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1741937280348-cbb5b078-bff4-4da2-88f6-990e7351a715.png"></p>
-<p>begin 和 end语句只执行一次，同时这两个也可以不写。</p>
-<h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><p>awk options  ‘pattern {action}’  file</p>
-<p>options：-F &lt;分隔符&gt;，指定输入字段的分隔符，默认是空格。</p>
-<p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734926901947-46f0b12e-4dda-499e-ba4a-49deb8b09130.png"></p>
-<h3 id="取行"><a href="#取行" class="headerlink" title="取行"></a>取行</h3><p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927231559-def7ca3a-7f5f-44af-870f-7aca2ad6266a.png"></p>
-<p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927240219-eb968c8a-b1f2-4ea2-a4bb-e6450b30161a.png"></p>
-<h3 id="取列"><a href="#取列" class="headerlink" title="取列"></a>取列</h3><p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927545315-cec13a80-0441-4d65-b171-48c4642b0c96.png"></p>
-<p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927614326-83e3cfea-3202-48d6-aa71-d9e12b1711f6.png"></p>
-<p>column -t这个命令就是用来美化的，对齐列</p>
-<p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927722328-2f4a373c-2b11-4216-8968-ea4d2e348fe1.png"></p>
-<p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734927744841-c8f9fd0f-7e5e-4007-a48f-9ecafbfc1ce2.png"></p>
-<h3 id="awk模式匹配"><a href="#awk模式匹配" class="headerlink" title="awk模式匹配"></a>awk模式匹配</h3><p><img src="/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/1734933102340-7d3e9289-8db9-4fb1-8aff-4177783f5f70.png"></p>
+<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730891560402-142b6ab0-e068-41c7-944b-2a59d826d182.png"></p>
 
       
 
@@ -302,7 +405,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/04/01/linux%E4%B8%89%E5%89%91%E5%AE%A2/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -316,18 +419,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2025/04/01/%E9%87%8D%E5%AE%9A%E5%90%91%E7%AC%A6%E5%92%8C&%E7%AC%A6%E5%8F%B7%E9%85%8D%E5%90%88/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          (no title)
+          编码基础
         
       </div>
     </a>
   
   
-    <a href="/2025/04/01/docker%E6%9C%8D%E5%8A%A1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+    <a href="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">音频隐写</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -354,7 +457,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%89%91%E5%AE%A2%E7%89%B9%E7%82%B9%E5%8F%8A%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">三剑客特点及应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep%E2%80%94%E6%93%85%E9%95%BF%E7%AD%9B%E9%80%89"><span class="toc-number">2.</span> <span class="toc-text">grep—擅长筛选</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%8C%B9%E9%85%8D-v"><span class="toc-number">2.1.</span> <span class="toc-text">不匹配 -v</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E8%A1%8C%E5%8F%B7-n"><span class="toc-number">2.2.</span> <span class="toc-text">显示行号 -n</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E5%A4%A7%E5%B0%8F%E5%86%99-i"><span class="toc-number">2.3.</span> <span class="toc-text">忽略大小写 -i</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%AD%E6%89%BE%E5%85%B3%E9%94%AE%E8%AF%8D-r"><span class="toc-number">2.4.</span> <span class="toc-text">在文件中找关键词 -r</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99-E-e"><span class="toc-number">2.5.</span> <span class="toc-text">使用正则-E -e</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sed"><span class="toc-number">3.</span> <span class="toc-text">sed</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%92%8C%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">执行流程和命令格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E4%BD%9C%E8%AF%B4%E6%98%8E"><span class="toc-number">3.2.</span> <span class="toc-text">动作说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%9B%BF%E6%8D%A2"><span class="toc-number">3.3.</span> <span class="toc-text">数据替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E8%A1%8C%E4%B8%BA%E5%8D%95%E4%BD%8D%E7%9A%84%E5%88%A0%E9%99%A4"><span class="toc-number">3.4.</span> <span class="toc-text">以行为单位的删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%A8%A1%E5%BC%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">3.5.</span> <span class="toc-text">多模式操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#awk"><span class="toc-number">4.</span> <span class="toc-text">awk</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">命令执行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">命令格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E8%A1%8C"><span class="toc-number">4.3.</span> <span class="toc-text">取行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E5%88%97"><span class="toc-number">4.4.</span> <span class="toc-text">取列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#awk%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D"><span class="toc-number">4.5.</span> <span class="toc-text">awk模式匹配</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E6%96%87%E4%BB%B6%E5%92%8C%E5%88%9D%E6%AD%A5%E5%88%86%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">导入文件和初步分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.</span> <span class="toc-text">分析通信协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E5%92%8C%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.</span> <span class="toc-text">提取和分析数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%BC%82%E5%B8%B8%E8%A1%8C%E4%B8%BA"><span class="toc-number">1.4.</span> <span class="toc-text">检查异常行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE-Flag"><span class="toc-number">1.5.</span> <span class="toc-text">寻找 Flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E6%96%87%E4%BB%B6%E6%88%96%E9%9A%90%E8%97%8F%E4%BF%A1%E6%81%AF"><span class="toc-number">1.6.</span> <span class="toc-text">提取文件或隐藏信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%E9%A2%98%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">常见流量分析题型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.</span> <span class="toc-text">常见协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSDP%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.1.</span> <span class="toc-text">SSDP协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NBNS"><span class="toc-number">3.2.</span> <span class="toc-text">NBNS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IGMPv2"><span class="toc-number">3.3.</span> <span class="toc-text">IGMPv2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMB2"><span class="toc-number">3.4.</span> <span class="toc-text">SMB2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USB%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.5.</span> <span class="toc-text">USB协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E5%8D%8F%E8%AE%AE%E8%BF%87%E6%BB%A4"><span class="toc-number">4.1.</span> <span class="toc-text">根据协议过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E5%8A%A0%E7%AB%AF%E5%8F%A3%E8%BF%87%E6%BB%A4"><span class="toc-number">4.2.</span> <span class="toc-text">IP加端口过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AEhttp%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F%E8%BF%87%E6%BB%A4"><span class="toc-number">4.3.</span> <span class="toc-text">根据http请求方式过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E5%86%85%E5%AE%B9%E8%BF%87%E6%BB%A4"><span class="toc-number">4.4.</span> <span class="toc-text">根据内容过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E6%9D%82%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.5.</span> <span class="toc-text">混杂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E8%B8%AA%E6%B5%81"><span class="toc-number">4.6.</span> <span class="toc-text">追踪流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%9F%90%E4%B8%80%E5%88%97%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-number">5.</span> <span class="toc-text">导出某一列的内容</span></a></li></ol>
                     </div>
                 </span>
             </div>

